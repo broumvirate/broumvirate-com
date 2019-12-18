@@ -13,12 +13,18 @@
 			</div>
 			
 			<!-- DESCRIPTION DIV-->
-			<% var average = 0
+			<% var average = 0, boyCount = 0;
+			
 			if(rating.description){ %>
 				<div class = "border-top mx-1">
 					<p class="">
 						<%=rating.description%>
 					</p>
+				</div>
+			<%}
+			if(rating.link){ %> <!-- This needs some work, may add the option to automatically embed youtube -->
+				<div class = "border-top mx-1 my-2">
+					<a href="<%=rating.link%>">Link to item</a>
 				</div>
 			<%}%>
 			
@@ -33,20 +39,28 @@
 				<tbody>
 					<% for(i=0;i<rating.rates.length; i++){ %>
 						<tr>
-							<th scope="row"><%=(rating.rates[i].boy.name)%></th>
+							<td><%=(rating.rates[i].boy.name)%></td>
 							<td>
-								<div class="progress">
-									<div class="progress-bar" role="progressbar" style="width: <%=(rating.rates[i].value1*10)%>%;" aria-valuenow="<%=(rating.rates[i].value1)%>" aria-valuemin="0" aria-valuemax="10"><%=rating.rates[i].value1%>/10
+								<% if(rating.rates[i].value1){
+									average += rating.rates[i].value1;
+									boyCount += 1;%>
+								
+									<div class="progress">
+										<div class="progress-bar" role="progressbar" style="width: <%=(rating.rates[i].value1*10)%>%;" aria-valuenow="<%=(rating.rates[i].value1)%>" aria-valuemin="0" aria-valuemax="10"><%=rating.rates[i].value1%>/10
+										</div>
 									</div>
-								</div>
+								<%}else{%>
+									No Rating Submitted
+								<%}%>
 							</td>
 						</tr>
 
-						<% average += rating.rates[i].value1
+						<% 
 
 					} 
 
-					average = average/rating.rates.length%>
+					average = average/boyCount
+					average = Math.round(average*100)/100%>
 
 					<tr class="bg-light">
 						<th scope="row">Average

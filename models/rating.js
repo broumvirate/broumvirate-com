@@ -4,6 +4,7 @@ var ratingSchema = new mongoose.Schema({
 	name: String,
 	category: String,
 	description: String,
+	link: String,
 	rates: [
 		{
 			boy:{type: mongoose.Schema.Types.ObjectId,

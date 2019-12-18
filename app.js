@@ -9,7 +9,6 @@ var express      = require("express"),
 
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
 
-
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
@@ -21,6 +20,7 @@ app.use(methodOverride("_method"))
 
 var Boy = require("./models/boy")
 var Rating = require("./models/rating")
+var RateCategory = require("./models/category")
 
 //////////////////
 // ROUTES
@@ -58,7 +58,7 @@ app.get("/rate", function(req, res){
 			console.log(err);
 		}
 		else{
-			res.render("rate/index", {ratings:results, pageName: "Ratings"})
+			res.render("rate/index", {ratings:results, pageName: "Ratings", page:req.url})
 		}
 	}).sort("category")
 })
@@ -98,9 +98,32 @@ app.get("/rate/new", function(req, res){
 		if(err){
 			console.log(err)
 		} else{
-			res.render("rate/new", {boys: boys, pageName:"New Rating"});
+			RateCategory.find({}, function(err, categories){
+				if(err){
+					console.log(err)
+				} else{
+					res.render("rate/new", {boys: boys, categories:categories, pageName:"New Rating"});
+				}
+			}).sort("category")
 		}
 	})
+})
+
+//NEW CATEGORY
+app.get("/rate/category/new", function(req, res){
+	res.render("rate/newCategory", {pageName:"New Category"});
+})
+
+//NEW CATEGORY
+app.post("/rate/category", function(req, res){
+	if(req.body.newCat.name && req.body.newCat.category){
+		RateCategory.create(req.body.newCat, function(err, result){
+		if(err){
+			console.log(err)
+		}
+		res.redirect("/rate")
+	})
+	}
 })
 
 //SHOW - Show a specified rating
@@ -113,7 +136,7 @@ app.get("/rate/:id", function(req, res){
 				if (err){
 					console.log(err)
 				} else{
-					res.render("rate/show", {rating:rating, ratings:ratings, pageName:"Ratings"});	
+					res.render("rate/show", {rating:rating, ratings:ratings, pageName:"Ratings", page:req.url});	
 				}
 			}).sort("category")
 		}
@@ -126,7 +149,13 @@ app.get("/rate/:id/edit", function(req, res){
 		if(err){
 			console.log(err);
 		} else{
-			res.render("rate/edit", {rating:rating, pageName:"Ratings"});	
+			RateCategory.find({}, function(err, categories){
+				if(err){
+					console.log(err)
+				} else{
+					res.render("rate/edit", {rating:rating, categories:categories, pageName:"Ratings"});	
+				}
+			}).sort("category")
 		}
 
 	})
@@ -163,7 +192,6 @@ app.put("/rate/:id", function(req, res){
 
 //DELETE - Deletes a rating
 app.delete("/rate/:id", function(req, res){
-	console.log("delete")
 	Rating.deleteOne({"_id" : req.params.id}, function(err){
 		if(err){
 			console.log(err);
@@ -179,6 +207,11 @@ app.delete("/rate/:id", function(req, res){
 ////////////////
 // INIT
 ////////////////
+
 app.listen(process.env.PORT || 5000, process.env.IP, function(){
-	console.log("Broumvirate server running on port 3000!")
+	console.log("Broumvirate production server running on port 3000!")
 })
+
+// app.listen(3000, function(){
+// 	console.log("Broumvirate testing server running on port 3000!")
+// })

@@ -1,0 +1,35 @@
+<%- include ("../partials/header") %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<h2 class="text-center my-3">
+				New Category
+			</h2>
+			<form action="/rate/category" method=POST>
+				<div class="form-group">
+					<label for="newCatName">Category Name:</label>
+					<input type="text" class="form-control" id="newCatName" name="newCat[name]", placeholder="Category Name" required>
+				</div>
+				<div class="form-group">
+					<label for="newCatCat">Category Section:</label>
+					<select class="selectpicker form-control" id="newCatCat" name="newCat[category]", placeholder="Category Section" aria-describedby="catHelp" required>
+						<option>Food/Drink</option>
+						<option selected>Other</option>
+					</select>
+					<small id="catHelp" class="form-text text-muted">Message Ben if you want a new section</small>
+				</div>
+				<div class="form-group">
+					<label for="newCatTags">Search Tags:</label>
+					<input type="text" class="form-control" id="newCatTags" name="newCat[tokens]", placeholder="word1 word2" aria-describedby="tagHelp">
+					<small id="tagHelp" class="form-text text-muted">Space delimited, lowercase list of other words you can search to get this category (eg for "Human Being": person girl girls boy boys)</small>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary btn-block">Add Category</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<%- include ("../partials/footer") %>

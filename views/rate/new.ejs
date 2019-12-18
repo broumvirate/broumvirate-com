@@ -7,7 +7,7 @@
 			</h2>
 			
 			
-			<form action="/rate" class="needsValidation" method="POST" novalidate>
+			<form action="/rate" class="needsValidation" method="POST">
 				<div class="form-group">
 					<label for="newRateItemName">Item Name:</label>
 					<input type="text" class="form-control" id="newRateItemName" name="rateMetadata[name]", placeholder="Item Name" required>
@@ -16,17 +16,22 @@
 				<div class="form-group">
 					<label for="newRateItemCat">Item Category:</label>
 					<select class="selectpicker form-control" id="newRateItemCat" name="rateMetadata[category]" data-live-search="true" title="Choose category..." required>
-						<optgroup label="Food/Drink">
-						<option>Fast Food</option>
-						<option data-tokens="food">Snack Item</option>
-						<option>Drink</option>
-						<option>Food (Other)</option>
-						<optgroup label="Other">
-						<option>Tabletop Game</option>
-						<option>Video Game</option>
-						<option data-tokens="person girl boy">Human Being</option>
-						<option>Other</option>
+						<% for(i=0;i<categories.length;i++){
+							if(i==0){%>
+								<optgroup label="<%=categories[i].category%>">
+							<%}
+							else if(categories[i].category != categories[i-1].category){%>
+								<optgroup label="<%=categories[i].category%>">
+							<%}%>
+							<option data-tokens="<%=categories[i].tokens%>"> <%=categories[i].name%></option>
+						<%}%>
 					</select>
+					<a href="/rate/category/new">Add Category</a>
+				</div>
+				
+				<div class="form-group">
+					<label for="newRateItemLink">Link:</label>
+					<input type="text" class="form-control" id="newRateItemLink" name="rateMetadata[link]", placeholder="Link to item (optional)">
 				</div>
 				
 				<div class="row justify-content-around justify-content-lg-between">
@@ -53,8 +58,6 @@
 					<button class="btn btn-primary btn-block">Submit Rating</button>
 				</div>
 			</form>
-			
-			
 		</div>
 	</div>
 </div>
