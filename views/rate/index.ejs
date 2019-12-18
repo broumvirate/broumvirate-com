@@ -1,0 +1,28 @@
+<%- include ("../partials/header") %>
+<div class="container text-center">
+	<div class="jumbotron mx-0 text-center bg-light">
+		<h2>
+			Ratings
+		</h2>
+		<h4 class="text-muted">Search our ratings below, or add a new one</h4>
+		<a class="btn btn-primary mt-3" href="/rate/new">Add New Rating</a>
+	</div>
+	
+	<select class="selectpicker form-control" data-style="btn-primary" id="searchRatings" name="rating" data-live-search="true" title="Find Existing Rating">
+		<% for(i=0; i<ratings.length; i++){ 
+			if(i == 0 || ratings[i].category != ratings[i-1].category){ %>
+				<optgroup label="<%=ratings[i].category%>">
+			<% } %>
+			<option value="<%=ratings[i].id%>"><%= ratings[i].name %></option>
+		<% } %>
+	</select>
+	
+</div>
+
+<script>
+$("#searchRatings").on("change", function(){
+	$(location).attr("href", "/rate/"+$(this).val())
+})
+
+</script>
+<%- include ("../partials/footer") %>

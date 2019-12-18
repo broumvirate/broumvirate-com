@@ -1,0 +1,61 @@
+<%- include ("../partials/header") %>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<h2 class="text-center my-3">
+				Edit Rating
+			</h2>
+			
+			<form action="/rate/<%=rating._id %>?_method=PUT" class="needsValidation" method="POST" novalidate>
+				<div class="form-group">
+					<label for="newRateItemName">Item Name:</label>
+					<input type="text" class="form-control" id="newRateItemName" name="rateMetadata[name]", placeholder="Item Name" value="<%=rating.name%>" required>
+				</div>
+				
+				<div class="form-group">
+					<label for="newRateItemCat">Item Category:</label>
+					<select class="selectpicker form-control" id="newRateItemCat" name="rateMetadata[category]" data-live-search="true" title="Choose category..." required>
+						<optgroup label="Food/Drink">
+						<option>Fast Food</option>
+						<option data-tokens="food">Snack Item</option>
+						<option>Drink</option>
+						<option>Food (Other)</option>
+						<optgroup label="Other">
+						<option>Tabletop Game</option>
+						<option>Video Game</option>
+						<option data-tokens="person girl boy">Human Being</option>
+						<option>Other</option>
+					</select>
+				</div>
+				
+				<div class="row justify-content-around justify-content-lg-between">
+					<% for(i=0;i<rating.rates.length; i++){
+							%>
+							<div class="col-6 col-lg-2 text-center mb-4">
+								<%= rating.rates[i].boy.name %>
+								<div class="input-group">
+									<input class="form-control bm-rate" type="number" name="rates1[<%=rating.rates[i].boy._id%>]" placeholder = "0.0" value="<%=rating.rates[i].value1%>">
+									<div class="input-group-append">
+										<span class="input-group-text">/10</span>
+									</div>
+								</div>
+							</div>
+					<% } %>
+				</div>
+				
+				<div class="form-group">
+					<label for="newRateDescription">General Description:</label>
+					<textarea class="form-control" id="newRateDescription" name="rateMetadata[description]", rows="4"><%=rating.description%></textarea>
+				</div>
+				
+				<div class="form-group">
+					<button class="btn btn-primary btn-block">Update Rating</button>
+				</div>
+			</form>
+			
+		</div>
+	</div>
+</div>
+
+<%- include ("../partials/footer") %>
