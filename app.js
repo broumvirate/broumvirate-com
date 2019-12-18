@@ -7,7 +7,8 @@ var express      = require("express"),
 	mongoose     = require("mongoose");
 	methodOverride = require("method-override")
 
-mongoose.connect("mongodb://localhost:27017/broumvirate", {useNewUrlParser: true, });
+mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
+
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -20,8 +21,6 @@ app.use(methodOverride("_method"))
 
 var Boy = require("./models/boy")
 var Rating = require("./models/rating")
-
-
 
 //////////////////
 // ROUTES
