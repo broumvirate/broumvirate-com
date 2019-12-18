@@ -40,7 +40,7 @@
 							<div class="col-6 col-lg-2 text-center mb-4">
 								<%= boys[i].name %>
 								<div class="input-group">
-									<input class="form-control bm-rate" type="number" name="rates1[<%=boys[i].id%>]" placeholder = "0.0">
+									<input class="form-control bm-rate" type="number" name="rates1[<%=boys[i].id%>]" min="0" max="10" step=".1" placeholder = "0.0">
 									<div class="input-group-append">
 										<span class="input-group-text">/10</span>
 									</div>
