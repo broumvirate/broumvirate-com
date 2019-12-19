@@ -8,6 +8,7 @@ var express      = require("express"),
 	methodOverride = require("method-override")
 
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
+// mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -106,7 +107,7 @@ app.get("/rate/new", function(req, res){
 				}
 			}).sort("category")
 		}
-	})
+	}).sort("bid")
 })
 
 //NEW CATEGORY
