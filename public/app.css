@@ -2,6 +2,13 @@ body{
 	padding-top: 56px;
 }
 
+#carouselFrontPage{
+	min-height: 100px;
+	background: #00334d;
+	color: #f2f2f2;
+	text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+}
+
 .bm-rate-container{
 	padding: 50px auto;
 }

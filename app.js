@@ -7,8 +7,8 @@ var express      = require("express"),
 	mongoose     = require("mongoose");
 	methodOverride = require("method-override")
 
-mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
-// mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
+// mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
+mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -209,10 +209,10 @@ app.delete("/rate/:id", function(req, res){
 // INIT
 ////////////////
 
-app.listen(process.env.PORT || 5000, process.env.IP, function(){
-	console.log("Broumvirate production server running on port 3000!")
-})
-
-// app.listen(3000, function(){
-// 	console.log("Broumvirate testing server running on port 3000!")
+// app.listen(process.env.PORT || 5000, process.env.IP, function(){
+// 	console.log("Broumvirate production server running on port 3000!")
 // })
+
+app.listen(3000, function(){
+	console.log("Broumvirate testing server running on port 3000!")
+})

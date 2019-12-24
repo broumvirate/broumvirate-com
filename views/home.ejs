@@ -1,10 +1,79 @@
 <%- include ("partials/header") %>
 
-<header class="jumbotron">
+<!--Get outta my website Jacob -->
+
+<header class="jumbotron mb-0">
 	<div class="container">
 		<h1 class="display-4">Welcome to The Broumvirate</h1>
-		<p class="lead">This will be our tagline once I can think of one.</p>
+		<p class="lead">Five idiots in Car</p>
 	</div>
 </header>
+
+<div id="carouselFrontPage" class="carousel slide m-0 pt-4 pb-2" data-ride="carousel">
+	<div class="container">
+		<div class="carousel-inner m-0">
+			<div class="carousel-item active my-2">
+				<h4>"Nothing was happening but you were all laughing."</h4>
+				<h5>- Anna Fredrick</h5>
+			</div>
+			<div class="carousel-item my-2">
+				<h4>"Will you guys take a picture with my daughter?"</h4>
+				<h5>- Some Rando</h5>
+			</div>
+			<div class="carousel-item my-2">
+				<h4>"I was with you guys for 30 seconds and I already wanted to cry."</h4>
+				<h5>- Anna Fredrick</h5>
+			</div>
+		</div>
+	</div>
+	<a class="carousel-control-prev" href="#carouselFrontPage" role="button" data-slide="prev">
+    	<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    	<span class="sr-only">Previous</span>
+  	</a>
+  	<a class="carousel-control-next" href="#carouselFrontPage" role="button" data-slide="next">
+    	<span class="carousel-control-next-icon" aria-hidden="true"></span>
+    	<span class="sr-only">Next</span>
+  	</a>
+</div>
+
+<div class="container mt-5">
+	<div class="row d-flex justify-content-around">
+		<div class="card col-md-5 p-0 mb-3">
+			<img class="card-img-top mx-0 bm-f-card-top" src="/img/gbs.png" alt="Card image cap">
+			<div class="card-body">
+				<h5 class="card-title">Watch GBS!</h5>
+				<p class="card-text">What drinks they find you'll never know, thats why you watch the Generally Bad Show!</p>
+				<a href="https://www.youtube.com/channel/UCUSu-jMpoqqiTv3sOA9fSgA" class="btn btn-primary">Visit our Youtube</a>
+			</div>
+		</div>
+		<!-- <div class="card col-md-5 p-0 mb-3">
+			<img class="card-img-top mx-0 bm-f-card-top" src="/img/comeSailAway.jpg" alt="Card image cap">
+			<div class="card-body">
+				<h5 class="card-title">New Music</h5>
+				<p class="card-text">Kai has released his Ben Hagle of the Month winning track, hear it on our Music page!</p>
+				
+			</div>
+		</div>	 -->
+	</div>
+</div>
+
+<div class="hidden">
+	<script type="text/javascript">
+		<!--//--><![CDATA[//><!--
+			var images = new Array()
+			function preload() {
+				for (i = 0; i < preload.arguments.length; i++) {
+					images[i] = new Image()
+					images[i].src = preload.arguments[i]
+				}
+			}
+			preload(
+				"/img/aldensucks.png",
+				"/img/fbg.png",
+				"/comeSailAway.jpg"
+			)
+		//--><!]]>
+	</script>
+</div>
 
 <%- include ("partials/footer") %>
