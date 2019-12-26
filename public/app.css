@@ -9,6 +9,10 @@ body{
 	text-shadow: 2px 2px 2px rgba(0,0,0,0.3);
 }
 
+.bm-carousel-q{
+	font-size: 1rem;
+}
+
 .bm-rate-container{
 	padding: 50px auto;
 }
