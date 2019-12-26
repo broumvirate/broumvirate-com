@@ -1,0 +1,28 @@
+<%- include ("partials/header") %>
+<div class="container text-center">
+	<% if(boys!=[]){%>
+	<h1 class="mt-4">Register</h1>
+	<div class="row d-flex justify-content-around mt-3">
+		<div class="col-md-6">
+			<form action="/register" method="POST">
+				<input class="form-control my-2" type="email" name="username" placeholder="Email" required>
+				<input class="form-control my-2" type="password" name="password" placeholder="Password" required>
+				<div class="form-group text-left my-2">
+					<label for="registerBoy">Broumvirate Member:</label>
+					<select class="form-control" id="registerBoy" aria-describedby="memberHelp" name="boy" required>
+						<% for(i=0; i<boys.length; i++){%> 
+							<option value="<%=boys[i].id%>"><%=boys[i].name%></option>
+						<%}%>
+					</select>
+					<small id="memberHelp" class="form-text text-muted">Must be remaining member slots to join.</small>
+				</div>
+				<button class="btn btn-primary mt-3">Submit</button>
+			</form>
+		</div>
+	</div>
+	<%} else{%>
+		<h1 class="mt-4">Unable to register at this time, no Broumvirate slots left.</h1>
+	<%}%>
+</div>
+
+<%- include ("partials/footer") %>
