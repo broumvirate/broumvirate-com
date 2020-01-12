@@ -1,9 +1,9 @@
-var express = require("express");
-var router = express.Router()
+const express = require("express");
+const router = express.Router()
 
-var Boy             = require("../models/boy"),
-	Rating          = require("../models/rating"),
-    RateCategory    = require("../models/category")
+const Boy             = require("../models/boy"),
+	  Rating          = require("../models/rating"),
+      RateCategory    = require("../models/category")
 
 
 
@@ -22,10 +22,10 @@ router.get("/rate", isLoggedIn, function(req, res){
 
 //CREATE - Creates a new rating FROM a POST request (/rating/new)
 router.post("/rate", isLoggedIn, function(req, res){
-	var newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
+	let newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
 	newRating.rates = [];
-	var ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
-	var ratingBoys = Object.keys(req.body.rates1)
+	const ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
+	const ratingBoys = Object.keys(req.body.rates1)
 	
 	Boy.find().where('_id').in(ratingBoys).exec(function(err, boys){
 		if(err){
@@ -122,10 +122,10 @@ router.get("/rate/:id/edit", isLoggedIn, function(req, res){
 
 //PUT - Updates a rating from the edit page
 router.put("/rate/:id", isLoggedIn, function(req, res){
-	var newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
+	let newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
 	newRating.rates = [];
-	var ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
-	var ratingBoys = Object.keys(req.body.rates1)
+	const ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
+	const ratingBoys = Object.keys(req.body.rates1)
 	
 	Boy.find().where('_id').in(ratingBoys).exec(function(err, boys){
 		if(err){
