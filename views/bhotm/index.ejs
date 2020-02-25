@@ -17,6 +17,9 @@
                         <div class="card <% if (bhotm[i].entries[j].isWinner){%>text-white bg-success<%}%> p-0">
                             <div class="card-header">
                                 <h5 class="card-title"><%=bhotm[i].entries[j].place%>. <%=bhotm[i].entries[j].name%></h5>
+                                <% if(bhotm[i].entries[j].entryName){%>
+                                    <h6 class=""><%=bhotm[i].entries[j].entryName%></h6>
+                                <%}%>
                             </div>
                             <div class="card-body p-2">
                                 <% if(bhotm[i].entries[j].format == "image"){%>
@@ -27,6 +30,13 @@
                                 <%}%>
                                 <% if(bhotm[i].entries[j].format == "youtube"){%>
                                     <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <%}%>
+                                <% if(bhotm[i].entries[j].format == "mason"){%>
+                                    <img src="/img/SmackSonUS1.jpg" class="card-img-top bhotmi">
+                                    <p class="text-center">Did not submit, is Mason.</p>
+                                <%}%>
+                                <% if(bhotm[i].entries[j].entryDescription){%>
+                                    <p class=""><%=bhotm[i].entries[j].entryDescription%></p>
                                 <%}%>
                             </div>
                         </div>

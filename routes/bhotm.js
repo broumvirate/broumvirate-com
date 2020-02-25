@@ -79,12 +79,45 @@ router.get("/bhotm/:id", function(req,res){
 
 // EDIT  TODO
 router.get("/bhotm/:id/edit", isAdmin, function(req,res){
-
+    // bhotmDB.findById(req.params.id).populate("entries.boy").exec(function(err, bhotm){
+    //     if(err){
+    //         console.log(err);
+    //     }
+    //     else{
+    //         Boy.find({}, function(err, boys){
+    //             res.render("bhotm/edit", {pageName:"Edit BHotM", bhotm:bhotmold, boys:boys})
+    //         })
+    //     }
+    // })
+    res.redirect("/bhotm/admin");
 })
 
-// PUT  TODO
+// PUT
 router.put("/bhotm/:id", isAdmin, function(req,res){
+    var thisMonth = req.body.bhotm
+    for(i=0; i<thisMonth.entries.length; i++){ //Loop through entries, processing one by one
 
+        if (thisMonth.entries[i].place == 1){ //If winner, set appropriate winner flags
+            thisMonth.entries[i].isWinner = true;
+            thisMonth.winner = thisMonth.entries[i].name;
+        }
+        if (thisMonth.entries[i].boy == ""){ //If no linked boy, replace the "" with undefined
+            thisMonth.entries[i].boy = undefined;
+        }
+        if (thisMonth.entries[i].format === "youtube"){ //If it's a youtube link, convert it to an embed
+            let link = thisMonth.entries[i].link;
+            thisMonth.entries[i].link = link.replace("watch?v=", "embed/");
+        }
+    }
+
+    bhotmDB.findByIdAndUpdate(req.param.id, thisMonth, function(err, newMonth){ //Update month in database
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.redirect("/bhotm/admin");
+        }
+    })
 })
 
 // DELETE - Deletes specified BHoTM
