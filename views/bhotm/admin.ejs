@@ -1,0 +1,45 @@
+<%- include ("../partials/header") %>
+<div class="container">
+    <h2 class="text-center my-3">
+        BHoTM Admin
+    </h2>
+
+    <table class="table my-4">
+        <thead>
+            <th scope="col">Month</th>
+            <th scope="col">Winner</th>
+            <th scope="col">Actions</th>
+        </thead>
+        <tbody>
+        <% for(i=0;i<bhotm.length; i++){ %>
+        <tr>
+            <th scope='row'><%= bhotm[i].month %></th>
+            <td><%= bhotm[i].winner%></td>
+            <td><form method="POST" class="form-inline" action="/bhotm/<%=bhotm[i].id%>?_method=DELETE"> 
+                <a href="/bhotm/<%=bhotm[i].id%>/edit" class="btn btn-secondary">Edit Month</a>
+                <button class="btn btn-danger mx-2" type="submit">Delete Month</button>
+            </form></td>
+        </tr>
+        <%}%>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-3 my-5">
+        <h3 class="my-2">
+            New Month:
+        </h3>
+        <form action="/bhotm/new" method="GET">
+            <div class="form-group">
+                <label for="entryNumbers">Number of Entries:</label>
+                <input type=number class="form-control" name="entries" id="entryNumbers" required>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary btn-block">Create Month</button>
+            </div>
+        
+        </form>
+    </div>
+    </div>
+</div>
+
+<%- include ("../partials/footer") %>

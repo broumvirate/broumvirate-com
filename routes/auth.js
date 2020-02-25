@@ -11,7 +11,7 @@ router.get("/register", function(req, res){
 		if(err){
 			console.log(err)
 		}else{
-			res.render("register", {boys:boys, pageName: "Register", currrentUser:req.user});
+			res.render("register", {boys:boys, pageName: "Register", currentUser:req.user});
 		}
 	}).sort("bid")
 })

@@ -13,9 +13,10 @@ const express      	               = require("express"),
 const app = express()	 //Init app
 
 
-const indexRouter                    = require("./routes/index"),
-	  authRouter	                   = require("./routes/auth"),
-	  rateRouter                     = require("./routes/rate")
+const indexRouter                   = require("./routes/index"),
+	  authRouter	                = require("./routes/auth"),
+	  rateRouter                    = require("./routes/rate"),
+	  bhotmRouter					= require("./routes/bhotm")
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -55,6 +56,7 @@ app.use(function(req, res, next){
 				console.log(error)
 			} else{
 				res.locals.currentUsername = result.fname;
+				res.locals.isAdmin = result.isAdmin;
 				next();
 			}
 		})
@@ -72,7 +74,8 @@ app.use(function(req, res, next){
 const Boy             = require("./models/boy"),
 	  User            = require("./models/user"),
 	  Rating          = require("./models/rating"),
-      RateCategory    = require("./models/category")
+	  RateCategory    = require("./models/category"),
+	  bhotmDB		  = require("./models/bhotm")
 
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser());
@@ -85,6 +88,7 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use(indexRouter);
 app.use(rateRouter);
+app.use(bhotmRouter);
 app.use(authRouter);
 
 

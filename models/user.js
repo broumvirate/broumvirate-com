@@ -5,7 +5,8 @@ let userSchema = new mongoose.Schema({
 	username: String,
 	password: String,
 	boy:{type: mongoose.Schema.Types.ObjectId, ref: "boy"},
-	fname: String
+	fname: String,
+	isAdmin: Boolean
 });
 
 userSchema.plugin(passportLocalMongoose);

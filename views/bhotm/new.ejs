@@ -1,0 +1,60 @@
+<%- include ("../partials/header") %>
+<div class="container">
+    <div class="row">
+		<div class="col-md-10 mx-auto">
+            <h2 class="text-center my-3">
+                New BHotM
+            </h2>
+
+            <form action="/bhotm" class="needsValidation" method="POST">
+                <div class="form-group">
+					<label for="newMonthName">Month:</label>
+                    <input type="text" class="form-control" id="newMonthName" name="bhotm[month]" placeholder="Mon. Year" required>
+                    <label for="newMonthNotes">Notes:</label>
+					<input type="text" class="form-control" id="newMonthNotes" name="bhotm[notes]">
+                </div>
+                
+                <div class="form-group row">
+                <% for(i=0;i<entries;i++){%>
+                    <div class="col-md-6 border border-dark">
+                        <h3>Entry <%=i+1%>:</h3>
+                        <label for="bhotmEntree">Submitter's Name:</label>
+                        <input type="text" class="form-control" id="bhotmEntree" name="bhotm[entries][<%=i%>][name]" required>
+
+                        <label for="bhotmBoyPick">Associated Boy (optional):</label>
+                        <select class="form-control" id="bhotmBoyPick" name="bhotm[entries][<%=i%>][boy]">
+                            <option value="">---</option>
+                            <%for(j=0;j<boys.length;j++){%>
+                                <option value="<%=boys[j].id%>"><%=boys[j].name%></option>
+                            <%}%>
+                        </select>
+                        <label for="bhotmLink">Link to Entry:</label>
+                        <input type="text" class="form-control" id="bhotmLink" name="bhotm[entries][<%=i%>][link]" required>
+
+                        <label for="bhotmFormat">Submission Format:</label>
+                        <select class="form-control" id="bhotmFormat" name="bhotm[entries][<%=i%>][format]">
+                            <option value="image">Image</option>
+                            <option value="youtube">Youtube Video</option>
+                            <option value="link">Other Media (link)</option>
+                            <option value="mason">None (Mason)</option>
+                        </select>
+
+                        <label for="bhotmEntreeName">Entry Name (optional):</label>
+                        <input type="text" class="form-control" id="bhotmEntreeName" name="bhotm[entries][<%=i%>][entryName]">
+
+                        <label for="bhotmEntreeDesc">Entry Description (optional):</label>
+                        <input type="text" class="form-control" id="bhotmEntreeDesc" name="bhotm[entries][<%=i%>][entryDescription]">
+                        
+                        <label for="bhotmPlace">Place:</label>
+                        <input type="number" class="form-control" id="bhotmPlace" name="bhotm[entries][<%=i%>][place]" value="<%=i+1%>"required>
+                    </div>
+                <%}%>
+                </div>
+                <div class="form-group">
+					<button class="btn btn-primary btn-block">Submit Month</button>
+				</div>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include ("../partials/footer") %>

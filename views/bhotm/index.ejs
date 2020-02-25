@@ -1,0 +1,42 @@
+<%- include ("../partials/header") %>
+<div class="container">
+    <h1 class="display-4 my-3">Ben Hagle of the Month</h1>
+    <p class="lead">Ben Hagle of the Month is a monthly competetion to determine who is Ben Hagle. Submissions can be literally anything, creativity is encouraged. The winner is decided by the previous Ben Hagle. Submissions can be sent to <a href="mailto:hen.bagle@gmail.com">hen.bagle@gmail.com</a>, and are due on the 4th of each month, at midnight in your local timezone.</p>
+    
+    <h2 class="display-5 my-4">Previous Entries</h2>
+    <div class="accordion" id="previousAccordion">
+        <% for(i=0;i<bhotm.length;i++){%>
+        <div class="card">
+            <div class="card-header" id="heading<%=i%>">
+                <h2 class="mb-0"><button class="btn btn-link" type="button" data-toggle="collapse" data-target="#bhotm<%=i%>"aria-expanded="true" aria-controls="collapseOne"><%=bhotm[i].month%></button></h2>
+            </div>
+            <div id="bhotm<%=i%>" class="collapse" aria-labelledby="heading<%=i%>" data-parent="#previousAccordion">
+                <div class="card-body">
+                    <div class="card-columns">
+                    <% for(j=0;j<bhotm[i].entries.length;j++){%>
+                        <div class="card <% if (bhotm[i].entries[j].isWinner){%>text-white bg-success<%}%> p-0">
+                            <div class="card-header">
+                                <h5 class="card-title"><%=bhotm[i].entries[j].place%>. <%=bhotm[i].entries[j].name%></h5>
+                            </div>
+                            <div class="card-body p-2">
+                                <% if(bhotm[i].entries[j].format == "image"){%>
+                                    <a href="<%=bhotm[i].entries[j].link%>"><img src="<%=bhotm[i].entries[j].link%>" class="card-img-top bhotmi"></a>
+                                <%}%>
+                                <% if(bhotm[i].entries[j].format == "link"){%>
+                                    <a href="<%=bhotm[i].entries[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
+                                <%}%>
+                                <% if(bhotm[i].entries[j].format == "youtube"){%>
+                                    <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <%}%>
+                            </div>
+                        </div>
+                    <%}%>
+                    </div>
+                    <h5 class="mx-auto"><%=bhotm[i].notes%></h5>
+                </div>
+            </div>
+        </div>
+        <%}%>
+    </div>
+</div>
+<%- include ("../partials/footer") %>
