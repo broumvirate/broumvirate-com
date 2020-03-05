@@ -134,7 +134,7 @@ function processMonth(month){
         ////////////////////
         // Determine format
         ////////////////////
-        const extensions = ["JPG", "jpg", "JPEG", "jpeg", "PNG", "png"];
+        const extensions = ["JPG", "jpg", "JPEG", "jpeg", "PNG", "png", "gif", "GIF"];
         let splitLink = month.entries[i].link.split(".");
 
         if (month.entries[i].link == ""){ //No link means ur mason
@@ -153,7 +153,7 @@ function processMonth(month){
         }
     }
 
-    month.entries.sort((a, b) => (a.place > b.place) ? 1 : -1); //Sort entries by place
+    month.entries.sort((a, b) => (parseInt(a.place) > parseInt(b.place)) ? 1 : -1); //Sort entries by place
 
     month.entries[0].isWinner = true; //Set winner flags
     month.winner = month.entries[0].name;

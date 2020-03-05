@@ -13,6 +13,7 @@ let bhotmSchema = new mongoose.Schema({
         isWinner: Boolean,
         place: Number,
         link: String,
+        clickLink: String,
         format: String
     }],
     notes: String,

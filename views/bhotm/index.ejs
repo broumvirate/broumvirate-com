@@ -29,11 +29,16 @@
                                     <a href="<%=bhotm[i].entries[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
                                 <%}%>
                                 <% if(bhotm[i].entries[j].format == "youtube"){%>
-                                    <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    <div class="text-center m-1">
+                                        <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" width="100%" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                    </div>
                                 <%}%>
                                 <% if(bhotm[i].entries[j].format == "mason"){%>
                                     <img src="/img/SmackSonUS1.jpg" class="card-img-top bhotmi">
                                     <p class="text-center">Did not submit, is Mason.</p>
+                                <%}%>
+                                <% if(bhotm[i].entries[j].clickLink){%>
+                                    <a href="<%=bhotm[i].entries[j].clickLink%>"><h3 class="text-center m-2">Link to Full Entry</h3></a>
                                 <%}%>
                                 <% if(bhotm[i].entries[j].entryDescription){%>
                                     <p class=""><%=bhotm[i].entries[j].entryDescription%></p>
