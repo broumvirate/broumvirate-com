@@ -8,7 +8,7 @@ const   Boy = require("../models/boy"),
 
 // INDEX - BHoTM Standard Viewing Page
 router.get("/bhotm", function(req, res){
-    bhotmDB.find({}).sort('-date').populate("entries.boy").exec(function(err, bhotm){
+    bhotmDB.find({}).sort({"date":-1, "entries.place":1}).populate("entries.boy").exec(function(err, bhotm){
         if (err){
             console.log(err);
         }
@@ -45,23 +45,9 @@ router.get("/bhotm/new", isAdmin, function(req,res){
 
 // CREATE
 router.post("/bhotm", isAdmin, function(req,res){
-    var thisMonth = req.body.bhotm
+    var thisMonth = processMonth(req.body.bhotm)
     var d = new Date()
     thisMonth.date = d.getTime();
-    for(i=0; i<thisMonth.entries.length; i++){ //Loop through entries, processing one by one
-
-        if (thisMonth.entries[i].place == 1){ //If winner, set appropriate winner flags
-            thisMonth.entries[i].isWinner = true;
-            thisMonth.winner = thisMonth.entries[i].name;
-        }
-        if (thisMonth.entries[i].boy == ""){ //If no linked boy, replace the "" with undefined
-            thisMonth.entries[i].boy = undefined;
-        }
-        if (thisMonth.entries[i].format === "youtube"){ //If it's a youtube link, convert it to an embed
-            let link = thisMonth.entries[i].link;
-            thisMonth.entries[i].link = link.replace("watch?v=", "embed/");
-        }
-    }
 
     bhotmDB.create(thisMonth, function(err, newMonth){ //Add new month to database
         if(err){
@@ -79,38 +65,24 @@ router.get("/bhotm/:id", function(req,res){
 
 // EDIT  TODO
 router.get("/bhotm/:id/edit", isAdmin, function(req,res){
-    // bhotmDB.findById(req.params.id).populate("entries.boy").exec(function(err, bhotm){
-    //     if(err){
-    //         console.log(err);
-    //     }
-    //     else{
-    //         Boy.find({}, function(err, boys){
-    //             res.render("bhotm/edit", {pageName:"Edit BHotM", bhotm:bhotmold, boys:boys})
-    //         })
-    //     }
-    // })
-    res.redirect("/bhotm/admin");
+    bhotmDB.findById(req.params.id).populate("entries.boy").exec(function(err, bhotmold){
+        if(err){
+            console.log(err);
+        }
+        else{
+            Boy.find({}, function(err, boys){
+                res.render("bhotm/edit", {pageName:"Edit BHotM", bhotmold:bhotmold, boys:boys})
+            })
+        }
+    })
 })
 
 // PUT
 router.put("/bhotm/:id", isAdmin, function(req,res){
-    var thisMonth = req.body.bhotm
-    for(i=0; i<thisMonth.entries.length; i++){ //Loop through entries, processing one by one
 
-        if (thisMonth.entries[i].place == 1){ //If winner, set appropriate winner flags
-            thisMonth.entries[i].isWinner = true;
-            thisMonth.winner = thisMonth.entries[i].name;
-        }
-        if (thisMonth.entries[i].boy == ""){ //If no linked boy, replace the "" with undefined
-            thisMonth.entries[i].boy = undefined;
-        }
-        if (thisMonth.entries[i].format === "youtube"){ //If it's a youtube link, convert it to an embed
-            let link = thisMonth.entries[i].link;
-            thisMonth.entries[i].link = link.replace("watch?v=", "embed/");
-        }
-    }
-
-    bhotmDB.findByIdAndUpdate(req.param.id, thisMonth, function(err, newMonth){ //Update month in database
+    var thisMonth = processMonth(req.body.bhotm)
+    
+    bhotmDB.findByIdAndUpdate(req.params.id, thisMonth, function(err, updateMonth){ //Update month in database
         if(err){
             console.log(err)
         }
@@ -149,6 +121,44 @@ function isAdmin(req, res, next){
         }
     }
     res.redirect("/login")
+}
+
+function processMonth(month){
+    for(i=0; i<month.entries.length; i++){
+
+        //If no linked boy, replace the "" with undefined
+        if (month.entries[i].boy == ""){
+            month.entries[i].boy = undefined;
+        }
+
+        ////////////////////
+        // Determine format
+        ////////////////////
+        const extensions = ["JPG", "jpg", "JPEG", "jpeg", "PNG", "png"];
+        let splitLink = month.entries[i].link.split(".");
+
+        if (month.entries[i].link == ""){ //No link means ur mason
+            month.entries[i].format = "mason";
+        }
+        else if(month.entries[i].link.includes("youtube.com")){ //If the link is youtube, convert it to an embed format
+            month.entries[i].format = "youtube";
+            let link = month.entries[i].link;
+            month.entries[i].link = link.replace("watch?v=", "embed/");
+        }
+        else if(extensions.includes(splitLink[splitLink.length-1])){ // If the last element of the link (. delimited) is in the extension list
+            month.entries[i].format = "image";
+        }
+        else{ //Otherwise it's just a normal link
+            month.entries[i].format = "link";
+        }
+    }
+
+    month.entries.sort((a, b) => (a.place > b.place) ? 1 : -1); //Sort entries by place
+
+    month.entries[0].isWinner = true; //Set winner flags
+    month.winner = month.entries[0].name;
+
+    return month;
 }
 
 module.exports = router;

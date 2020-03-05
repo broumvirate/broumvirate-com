@@ -18,10 +18,13 @@
                 <% for(i=0;i<entries;i++){%>
                 <div class="col-md-6">
                     <div class="card my-2">
+
                         <div class="card-header">
                             <h3>Entry <%=i+1%>:</h3>
                         </div>
+
                         <div class="card-body">
+
                             <label for="bhotmEntree">Submitter's Name:</label>
                             <input type="text" class="form-control" id="bhotmEntree" name="bhotm[entries][<%=i%>][name]" required>
 
@@ -32,16 +35,9 @@
                                     <option value="<%=boys[j].id%>"><%=boys[j].name%></option>
                                 <%}%>
                             </select>
+                            
                             <label for="bhotmLink">Link to Entry:</label>
-                            <input type="text" class="form-control" id="bhotmLink" name="bhotm[entries][<%=i%>][link]" required>
-
-                            <label for="bhotmFormat">Submission Format:</label>
-                            <select class="form-control" id="bhotmFormat" name="bhotm[entries][<%=i%>][format]">
-                                <option value="image">Image</option>
-                                <option value="youtube">Youtube Video</option>
-                                <option value="link">Other Media (link)</option>
-                                <option value="mason">None (Mason)</option>
-                            </select>
+                            <input type="text" class="form-control" id="bhotmLink" name="bhotm[entries][<%=i%>][link]">
 
                             <label for="bhotmEntreeName">Entry Name (optional):</label>
                             <input type="text" class="form-control" id="bhotmEntreeName" name="bhotm[entries][<%=i%>][entryName]">
@@ -51,14 +47,17 @@
                             
                             <label for="bhotmPlace">Place:</label>
                             <input type="number" class="form-control" id="bhotmPlace" name="bhotm[entries][<%=i%>][place]" value="<%=i+1%>"required>
+
                         </div>
                     </div>
                 </div>
                 <%}%>
                 </div>
+
                 <div class="form-group">
 					<button class="btn btn-primary btn-block">Submit Month</button>
-				</div>
+                </div>
+                
             </form>
         </div>
     </div>
