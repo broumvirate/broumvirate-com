@@ -1,14 +1,15 @@
 const   Discord = require('discord.js'),
         mongoose = require("mongoose"),
-        Nick = require("./models/nick"),
-        Boy = require("./models/boy"),
-        bmHelpers = require("./bmHelpers")
+        moment = require("moment"),
+        Nick = require("../models/nick"),
+        Boy = require("../models/boy"),
+        bmHelpers = require("../bmHelpers")
         dotEnv = require("dotenv");
 
 const client = new Discord.Client();
 
 if (process.env.NODE_ENV !== 'production') {
-    dotEnv.config();
+    dotEnv.config({ path: '../.env' });
 }
 
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
@@ -18,21 +19,26 @@ var nickEntries = []
 
 client.once('ready', () => {
     console.log("Broumvirate discord bot running!");
-    client.channels.fetch("699995522718630020").then(channel => channel.messages.fetch({limit:7}).then(messages =>{
+    client.channels.fetch("699995522718630020").then(channel => channel.messages.fetch({limit:50}).then(messages =>{
         messages.forEach( msg => {
             discordMessages.push(msg.embeds)
         })
-    })).then(() => {processNicks(discordMessages)})
+    })).then(() => {
+    processNicks(discordMessages)})
 })
 
 client.login(process.env.DISCORD)
 
 function processNicks(mges){
     var changes = []
+    mges.sort((a, b) => (a[0].timestamp, b[0].timestamp) ? -1 : 1)
     for(i=0;i<mges.length;i++){
-        mges.sort((a, b) => (a[0].timestamp, b[0].timestamp) ? -1 : 1)
-        changes.push({  nickname:   mges[i][0].fields[1].value.slice(1, -1),
-                        boy:        bmHelpers.discordTags[mges[i][0].author.name.split("#")[1]]})
+        if(moment(mges[i][0].timestamp).isAfter(moment(Date.now()).subtract(1, "day"))){
+
+            changes.push({  nickname:   mges[i][0].fields[1].value.slice(1, -1),
+                            boy:        bmHelpers.discordTags[mges[i][0].author.name.split("#")[1]]})
+        }
+
     }
 
     var entry = {date:Date.now(), nicknames:[]}
