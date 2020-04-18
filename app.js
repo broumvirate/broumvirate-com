@@ -9,9 +9,10 @@ const express      	               = require("express"),
 	  bodyParser  	               = require("body-parser"),
 	  mongoose     	               = require("mongoose"),
 	  methodOverride               = require("method-override")
+	  dotEnv 					   = require("dotenv");
 
 if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').load();
+	dotEnv.config();
 }
 
 const app = express()	 //Init app

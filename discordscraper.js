@@ -3,11 +3,12 @@ const   Discord = require('discord.js'),
         Nick = require("./models/nick"),
         Boy = require("./models/boy"),
         bmHelpers = require("./bmHelpers")
+        dotEnv = require("dotenv");
 
 const client = new Discord.Client();
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').load();
+    dotEnv.config();
 }
 
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
