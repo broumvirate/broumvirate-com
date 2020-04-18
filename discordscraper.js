@@ -6,7 +6,11 @@ const   Discord = require('discord.js'),
 
 const client = new Discord.Client();
 
-mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').load();
+}
+
+mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
 
 var discordMessages = []
 var nickEntries = []
@@ -20,7 +24,7 @@ client.once('ready', () => {
     })).then(() => {processNicks(discordMessages)})
 })
 
-client.login('NzAwNDg1NDc2NDEwNDU4MTQy.XppVVQ.7Uh7yFPlV-FU0sdAw-yvW2AVbO8')
+client.login(process.env.DISCORD)
 
 function processNicks(mges){
     var changes = []
@@ -34,14 +38,14 @@ function processNicks(mges){
     var idList = []
     for(i=0;i<changes.length;i++){
         if(idList.includes(changes[i].boy)){
-            //nickEntries.push(entry);
+            nickEntries.push(entry);
             entry = {date:Date.now(), nicknames:[]}
             idList = []
         }
         idList.push(changes[i].boy)
         entry.nicknames.push(changes[i])
     }
-    //nickEntries.push(entry);
+    nickEntries.push(entry);
     Nick.insertMany(nickEntries, function(err, newNick){
         if(err){
             console.log(err);

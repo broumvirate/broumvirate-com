@@ -10,6 +10,10 @@ const express      	               = require("express"),
 	  mongoose     	               = require("mongoose"),
 	  methodOverride               = require("method-override")
 
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').load();
+}
+
 const app = express()	 //Init app
 
 
@@ -31,9 +35,7 @@ app.use(methodOverride("_method"))
 // DATABASE SETUP
 //////////////////
 
-// mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
-mongoose.connect("mongodb+srv://dbUser:2tZjrPcSr2VrwWx6@broumvirate-com-wvuvq.mongodb.net/test?retryWrites=true&w=majority", {useNewUrlParser: true, });
-
+mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
 
 /////////////////
 // AUTH SETUP
@@ -99,10 +101,13 @@ app.use(adminRouter);
 // INIT
 ////////////////
 
-// app.listen(process.env.PORT || 5000, process.env.IP, function(){
-// 	console.log("Broumvirate production server running on port 3000!")
-// })
-
-app.listen(3000, function(){
-	console.log("Broumvirate testing server running on port 3000!")
-})
+if(process.env.NODE_ENV !== "production"){
+	app.listen(3000, function(){
+		console.log("Broumvirate testing server running on port 3000!")
+	})
+}
+else{
+	app.listen(process.env.PORT || 5000, process.env.IP, function(){
+		console.log("Broumvirate production server running on port 3000!")
+	})
+}
