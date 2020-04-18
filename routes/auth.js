@@ -1,6 +1,7 @@
 var express = require("express");
 var router = express.Router()
 var passport = require("passport")
+var bmHelpers = require("../bmHelpers")
 
 var Boy             = require("../models/boy"),
 	User            = require("../models/user")
@@ -52,11 +53,5 @@ router.get("/logout", function(req, res){
 	res.redirect("/")
 })
 
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
 module.exports = router;

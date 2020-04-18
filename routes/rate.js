@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router()
+var bmHelpers = require("../bmHelpers")
 
 const Boy             = require("../models/boy"),
 	  Rating          = require("../models/rating"),
@@ -8,7 +9,7 @@ const Boy             = require("../models/boy"),
 
 
 //INDEX - List of all ratings
-router.get("/rate", isLoggedIn, function(req, res){
+router.get("/rate", bmHelpers.isLoggedIn, function(req, res){
 	Rating.find({}, function(err, results){
 		if(err){
 			console.log(err);
@@ -21,7 +22,7 @@ router.get("/rate", isLoggedIn, function(req, res){
 
 
 //CREATE - Creates a new rating FROM a POST request (/rating/new)
-router.post("/rate", isLoggedIn, function(req, res){
+router.post("/rate", bmHelpers.isLoggedIn, function(req, res){
 	let newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
 	newRating.rates = [];
 	const ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
@@ -51,7 +52,7 @@ router.post("/rate", isLoggedIn, function(req, res){
 
 
 //NEW - Form to create a new rating
-router.get("/rate/new", isLoggedIn, function(req, res){
+router.get("/rate/new", bmHelpers.isLoggedIn, function(req, res){
 	Boy.find({}, function(err, boys){
 		if(err){
 			console.log(err)
@@ -69,12 +70,12 @@ router.get("/rate/new", isLoggedIn, function(req, res){
 
 
 //CATEGORY INDEX 
-router.get("/rate/category/new", isLoggedIn, function(req, res){
+router.get("/rate/category/new", bmHelpers.isLoggedIn, function(req, res){
 	res.render("rate/newCategory", {pageName:"New Category", });
 })
 
 //CATEGORY CREATE
-router.post("/rate/category", isLoggedIn, function(req, res){
+router.post("/rate/category", bmHelpers.isLoggedIn, function(req, res){
 	if(req.body.newCat.name && req.body.newCat.category){
 		RateCategory.create(req.body.newCat, function(err, result){
 		if(err){
@@ -86,7 +87,7 @@ router.post("/rate/category", isLoggedIn, function(req, res){
 })
 
 //SHOW - Show a specified rating
-router.get("/rate/:id", isLoggedIn, function(req, res){
+router.get("/rate/:id", bmHelpers.isLoggedIn, function(req, res){
 	Rating.findById(req.params.id).populate("rates.boy").exec(function(err, rating){
 		if(err){
 			console.log(err);
@@ -103,7 +104,7 @@ router.get("/rate/:id", isLoggedIn, function(req, res){
 })
 
 //EDIT - Edit a specified rating
-router.get("/rate/:id/edit", isLoggedIn, function(req, res){
+router.get("/rate/:id/edit", bmHelpers.isLoggedIn, function(req, res){
 	Rating.findById(req.params.id).populate("rates.boy").exec(function(err, rating){
 		if(err){
 			console.log(err);
@@ -121,7 +122,7 @@ router.get("/rate/:id/edit", isLoggedIn, function(req, res){
 })
 
 //PUT - Updates a rating from the edit page
-router.put("/rate/:id", isLoggedIn, function(req, res){
+router.put("/rate/:id", bmHelpers.isLoggedIn, function(req, res){
 	let newRating = req.body.rateMetadata						//Gets rating metadata, sets up the array of ratings
 	newRating.rates = [];
 	const ratingValues = Object.values(req.body.rates1)			//parses the rating values as individiual arrays [[boyName, rating], ...]
@@ -150,7 +151,7 @@ router.put("/rate/:id", isLoggedIn, function(req, res){
 })
 
 //DELETE - Deletes a rating
-router.delete("/rate/:id", isLoggedIn, function(req, res){
+router.delete("/rate/:id", bmHelpers.isLoggedIn, function(req, res){
 	Rating.deleteOne({"_id" : req.params.id}, function(err){
 		if(err){
 			console.log(err);
@@ -160,13 +161,5 @@ router.delete("/rate/:id", isLoggedIn, function(req, res){
 
 	})
 })
-
-
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
 module.exports = router;

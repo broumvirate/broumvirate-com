@@ -1,5 +1,6 @@
 var express = require("express")
 var router = express.Router();
+var bmHelpers = require("../bmHelpers")
 
 const   Boy = require("../models/boy"),
         User = require("../models/user"),
@@ -20,7 +21,7 @@ router.get("/bhotm", function(req, res){
 })
 
 // ADMIN INDEX - Admin page, available only to admins like Ben Hagle
-router.get("/bhotm/admin", isAdmin, function(req, res){
+router.get("/bhotm/admin", bmHelpers.isAdmin, function(req, res){
     bhotmDB.find({}).sort('-date').populate("entries.boy").exec(function(err, bhotm){
         if (err){
             console.log(err);
@@ -32,7 +33,7 @@ router.get("/bhotm/admin", isAdmin, function(req, res){
 })
 
 // NEW
-router.get("/bhotm/new", isAdmin, function(req,res){
+router.get("/bhotm/new", bmHelpers.isAdmin, function(req,res){
     Boy.find({}, function(err, boys){
         if(err){
             console.log(err);
@@ -43,8 +44,8 @@ router.get("/bhotm/new", isAdmin, function(req,res){
     })
 })
 
-// CREATE
-router.post("/bhotm", isAdmin, function(req,res){
+// CREATE -- Add new BHotM from creation page
+router.post("/bhotm", bmHelpers.isAdmin, function(req,res){
     var thisMonth = processMonth(req.body.bhotm)
     var d = new Date()
     thisMonth.date = d.getTime();
@@ -59,12 +60,14 @@ router.post("/bhotm", isAdmin, function(req,res){
     })
 })
 
+// Trying to get a specific month by ID redirects you back to main BHotM page
+// TODO - make specific month page? maybe with more info?
 router.get("/bhotm/:id", function(req,res){
     res.redirect("/bhotm");
 })
 
-// EDIT  TODO
-router.get("/bhotm/:id/edit", isAdmin, function(req,res){
+// EDIT - Edit existing bhotm
+router.get("/bhotm/:id/edit", bmHelpers.isAdmin, function(req,res){
     bhotmDB.findById(req.params.id).populate("entries.boy").exec(function(err, bhotmold){
         if(err){
             console.log(err);
@@ -77,8 +80,8 @@ router.get("/bhotm/:id/edit", isAdmin, function(req,res){
     })
 })
 
-// PUT
-router.put("/bhotm/:id", isAdmin, function(req,res){
+// PUT - Updates a month after an edit
+router.put("/bhotm/:id", bmHelpers.isAdmin, function(req,res){
 
     var thisMonth = processMonth(req.body.bhotm)
     
@@ -93,7 +96,7 @@ router.put("/bhotm/:id", isAdmin, function(req,res){
 })
 
 // DELETE - Deletes specified BHoTM
-router.delete("/bhotm/:id", isAdmin, function(req, res){
+router.delete("/bhotm/:id", bmHelpers.isAdmin, function(req, res){
     bhotmDB.deleteOne({"_id" : req.params.id}, function(err){
         if(err){
             console.log(err);
@@ -104,24 +107,11 @@ router.delete("/bhotm/:id", isAdmin, function(req, res){
     })
 })
 
-function isLoggedIn(req, res, next){
-	if(req.isAuthenticated()){
-		return next();
-	}
-	res.redirect("/login");
-}
 
-function isAdmin(req, res, next){
-    if (req.isAuthenticated()){
-        if (req.user.isAdmin){
-            return next();
-        }
-        else{
-            res.redirect("/bhotm");
-        }
-    }
-    res.redirect("/login")
-}
+
+///////////////
+// FUNCTIONS
+///////////////
 
 function processMonth(month){
     for(i=0; i<month.entries.length; i++){

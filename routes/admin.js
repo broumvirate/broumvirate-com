@@ -1,12 +1,13 @@
 var express = require("express")
 var router = express.Router();
+var bmHelpers = require("../bmHelpers")
 
 const   Boy = require("../models/boy"),
         User = require("../models/user");
 
 
 // ADMIN INDEX
-router.get("/admin", isAdmin, function(req, res){
+router.get("/admin", bmHelpers.isAdmin, function(req, res){
     Boy.find({}, function(err, Boys){
         if(err){
             console.log(err);
@@ -23,26 +24,5 @@ router.get("/admin", isAdmin, function(req, res){
         }
     })
 })
-
-
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect("/login");
-}
-        
-function isAdmin(req, res, next){
-    if (req.isAuthenticated()){
-        if (req.user.isAdmin){
-            return next();
-        }
-        else{
-            res.redirect("/bhotm");
-        }
-    }
-    res.redirect("/login")
-}
 
 module.exports = router;
