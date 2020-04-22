@@ -46,21 +46,23 @@ function processNicks(mges){
     for(i=0;i<changes.length;i++){
         if(idList.includes(changes[i].boy)){
             nickEntries.push(entry);
-            entry = {date:Date.now(), nicknames:[]}
+            entry = {date:moment(Date.now()).add(i, "s").format(), nicknames:[]}
             idList = []
         }
         idList.push(changes[i].boy)
         entry.nicknames.push(changes[i])
     }
     nickEntries.push(entry);
-    Nick.insertMany(nickEntries, function(err, newNick){
-        if(err){
-            console.log(err);
-            process.exit(0);
-        }
-        else{
-            console.log(newNick);
-            process.exit(0);
-        }
-    })
+    if(nickEntries[0].nicknames.length > 0){
+        Nick.insertMany(nickEntries, function(err, newNick){
+            if(err){
+                console.log(err);
+                process.exit(0);
+            }
+            else{
+                console.log(newNick);
+                process.exit(0);
+            }
+        })
+    }
 }
