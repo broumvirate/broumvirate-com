@@ -5,7 +5,8 @@ let boySchema = new mongoose.Schema({
 	lastName: String,
 	bid: Number,
 	active: Boolean,
-	registered: Boolean
+	registered: Boolean,
+	nickOrder: Number
 });
 
 module.exports = mongoose.model("boy", boySchema);

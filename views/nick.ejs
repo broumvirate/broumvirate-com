@@ -1,7 +1,71 @@
 <%- include ("partials/header") %>
 <div class="container">
-	<h1 class="display-4">
-		Nicknames
-	</h1>
+	<div>
+		<h1 class="display-4">Nicknames</h1>
+		<p>Hide metadata: <input type="checkbox" id="tickMetadata"></p>
+		<p>Hide Non-Broumvirate members: <input type="checkbox" id="tickNonmembers"></p>
+	</div>
+	<table class="table">
+	<thead>
+		<tr id="bm-nickheader">
+			<th>Jacob</th>
+			<th>Alden</th>
+			<th>Ben</th>
+			<th>Emerson</th>
+			<th>Kai</th>
+			<th>Max</th>
+			<th>Miles</th>
+			<th>Date</th>
+			<th>Changed By</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<% for(i=0;i<nicknames.length;i++){
+			// Loop through each nickname db entry. Sort the nicknames by nickOrder. (Can't do this ahead for disc scraped)
+			try{
+				nicknames[i].nicknames.sort((a, b) => ((parseInt(a.boy.nickOrder) > parseInt(b.boy.nickOrder)) ? 1 : -1))
+			}
+			catch(err){
+				console.log(err);
+			}
+			var index = 0
+			%>
+			<tr>
+			<%for(j=0;j<10;j++){%>
+				<td class="bm-nick<%=j%>"><%
+				
+				//Loop through each of the columns for this row 			TODO: Better way to do this
+
+
+				if(j==9){%>
+					<%=nicknames[i].notes%>
+				<%}
+				else if(j==8){%>
+					<%=nicknames[i].editedBy%>
+				<%}
+				else if(j==7){%>
+					<%=nicknames[i].dateString%>
+				<%}
+				else{
+					// If it isn't one of those meta-column, it's a nickname col
+					try{
+						// Start with 1st nickname, if it's in the right row, print it
+						if(nicknames[i].nicknames[index].boy.nickOrder == j){%>
+							<%=nicknames[i].nicknames[index].nickname%>
+							<%index = index + 1 //Move onto the next nickname
+						}
+						// If the current nickname isn't in the right row, don't print anything (blank col)
+					}
+					catch(err){}
+
+				}%>
+				</td>
+			<%}%>
+			</tr>
+		<%}%>
+	</tbody>
+	</table>
 </div>
+<script src="js/pNicknames.js"></script>
 <%- include ("partials/footer") %>

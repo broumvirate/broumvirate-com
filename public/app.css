@@ -13,6 +13,10 @@ body{
 	font-size: 1rem;
 }
 
+.bm-hidden{
+	display: none;
+}
+
 .bm-rate-container{
 	padding: 50px auto;
 }
@@ -50,7 +54,6 @@ body{
 .hover-icons a{
 	text-decoration: none;
 	color: white;
-	target: _blank;
 }
 
 .card-img-overlay:hover .hover-icons{

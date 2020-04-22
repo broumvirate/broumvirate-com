@@ -41,12 +41,12 @@ function processNicks(mges){
 
     }
 
-    var entry = {date:Date.now(), nicknames:[]}
+    var entry = {date:Date.now(), nicknames:[], dateString:moment(Date.now()).format("MMMM Do, YYYY")}
     var idList = []
     for(i=0;i<changes.length;i++){
         if(idList.includes(changes[i].boy)){
             nickEntries.push(entry);
-            entry = {date:moment(Date.now()).add(i, "s").format(), nicknames:[]}
+            entry = {date:moment(Date.now()).add(i, "s").format(), nicknames:[], dateString:moment(Date.now()).format("MMMM Do, YYYY")}
             idList = []
         }
         idList.push(changes[i].boy)

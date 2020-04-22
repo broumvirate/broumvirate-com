@@ -2,6 +2,7 @@ const mongoose = require("mongoose")
 
 let nickSchema = new mongoose.Schema({
     date:Date,
+    dateString:String,
     editedBy:String,
     notes:String,
     nicknames:[{

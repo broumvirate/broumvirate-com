@@ -31,7 +31,7 @@ router.get("/fuckmeinthehouse", function(req, res){
 })
 
 // Nickname page
-router.get("/nicknames", bmHelpers.isLoggedIn, function(req, res){
+router.get("/nicknames", function(req, res){
 	Nick.find({}).sort({"date":1}).populate("nicknames.boy").exec(function(err, nicks){
 		if(err){
 			console.log(err);
