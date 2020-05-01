@@ -19,11 +19,11 @@ router.get("/register", function(req, res){
 
 // REGISTER POST
 router.post("/register", function(req, res){
-	Boy.findByIdAndUpdate(req.body.boy, {"flags.registered":true}, function(error, result){
+	Boy.findByIdAndUpdate(req.body.boy, {"flags.registered":true, "email":req.body.username}, function(error, result){
 		if(error){
 			console.log(error)
 		}else{
-			User.register(new User({username: req.body.username, boy:result, fname:result.name}), req.body.password, function(err, user){
+			User.register(new User({username: req.body.username, boy:result}), req.body.password, function(err, user){
 				if(err){
 					console.log(err);
 					return res.redirect("/register");
