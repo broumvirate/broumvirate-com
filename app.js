@@ -8,15 +8,16 @@ const express      	               = require("express"),
 	  passportLocalMongoose        = require("passport-local-mongoose"),
 	  bodyParser  	               = require("body-parser"),
 	  mongoose     	               = require("mongoose"),
-	  methodOverride               = require("method-override")
+	  methodOverride               = require("method-override"),
 	  dotEnv 					   = require("dotenv");
 
 if (process.env.NODE_ENV !== 'production') {
 	dotEnv.config();
 }
 
-const app = express()	 //Init app
-
+/////////////////
+// ROUTES SETUP
+/////////////////
 
 const indexRouter                   = require("./routes/index"),
 	  authRouter	                = require("./routes/auth"),
@@ -24,19 +25,33 @@ const indexRouter                   = require("./routes/index"),
 	  bhotmRouter					= require("./routes/bhotm"),
 	  adminRouter					= require("./routes/admin");
 
+
+/////////////////
+// SCHEMA SETUP
+/////////////////
+
+const Boy             				= require("./models/boy"),
+	  User            				= require("./models/user"),
+	  Rating          				= require("./models/rating"),
+	  RateCategory    				= require("./models/category"),
+	  bhotmDB		  				= require("./models/bhotm"),
+	  Nick		      				= require("./models/nick");
+
+
+
+/////////////////
+// INIT APP
+/////////////////
+
+const app = express();
+
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"))
 
+mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useUnifiedTopology: true});
 
-
-
-//////////////////
-// DATABASE SETUP
-//////////////////
-
-mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
 
 /////////////////
 // AUTH SETUP
@@ -50,6 +65,11 @@ app.use(require("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session())
+
+
+////////////////
+// RES LOCALS
+////////////////
 
 app.use(function(req, res, next){
 	res.locals.currentUser = req.user
@@ -67,19 +87,6 @@ app.use(function(req, res, next){
 		next();
 	}
 })
-
-
-
-//////////////////
-// DATABASE SCHEMA
-//////////////////
-
-const Boy             = require("./models/boy"),
-	  User            = require("./models/user"),
-	  Rating          = require("./models/rating"),
-	  RateCategory    = require("./models/category"),
-	  bhotmDB		  = require("./models/bhotm"),
-	  Nick		      = require("./models/nick")
 
 passport.use(new LocalStrategy(User.authenticate()))
 passport.serializeUser(User.serializeUser());
