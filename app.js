@@ -55,12 +55,11 @@ app.use(function(req, res, next){
 	res.locals.currentUser = req.user
 	res.locals.pageName = ""
 	if(req.user){
-		User.findById(req.user.id, function(error, result){
+		User.findById(req.user.id).populate("boy").exec(function(error, result){
 			if(error){
 				console.log(error)
 			} else{
-				res.locals.currentUsername = result.fname;
-				res.locals.isAdmin = result.isAdmin;
+				res.locals.currentUser = result;
 				next();
 			}
 		})

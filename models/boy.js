@@ -15,6 +15,7 @@ let boySchema = new mongoose.Schema({
 		canRate: Boolean,    //allowed to have rating data entered
 		hasNicks: Boolean,   //nicknames are shown on nickname table
 		likesFrog: Boolean,  //does this man like frog?
+		isAdmin: Boolean,
 	}
 });
 
