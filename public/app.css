@@ -2,6 +2,16 @@ body{
 	padding-top: 56px;
 }
 
+.nav-item .dropdown-menu{
+	margin-top: 0.5rem;
+}
+@media screen and (min-width: 992px){
+	.nav-item .dropdown-menu{
+		border-top-left-radius: 0rem;
+		border-top-right-radius: 0rem;
+	}
+}
+
 #carouselFrontPage{
 	min-height: 100px;
 	background: #00334d;
