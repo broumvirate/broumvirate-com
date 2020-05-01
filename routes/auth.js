@@ -8,7 +8,7 @@ var Boy             = require("../models/boy"),
 
 // REGISTER INDEX
 router.get("/register", function(req, res){
-	Boy.find({registered: false}, function(err, boys){
+	Boy.find({"flags.registered": false, "flags.isUser": true}, function(err, boys){
 		if(err){
 			console.log(err)
 		}else{
@@ -19,7 +19,7 @@ router.get("/register", function(req, res){
 
 // REGISTER POST
 router.post("/register", function(req, res){
-	Boy.findByIdAndUpdate(req.body.boy, {registered:true}, function(error, result){
+	Boy.findByIdAndUpdate(req.body.boy, {"flags.registered":true}, function(error, result){
 		if(error){
 			console.log(error)
 		}else{

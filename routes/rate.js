@@ -53,7 +53,7 @@ router.post("/rate", bmHelpers.isLoggedIn, function(req, res){
 
 //NEW - Form to create a new rating
 router.get("/rate/new", bmHelpers.isLoggedIn, function(req, res){
-	Boy.find({}, function(err, boys){
+	Boy.find({"flags.canRate":true}, function(err, boys){
 		if(err){
 			console.log(err)
 		} else{

@@ -9,8 +9,8 @@ let boySchema = new mongoose.Schema({
 	registered: Boolean,     //DELETE ME
 	nickOrder: Number,       //order in which you're shown on nickname page
 	flags:{
-		active: Boolean,     //is active - ie. able to have a user account
-		coreBM: Boolean,     //is core broumvirate member
+		isUser: Boolean,     //is a user - ie. able to have a user account
+		coreBm: Boolean,     //is core broumvirate member
 		registered: Boolean, //is member registered
 		canRate: Boolean,    //allowed to have rating data entered
 		hasNicks: Boolean,   //nicknames are shown on nickname table
