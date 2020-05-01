@@ -5,13 +5,13 @@
 		<p>Hide metadata: <input type="checkbox" id="tickMetadata"></p>
 		<p>Hide Non-Broumvirate members: <input type="checkbox" id="tickNonmembers"></p>
 	</div>
-	<table class="table">
+	<table class="table table-sm table-bordered">
 	<thead>
 		<tr id="bm-nickheader">
-			<th>Jacob</th>
 			<th>Alden</th>
 			<th>Ben</th>
 			<th>Emerson</th>
+			<th>Jacob</th>
 			<th>Kai</th>
 			<th>Max</th>
 			<th>Miles</th>
@@ -33,21 +33,22 @@
 			%>
 			<tr>
 			<%for(j=0;j<10;j++){%>
-				<td class="bm-nick<%=j%>"><%
+				<td class="bm-nick<%=j%><%
 				
 				//Loop through each of the columns for this row 			TODO: Better way to do this
 
 
-				if(j==9){%>
+				if(j==9){%> bm-nick-notes">
 					<%=nicknames[i].notes%>
 				<%}
-				else if(j==8){%>
+				else if(j==8){%> bm-nick-editor">
 					<%=nicknames[i].editedBy%>
 				<%}
-				else if(j==7){%>
+				else if(j==7){%> bm-nick-date">
 					<%=nicknames[i].dateString%>
 				<%}
 				else{
+					%>"><%
 					// If it isn't one of those meta-column, it's a nickname col
 					try{
 						// Start with 1st nickname, if it's in the right row, print it

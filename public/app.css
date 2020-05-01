@@ -13,10 +13,6 @@ body{
 	font-size: 1rem;
 }
 
-.bm-hidden{
-	display: none;
-}
-
 .bm-rate-container{
 	padding: 50px auto;
 }
@@ -61,4 +57,13 @@ body{
 }
 .hover-icons a:hover{
 	text-shadow: 0 0 15px rgba(255,255,255,.5), 0 0 10px rgba(255,255,255,.5);
+}
+
+.bm-hidden{
+	display: none;
+}
+
+.bm-nick-date{
+	text-decoration: bold;
+	border-left: 1px black;
 }
