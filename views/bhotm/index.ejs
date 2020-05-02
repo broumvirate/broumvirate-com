@@ -23,7 +23,11 @@
                             </div>
                             <div class="card-body p-2">
                                 <% if(bhotm[i].entries[j].format == "image"){%>
-                                    <a href="<%=bhotm[i].entries[j].link%>"><img src="<%=bhotm[i].entries[j].link%>" class="card-img-top bhotmi"></a>
+                                    <a href="<% if(bhotm[i].entries[j].clickLink){%>
+                                                    <%=bhotm[i].entries[j].clickLink%>
+                                            <%} else{%>
+                                                    <%=bhotm[i].entries[j].link%>
+                                             <%}%>"><img src="<%=bhotm[i].entries[j].link%>" class="card-img-top bhotmi"></a>
                                 <%}%>
                                 <% if(bhotm[i].entries[j].format == "link"){%>
                                     <a href="<%=bhotm[i].entries[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
