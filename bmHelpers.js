@@ -20,7 +20,7 @@ module.exports={
             
     isAdmin: function(req, res, next){
         if (req.isAuthenticated()){
-            if (req.user.boy.isAdmin){
+            if (req.user.isAdmin){
                 return next();
             }
             else{

@@ -1,6 +1,21 @@
 <%- include ("partials/header") %>
+<div class="jumbotron mx-0 text-center bg-light">
+	<h1>
+		Broumvirate Games
+	</h1>
+	<h4 class="text-muted">Flash games for idiots</h4>
+</div>
+
 <div class="container">
-	<h1 class="display-4 text-center"><a href="/games/rock-game">Rock Game</a></h1>
+	<div class="row d-flex justify-content-around">
+		<div class="card text-white bg-dark col-md-5 p-0 m-3">
+			<a href="/games/rock-game"><img class="card-img-top mx-0 bm-f-card-top" src="/img/rockgame.jpg"></a>
+			<div class="card-body">
+				<h4 class="card-title"><a href="/games/rock-game">Rock Game</a></h4>
+				<p class="card-text">Alden's May 2020 BHotM submission.</p>
+			</div>
+		</div>
+	</div>
 </div>
 
 <%- include ("partials/footer") %>
