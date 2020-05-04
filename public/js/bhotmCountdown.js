@@ -1,11 +1,16 @@
-let countDownDate = moment();
+let countDownDate = undefined;
 
-if(moment().get("date") > 4){ //if it's after the 4th, add a month and set submission time
-    countDownDate.add(1, "M").date(5).startOf("day");
+let setupDate = function(){
+    countDownDate = moment();
+    if(moment().get("date") > 4){ //if it's after the 4th, add a month and set submission time
+        countDownDate.add(1, "M").date(5).startOf("day");
+    }
+    else{                         //if it's before the 4th, its this month
+        countDownDate.date(5).startOf("day");
+    }
 }
-else{                         //if it's before the 4th, its this month
-    countDownDate.date(5).startOf("day");
-}
+
+setupDate()
 
 let cd = setInterval(function(){
     let distance = countDownDate.diff(moment());
@@ -19,7 +24,7 @@ let cd = setInterval(function(){
     + minutes + "m " + seconds + "s ";
 
     if(distance < 0) {
-        countDownDate.add(1, "M").date(5).startOf("day");
+        setupDate();
     }
 
 }, 1000);
