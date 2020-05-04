@@ -9,6 +9,6 @@ let userSchema = new mongoose.Schema({
 	isAdmin: Boolean
 });
 
-userSchema.plugin(passportLocalMongoose);
+userSchema.plugin(passportLocalMongoose, {populateFields: "boy"});
 
 module.exports = mongoose.model("user", userSchema);
