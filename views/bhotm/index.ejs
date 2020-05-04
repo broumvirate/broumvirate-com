@@ -2,7 +2,7 @@
 <div class="container">
     <h1 class="display-4 my-3">Ben Hagle of the Month</h1>
     <p class="lead">Ben Hagle of the Month is a monthly competetion to determine who is Ben Hagle. Submissions can be literally anything, creativity is encouraged. The winner is decided by the previous Ben Hagle. Submissions can be sent to <a href="mailto:hen.bagle@gmail.com">hen.bagle@gmail.com</a>, and are due on the 4th of each month, at midnight in your local timezone.</p>
-    
+    <h3 class="my-4"><strong>BHotM Entries Due: </strong><span id="bhotmCountdown"></span></h3>
     <h2 class="display-5 my-4">Previous Entries</h2>
     <div class="accordion" id="previousAccordion">
         <% for(i=0;i<bhotm.length;i++){%>
@@ -58,4 +58,6 @@
         <%}%>
     </div>
 </div>
+<script src="https://momentjs.com/downloads/moment.js"></script>
+<script src="js/bhotmCountdown.js"></script>
 <%- include ("../partials/footer") %>
