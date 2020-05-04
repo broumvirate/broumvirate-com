@@ -24,6 +24,7 @@ const indexRouter                   = require("./routes/index"),
 	  rateRouter                    = require("./routes/rate"),
 	  bhotmRouter					= require("./routes/bhotm"),
 	  adminRouter					= require("./routes/admin");
+	  gameRouter					= require("./routes/games")
 
 
 /////////////////
@@ -102,6 +103,7 @@ app.use(rateRouter);
 app.use(bhotmRouter);
 app.use(authRouter);
 app.use(adminRouter);
+app.use(gameRouter);
 
 
 ////////////////
