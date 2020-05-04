@@ -8,8 +8,8 @@ router.get("/games", function(req, res){
 })
 
 // Rock game
-router.get("/games/rockgame", function(req, res){
-	res.render("../public/game/rockgame/index", {pageName:"", });
+router.get("/games/rock-game", function(req, res){
+	res.render("../public/games/rock-game/index", {pageName:"Rock Game", });
 })
 
 module.exports = router;

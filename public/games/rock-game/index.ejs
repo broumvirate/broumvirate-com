@@ -1,0 +1,32 @@
+<%- include ("../../../views/partials/header") %>
+<link rel="shortcut icon" href="TemplateData/favicon.ico">
+<link rel="stylesheet" href="TemplateData/style.css">
+<script src="TemplateData/UnityProgress.js"></script>
+<script src="Build/UnityLoader.js"></script>
+<script>
+  var unityInstance = UnityLoader.instantiate("unityContainer", "Build/webgl.json", {onProgress: UnityProgress});
+</script>
+
+<div class="webgl-content">
+  <div id="unityContainer" style="width: 960px; height: 600px"></div>
+  <div class="gfooter">
+    <div class="webgl-logo"></div>
+    <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+    <div class="title">Rock Game</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="container mt-5 text-center" style = "position: fixed; bottom: 0;">
+  <div>
+
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p>&copy; 2019 Broumvirate Media, LLC. &middot; <a href="/fuckmeinthehouse">Fuck Me In The House</a><%if(!currentUser){%> - <a href="/register">Register</a><%}%></p>
+  </div>
+</footer>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
