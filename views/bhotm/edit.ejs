@@ -27,35 +27,40 @@
                             <label for="bhotmEntree">Submitter's Name:</label>
                             <input type="text" class="form-control" id="bhotmEntree" name="bhotm[entries][<%=i%>][name]" value="<%=bhotmold.entries[i].name%>" required>
 
-                            <label for="bhotmBoyPick">Associated Boy (optional):</label>
-                            <select class="form-control" id="bhotmBoyPick" name="bhotm[entries][<%=i%>][boy]">
-                                <option value="" <% if(!bhotmold.entries[i].boy){%>
-                                    selected
-                                    <%}%> >---</option>
-                                
-                                <%for(j=0;j<boys.length;j++){%>
-                                    <option value="<%=boys[j].id%>" <% if(bhotmold.entries[i].boy && ( boys[j].id === bhotmold.entries[i].boy.id)) {%>
-                                        selected 
-                                    <%}%> >
-                                        <%=boys[j].name%>
-                                    </option>
-                                <%}%>
-                            </select>
-
                             <label for="bhotmLink">Link to Entry:</label>
-                            <input type="text" class="form-control" id="bhotmLink" name="bhotm[entries][<%=i%>][link]" value=<%=bhotmold.entries[i].link%>>
+                            <input type="text" class="form-control" id="bhotmLink" name="bhotm[entries][<%=i%>][link]" value="<%=bhotmold.entries[i].link%>">
 
-                            <label for="bhotmClickLink">Click Link: (optional)</label>
-                            <input type="text" class="form-control" id="bhotmClickLink" name="bhotm[entries][<%=i%>][clickLink]" value=<%=bhotmold.entries[i].clickLink%>>
+                            <a class="button" data-toggle="collapse" href="#collapse<%=i%>">Show Optional Parameters</a>
+                            <div id="collapse<%=i%>" class="collapse">
+                                <label for="bhotmBoyPick">Associated Boy (optional):</label>
+                                <select class="form-control" id="bhotmBoyPick" name="bhotm[entries][<%=i%>][boy]">
+                                    <option value="" <% if(!bhotmold.entries[i].boy){%>
+                                        selected
+                                        <%}%> >---</option>
+                                    
+                                    <%for(j=0;j<boys.length;j++){%>
+                                        <option value="<%=boys[j].id%>" <% if(bhotmold.entries[i].boy && ( boys[j].id === bhotmold.entries[i].boy.id)) {%>
+                                            selected 
+                                        <%}%> >
+                                            <%=boys[j].name%>
+                                        </option>
+                                    <%}%>
+                                </select>
 
-                            <label for="bhotmEntreeName">Entry Name (optional):</label>
-                            <input type="text" class="form-control" id="bhotmEntreeName" name="bhotm[entries][<%=i%>][entryName]" value="<%=bhotmold.entries[i].entryName%>" >
+                                <label for="bhotmEntreeName">Entry Name (optional):</label>
+                                <input type="text" class="form-control" id="bhotmEntreeName" name="bhotm[entries][<%=i%>][entryName]" value="<%=bhotmold.entries[i].entryName%>" >
 
-                            <label for="bhotmEntreeDesc">Entry Description (optional):</label>
-                            <input type="text" class="form-control" id="bhotmEntreeDesc" name="bhotm[entries][<%=i%>][entryDescription]" value=<%=bhotmold.entries[i].entryDescription%> >
-                            
-                            <label for="bhotmPlace">Place:</label>
-                            <input type="number" class="form-control" id="bhotmPlace" name="bhotm[entries][<%=i%>][place]" value="<%=bhotmold.entries[i].place%>" required>
+                                <label for="bhotmEntreeDesc">Entry Description (optional):</label>
+                                <input type="text" class="form-control" id="bhotmEntreeDesc" name="bhotm[entries][<%=i%>][entryDescription]" value=<%=bhotmold.entries[i].entryDescription%> >
+                                
+                                <label for="bhotmClickLink">Click Link: (optional)</label>
+                                <input type="text" class="form-control" id="bhotmClickLink" name="bhotm[entries][<%=i%>][clickLink]" value=<%=bhotmold.entries[i].clickLink%>>
+                                
+                            </div>
+                            <div>
+                                <label for="bhotmPlace">Place:</label>
+                                <input type="number" class="form-control" id="bhotmPlace" name="bhotm[entries][<%=i%>][place]" value="<%=bhotmold.entries[i].place%>" required>
+                            </div>
                         </div>
                     </div>
                 </div>

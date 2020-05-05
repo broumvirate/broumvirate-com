@@ -138,6 +138,9 @@ function processMonth(month){
         else if(extensions.includes(splitLink[splitLink.length-1])){ // If the last element of the link (. delimited) is in the extension list
             month.entries[i].format = "image";
         }
+        else if(month.entries[i].link.includes(" ")){ // If the link has a space, it's a phrase
+            month.entries[i].format = "phrase";
+        }
         else{ //Otherwise it's just a normal link
             month.entries[i].format = "link";
         }

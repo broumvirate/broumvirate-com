@@ -32,6 +32,9 @@
                                 <% if(bhotm[i].entries[j].format == "link"){%>
                                     <a href="<%=bhotm[i].entries[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
                                 <%}%>
+                                <% if(bhotm[i].entries[j].format == "phrase"){%>
+                                    <h5 class="text-center">"<%=bhotm[i].entries[j].link%>"</h5>
+                                <%}%>
                                 <% if(bhotm[i].entries[j].format == "youtube"){%>
                                     <div class="text-center m-1">
                                         <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" width="100%" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
