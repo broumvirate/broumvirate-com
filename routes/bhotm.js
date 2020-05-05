@@ -124,7 +124,8 @@ function processMonth(month){
         ////////////////////
         // Determine format
         ////////////////////
-        const extensions = ["JPG", "jpg", "JPEG", "jpeg", "PNG", "png", "gif", "GIF"];
+        const imgExtensions = ["JPG", "jpg", "JPEG", "jpeg", "PNG", "png", "gif", "GIF"];
+        const audioExtensions = ["mp3", "MP3", "wav", "WAV"];
         let splitLink = month.entries[i].link.split(".");
 
         if (month.entries[i].link == ""){ //No link means ur mason
@@ -135,8 +136,11 @@ function processMonth(month){
             let link = month.entries[i].link;
             month.entries[i].link = link.replace("watch?v=", "embed/");
         }
-        else if(extensions.includes(splitLink[splitLink.length-1])){ // If the last element of the link (. delimited) is in the extension list
+        else if(imgExtensions.includes(splitLink[splitLink.length-1])){ // If the last element of the link (. delimited) is in the extension list
             month.entries[i].format = "image";
+        }
+        else if(audioExtensions.includes(splitLink[splitLink.length-1])){ // If the last element of the link (. delimited) is in the extension list
+            month.entries[i].format = "audio";
         }
         else if(month.entries[i].link.includes(" ")){ // If the link has a space, it's a phrase
             month.entries[i].format = "phrase";

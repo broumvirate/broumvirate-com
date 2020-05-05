@@ -35,6 +35,11 @@
                                 <% if(bhotm[i].entries[j].format == "phrase"){%>
                                     <h5 class="text-center">"<%=bhotm[i].entries[j].link%>"</h5>
                                 <%}%>
+                                <% if(bhotm[i].entries[j].format == "audio"){%>
+                                    <div class="text-center m-1">
+                                        <audio controls src="<%=bhotm[i].entries[j].link%>"></audio>
+                                    </div>
+                                <%}%>
                                 <% if(bhotm[i].entries[j].format == "youtube"){%>
                                     <div class="text-center m-1">
                                         <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" width="100%" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
