@@ -38,14 +38,15 @@ router.post("/register", function(req, res){
 
 // LOGIN INDEX
 router.get("/login", function(req, res){
-	res.render("login", {pageName:"Log In", });
+	res.render("login", {pageName:"Log In", redirect:req.query.redirect});
 })
 
 // LOGIN POST
 router.post("/login", passport.authenticate("local", {
-	successRedirect:"/",
 	failureRedirect:"/login"
-}), function(req, res){})
+}), function(req, res){
+	res.redirect(req.body.redirect)
+})
 
 // LOGOUT
 router.get("/logout", function(req, res){

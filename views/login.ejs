@@ -6,6 +6,7 @@
 			<form action="/login" method="POST">
 				<input class="form-control my-2" type="email" name="username" placeholder="Email" required>
 				<input class="form-control my-2" type="password" name="password" placeholder="Password" required>
+				<input type="hidden" name="redirect" value="<%if(redirect){%><%=redirect%><%}else{%>/<%}%>">
 				<button class="btn btn-primary mt-3">Submit</button>
 			</form>
 		</div>

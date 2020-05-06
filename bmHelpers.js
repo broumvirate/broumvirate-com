@@ -15,7 +15,7 @@ module.exports={
         if(req.isAuthenticated()){
             return next();
         }
-        res.redirect("/login");
+        res.redirect("/login?redirect="+encodeURIComponent(req.url));
     },
             
     isAdmin: function(req, res, next){
@@ -27,7 +27,7 @@ module.exports={
                 res.redirect("/bhotm");
             }
         }
-        res.redirect("/login")
+        res.redirect("/login?redirect="+encodeURIComponent(req.url));
     }
 
 }
