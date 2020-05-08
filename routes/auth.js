@@ -38,7 +38,9 @@ router.post("/register", function(req, res){
 
 // LOGIN INDEX
 router.get("/login", function(req, res){
-	res.render("login", {pageName:"Log In", redirect:req.query.redirect});
+	let redirectUrl = req.query.redirect;
+
+	res.render("login", {pageName:"Log In", redirect:redirectUrl});
 })
 
 // LOGIN POST
