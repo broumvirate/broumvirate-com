@@ -3,33 +3,33 @@ const memberTick = document.getElementById("tickNonmembers")
 
 metaTick.addEventListener("change", (event) => {
     if(event.target.checked){
-        changeRows([8,9], true);
+        changeCols([8,9], true);
     }
     else{
-        changeRows([8,9], false);
+        changeCols([8,9], false);
     }
 })
 
 memberTick.addEventListener("change", (event) => {
     if(event.target.checked){
-        changeRows([5,6], true);
+        changeCols([5,6], true);
     }
     else{
-        changeRows([5,6], false);
+        changeCols([5,6], false);
     }
 })
 
-function changeRows(cols, process){
+function changeCols(cols, process){ //Changes columns of the nick table to shown or hidden, true is shown.
     for(i=0;i<cols.length;i++){
         var toChange = document.getElementsByClassName("bm-nick"+cols[i]);
-        if(process){
+        if(!process){
             document.getElementById("bm-nickheader").children[cols[i]].classList.add("bm-hidden")
         }
         else{
             document.getElementById("bm-nickheader").children[cols[i]].classList.remove("bm-hidden")
         }
         for (j=0;j<toChange.length;j++){
-            if(process){
+            if(!process){
                 toChange[j].classList.add("bm-hidden")
             }
             else{
@@ -40,3 +40,6 @@ function changeRows(cols, process){
 
     }
 }
+
+changeCols([5,6], false)
+changeCols([8,9], false)

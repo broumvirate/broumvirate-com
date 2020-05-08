@@ -1,9 +1,20 @@
 <%- include ("partials/header") %>
 <div class="container">
-	<div>
-		<h1 class="display-4">Nicknames</h1>
-		<p>Hide metadata: <input type="checkbox" id="tickMetadata"></p>
-		<p>Hide Non-Broumvirate members: <input type="checkbox" id="tickNonmembers"></p>
+	<div class="row d-flex justify-content-between">
+		<div class="col-md-6">
+			<h1 class="display-4">Nicknames</h1>
+		</div>
+
+		<div class="col-md-6 mt-4 text-right">
+			<div class="custom-control custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="tickMetadata">
+				<label class="custom-control-label" for="tickMetadata">Show metadata</label>
+			</div>
+			<div class="custom-control custom-checkbox">
+				<input type="checkbox" class="custom-control-input" id="tickNonmembers">
+				<label class="custom-control-label" for="tickNonmembers">Show Non-Broumvirate members</label>
+			</div>
+		</div>
 	</div>
 	<table class="table table-sm table-bordered">
 	<thead>
