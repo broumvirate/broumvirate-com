@@ -14,8 +14,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, });
 
-var discordMessages = []
-var nickEntries = []
+let discordMessages = []     // Contains: messages pulled directly from discord                                           
+let nickEntries = []         // Contains: 
 
 client.once('ready', () => {
     console.log("Broumvirate discord bot running!");
@@ -30,9 +30,8 @@ client.once('ready', () => {
 client.login(process.env.DISCORD)
 
 function processNicks(mges){
-    var changes = []
-    var idList = []
-    var entry = {date:Date.now(), nicknames:[], dateString:moment(Date.now()).format("MMMM Do, YYYY")}
+    let idList = [] // List of discord IDs we've had, if we have two ids in one day we need a new entry
+    let entry = {date:Date.now(), nicknames:[], dateString:moment(Date.now()).format("MMMM Do, YYYY")} // Initial entry format
 
     mges.sort((a, b) => (a[0].timestamp, b[0].timestamp) ? -1 : 1)                              // Sort messages by timestamp
     for(i=0;i<mges.length;i++){

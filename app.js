@@ -23,8 +23,8 @@ const indexRouter                   = require("./routes/index"),
 	  authRouter	                = require("./routes/auth"),
 	  rateRouter                    = require("./routes/rate"),
 	  bhotmRouter					= require("./routes/bhotm"),
-	  adminRouter					= require("./routes/admin");
-	  gameRouter					= require("./routes/games")
+	  adminRouter					= require("./routes/admin"),
+	  gameRouter					= require("./routes/games");
 
 
 /////////////////
@@ -35,9 +35,8 @@ const Boy             				= require("./models/boy"),
 	  User            				= require("./models/user"),
 	  Rating          				= require("./models/rating"),
 	  RateCategory    				= require("./models/category"),
-	  bhotmDB		  				= require("./models/bhotm"),
+	  {bhotm}		  				= require("./models/bhotm"),
 	  Nick		      				= require("./models/nick");
-
 
 
 /////////////////
@@ -51,7 +50,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"))
 
-mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.DATABASEURL, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false});
 
 
 /////////////////

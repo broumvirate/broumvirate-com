@@ -1,5 +1,5 @@
 node_modules/
-discord/oldprojects/
+migration/
 .env
-this.code-workspace
+broumvirate-com.code-workspace
 .vscode/

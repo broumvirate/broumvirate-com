@@ -4,12 +4,13 @@ var bmHelpers = require("../bmHelpers")
 
 const   Boy = require("../models/boy"),
         User = require("../models/user"),
-        bhotmDB = require("../models/bhotm")
+        {bhotm} = require("../models/bhotm"),
+        {bhotmEntry} = require("../models/bhotm")
 
 
 // INDEX - BHoTM Standard Viewing Page
 router.get("/bhotm", function(req, res){
-    bhotmDB.find({}).sort({"date":-1, "entries.place":1}).populate("entries.boy").exec(function(err, bhotm){
+    bhotm.find({}).sort({"date":-1, "entries.place":1}).populate("entries.boy").exec(function(err, bhotm){
         if (err){
             console.log(err);
         }
@@ -22,7 +23,7 @@ router.get("/bhotm", function(req, res){
 
 // ADMIN INDEX - Admin page, available only to admins like Ben Hagle
 router.get("/bhotm/admin", bmHelpers.isAdmin, function(req, res){
-    bhotmDB.find({}).sort('-date').populate("entries.boy").exec(function(err, bhotm){
+    bhotm.find({}).sort('-date').populate("entries.boy").exec(function(err, bhotm){
         if (err){
             console.log(err);
         }
@@ -50,7 +51,7 @@ router.post("/bhotm", bmHelpers.isAdmin, function(req,res){
     var d = new Date()
     thisMonth.date = d.getTime();
 
-    bhotmDB.create(thisMonth, function(err, newMonth){ //Add new month to database
+    bhotm.create(thisMonth, function(err, newMonth){ //Add new month to database
         if(err){
             console.log(err)
         }
@@ -68,7 +69,7 @@ router.get("/bhotm/:id", function(req,res){
 
 // EDIT - Edit existing bhotm
 router.get("/bhotm/:id/edit", bmHelpers.isAdmin, function(req,res){
-    bhotmDB.findById(req.params.id).populate("entries.boy").exec(function(err, bhotmold){
+    bhotm.findById(req.params.id).populate("entries.boy").exec(function(err, bhotmold){
         if(err){
             console.log(err);
         }
@@ -85,7 +86,7 @@ router.put("/bhotm/:id", bmHelpers.isAdmin, function(req,res){
 
     var thisMonth = bmHelpers.bhotm.processMonth(req.body.bhotm)
     
-    bhotmDB.findByIdAndUpdate(req.params.id, thisMonth, function(err, updateMonth){ //Update month in database
+    bhotm.findByIdAndUpdate(req.params.id, thisMonth, function(err, updateMonth){ //Update month in database
         if(err){
             console.log(err)
         }
@@ -97,7 +98,7 @@ router.put("/bhotm/:id", bmHelpers.isAdmin, function(req,res){
 
 // DELETE - Deletes specified BHoTM
 router.delete("/bhotm/:id", bmHelpers.isAdmin, function(req, res){
-    bhotmDB.deleteOne({"_id" : req.params.id}, function(err){
+    bhotm.deleteOne({"_id" : req.params.id}, function(err){
         if(err){
             console.log(err);
         } else{
