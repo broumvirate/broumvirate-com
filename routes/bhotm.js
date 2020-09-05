@@ -1,13 +1,6 @@
 var express = require("express");
 var router = express.Router();
 var bmHelpers = require("../bmHelpers");
-<<<<<<< HEAD
-
-const Boy = require("../models/boy"),
-    User = require("../models/user"),
-    { bhotm } = require("../models/bhotm"),
-    { bhotmEntry } = require("../models/bhotm");
-=======
 
 const Boy = require("../models/boy"),
     User = require("../models/user"),
@@ -16,18 +9,13 @@ const Boy = require("../models/boy"),
 
 // ON PROMISES:
 // This module has not been promisifed, as it is in the midst of being re-written in the bhotmAPI branch
->>>>>>> 9bede7da724e8854974a8a991235db3d99103bbc
 
 // INDEX - BHoTM Standard Viewing Page
 router.get("/bhotm", function (req, res) {
     bhotm
         .find({})
         .sort({ date: -1, "entries.place": 1 })
-<<<<<<< HEAD
         .populate("submissions")
-=======
-        .populate("entries.boy")
->>>>>>> 9bede7da724e8854974a8a991235db3d99103bbc
         .exec(function (err, bhotm) {
             if (err) {
                 console.log(err);
