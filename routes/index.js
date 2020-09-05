@@ -1,40 +1,40 @@
 var express = require("express");
-var router = express.Router()
-var bmHelpers = require("../bmHelpers")
+var router = express.Router();
+var bmHelpers = require("../bmHelpers");
 
-const   Boy = require("../models/boy"),
-        Nick = require("../models/nick")
+const Boy = require("../models/boy"),
+    Nick = require("../models/nick");
 
 // INDEX - Homepage
-router.get("/", function(req, res){
-	res.render("home", {pageName:"Home", });
-})
+router.get("/", function (req, res) {
+    res.render("home", { pageName: "Home" });
+});
 
 // Contact page
-router.get("/contact", function(req, res){
-	res.render("contact", {pageName:"Contact", });
-})
+router.get("/contact", function (req, res) {
+    res.render("contact", { pageName: "Contact" });
+});
 
 // Music page
-router.get("/music", function(req, res){
-	res.render("music", {pageName:"Music", });
-})
+router.get("/music", function (req, res) {
+    res.render("music", { pageName: "Music" });
+});
 
 // Fuck me in the house page
-router.get("/fuckmeinthehouse", function(req, res){
-	res.render("fuckmeinthehouse", {pageName:"Fuck Me In The House", });
-})
+router.get("/fuckmeinthehouse", function (req, res) {
+    res.render("fuckmeinthehouse", { pageName: "Fuck Me In The House" });
+});
 
 // Nickname page
-router.get("/nicknames", bmHelpers.isLoggedIn , function(req, res){
-	Nick.find({}).sort({"date":1}).populate("nicknames.boy").exec(function(err, nicks){
-		if(err){
-			console.log(err);
-		}
-		else{
-			res.render("nick", {pageName:"Nicknames", nicknames:nicks})
-		}
-	})
-})
+router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res) {
+    Nick.find()
+        .sort({ date: 1 })
+        .populate("nicknames.boy")
+        .exec()
+        .then((nicks) => {
+            res.render("nick", { pageName: "Nicknames", nicknames: nicks });
+        })
+        .catch((err) => console.log(err));
+});
 
 module.exports = router;

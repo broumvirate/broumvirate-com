@@ -23,7 +23,10 @@ const indexRouter = require("./routes/index"),
     authRouter = require("./routes/auth"),
     rateRouter = require("./routes/rate"),
     bhotmRouter = require("./routes/bhotm"),
+<<<<<<< HEAD
     bhotmAPIRouter = require("./routes/bhotmAPI"),
+=======
+>>>>>>> 9bede7da724e8854974a8a991235db3d99103bbc
     adminRouter = require("./routes/admin"),
     gameRouter = require("./routes/games");
 
