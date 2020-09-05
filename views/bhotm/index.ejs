@@ -3,7 +3,7 @@
     <h1 class="display-4 my-3">Ben Hagle of the Month</h1>
     <p class="lead">Ben Hagle of the Month is a monthly competetion to determine who is Ben Hagle. Submissions can be literally anything, creativity is encouraged. The winner is decided by the previous Ben Hagle. Submissions can be sent to <a href="mailto:hen.bagle@gmail.com">hen.bagle@gmail.com</a>, and are due on the 4th of each month, at midnight in your local timezone.</p>
     <h3 class="my-4 text-center"><strong>Entries Due: </strong><span id="bhotmCountdown"></span></h3>
-    <h2 class="display-5 my-4">Previous Entries</h2>
+    <h2 class="display-5 my-4">Previous submissions</h2>
     <div class="accordion" id="previousAccordion">
         <% for(i=0;i<bhotm.length;i++){%>
         <div class="card">
@@ -13,47 +13,47 @@
             <div id="bhotm<%=i%>" class="collapse" aria-labelledby="heading<%=i%>" data-parent="#previousAccordion">
                 <div class="card-body">
                     <div class="card-columns">
-                    <% for(j=0;j<bhotm[i].entries.length;j++){%>
-                        <div class="card <% if (bhotm[i].entries[j].isWinner){%>text-white bg-success<%}%> p-0">
+                    <% for(j=0;j<bhotm[i].submissions.length;j++){%>
+                        <div class="card <% if (bhotm[i].submissions[j].isWinner){%>text-white bg-success<%}%> p-0">
                             <div class="card-header">
-                                <h5 class="card-title"><%=bhotm[i].entries[j].place%>. <%=bhotm[i].entries[j].name%></h5>
-                                <% if(bhotm[i].entries[j].entryName){%>
-                                    <h6 class=""><%=bhotm[i].entries[j].entryName%></h6>
+                                <h5 class="card-title"><%=bhotm[i].submissions[j].place%>. <%=bhotm[i].submissions[j].name%></h5>
+                                <% if(bhotm[i].submissions[j].entryName){%>
+                                    <h6 class=""><%=bhotm[i].submissions[j].entryName%></h6>
                                 <%}%>
                             </div>
                             <div class="card-body p-2">
-                                <% if(bhotm[i].entries[j].format == "image"){%>
-                                    <a href="<% if(bhotm[i].entries[j].clickLink){%>
-                                                    <%=bhotm[i].entries[j].clickLink%>
+                                <% if(bhotm[i].submissions[j].format == "image"){%>
+                                    <a href="<% if(bhotm[i].submissions[j].clickLink){%>
+                                                    <%=bhotm[i].submissions[j].clickLink%>
                                             <%} else{%>
-                                                    <%=bhotm[i].entries[j].link%>
-                                             <%}%>"><img src="<%=bhotm[i].entries[j].link%>" class="card-img-top bhotmi"></a>
+                                                    <%=bhotm[i].submissions[j].link%>
+                                             <%}%>"><img src="<%=bhotm[i].submissions[j].link%>" class="card-img-top bhotmi"></a>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].format == "link"){%>
-                                    <a href="<%=bhotm[i].entries[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
+                                <% if(bhotm[i].submissions[j].format == "link"){%>
+                                    <a href="<%=bhotm[i].submissions[j].link%>"><h3 class="text-center">Link to Entry</h3></a>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].format == "phrase"){%>
-                                    <h5 class="text-center">"<%=bhotm[i].entries[j].link%>"</h5>
+                                <% if(bhotm[i].submissions[j].format == "phrase"){%>
+                                    <h5 class="text-center">"<%=bhotm[i].submissions[j].link%>"</h5>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].format == "audio"){%>
+                                <% if(bhotm[i].submissions[j].format == "audio"){%>
                                     <div class="text-center m-1">
-                                        <audio controls src="<%=bhotm[i].entries[j].link%>"></audio>
+                                        <audio controls src="<%=bhotm[i].submissions[j].link%>"></audio>
                                     </div>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].format == "youtube"){%>
+                                <% if(bhotm[i].submissions[j].format == "youtube"){%>
                                     <div class="text-center m-1">
-                                        <iframe src="<%=bhotm[i].entries[j].link%>" frameborder="0" width="100%" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        <iframe src="<%=bhotm[i].submissions[j].link%>" frameborder="0" width="100%" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                     </div>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].format == "mason"){%>
+                                <% if(bhotm[i].submissions[j].format == "mason"){%>
                                     <img src="/img/SmackSonUS1.jpg" class="card-img-top bhotmi">
                                     <p class="text-center">Did not submit, is Mason.</p>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].clickLink){%>
-                                    <a href="<%=bhotm[i].entries[j].clickLink%>"><h3 class="text-center m-2">Link to Full Entry</h3></a>
+                                <% if(bhotm[i].submissions[j].clickLink){%>
+                                    <a href="<%=bhotm[i].submissions[j].clickLink%>"><h3 class="text-center m-2">Link to Full Entry</h3></a>
                                 <%}%>
-                                <% if(bhotm[i].entries[j].entryDescription){%>
-                                    <p class=""><%=bhotm[i].entries[j].entryDescription%></p>
+                                <% if(bhotm[i].submissions[j].entryDescription){%>
+                                    <p class=""><%=bhotm[i].submissions[j].entryDescription%></p>
                                 <%}%>
                             </div>
                         </div>
