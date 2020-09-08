@@ -3,3 +3,4 @@ migration/
 .env
 broumvirate-com.code-workspace
 .vscode/
+public/dist/
