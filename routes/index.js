@@ -20,11 +20,6 @@ router.get("/music", function (req, res) {
     res.render("music", { pageName: "Music" });
 });
 
-// Fuck me in the house page
-router.get("/fuckmeinthehouse", function (req, res) {
-    res.render("fuckmeinthehouse", { pageName: "Fuck Me In The House" });
-});
-
 // Nickname page
 router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res) {
     Nick.find()
