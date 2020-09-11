@@ -11,9 +11,7 @@ const express = require("express"),
     methodOverride = require("method-override"),
     dotEnv = require("dotenv");
 
-if (process.env.NODE_ENV !== "production") {
-    dotEnv.config();
-}
+dotEnv.config();
 
 /////////////////
 // ROUTES SETUP
@@ -113,12 +111,6 @@ app.use(gameRouter);
 // INIT
 ////////////////
 
-if (process.env.NODE_ENV !== "production") {
-    app.listen(3000, function () {
-        console.log("Broumvirate testing server running on port 3000!");
-    });
-} else {
-    app.listen(process.env.PORT || 5000, process.env.IP, function () {
-        console.log("Broumvirate production server running on port 3000!");
-    });
-}
+app.listen(3000, function () {
+    console.log("Broumvirate server running on port 3000!");
+});
