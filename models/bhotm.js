@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const moment = require("moment");
+const dayjs = require("dayjs");
 
 let bhotmSchema = new mongoose.Schema({
     month: String,
