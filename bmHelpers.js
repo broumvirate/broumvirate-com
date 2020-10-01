@@ -1,5 +1,5 @@
 var express = require("express");
-var moment = require("moment");
+var dayjs = require("dayjs");
 
 module.exports = {
     discordTags: {
@@ -100,17 +100,17 @@ module.exports = {
             //Returns next due date moment
             //Params: incJ:boolean. include judging period. If true, due date doesn't roll over until the 8th. if false or empty, rolls over on 5th.
             let day = 4;
-            dueDate = moment();
+            dueDate = dayjs();
 
             if (incJ) {
                 day = 7;
             }
-            if (moment().get("date") > day) {
+            if (dayjs().date() > day) {
                 //if it's after the 4th, add a month and set submission time
-                dueDate.add(1, "M").date(5).startOf("day");
+                dueDate = dueDate.add(1, "M").date(5).startOf("day");
             } else {
                 //if it's before the 4th, its this month
-                dueDate.date(5).startOf("day");
+                dueDate = dueDate.date(5).startOf("day");
             }
             return dueDate;
         },
@@ -127,7 +127,7 @@ module.exports = {
 
         canSubmit: function () {
             //Returns true if we are not in the judging period
-            return !moment().isAfter(this.dueMoment(true));
+            return !dayjs().isAfter(this.dueMoment(true));
         },
     },
 };
