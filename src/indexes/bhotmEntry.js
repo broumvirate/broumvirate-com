@@ -25,6 +25,7 @@ class EntryContainer extends React.Component {
                 });
             });
     }
+
     render() {
         if (this.state.entryLoaded) {
             return (

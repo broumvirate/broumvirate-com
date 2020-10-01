@@ -132,7 +132,7 @@ router.delete("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
 });
 
 router.get("/bhotm/entry/:id", function (req, res) {
-    res.render("partials/react", {
+    res.render("react", {
         pageName: "BHotM Entry",
         reactScript: "bhotmEntry",
     });
