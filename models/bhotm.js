@@ -24,6 +24,7 @@ let bhotmSchema = new mongoose.Schema({
     winner: String,
     winnerRef: { type: mongoose.Schema.Types.ObjectId, ref: "bhotmEntry" },
     judge: String,
+    hasBeenJudged: { type: Boolean, default: false },
 });
 
 const bhotm = mongoose.model("bhotm", bhotmSchema, "bhotms");

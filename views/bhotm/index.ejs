@@ -16,7 +16,7 @@
                     <% for(j=0;j<bhotm[i].submissions.length;j++){%>
                         <div class="card <% if (bhotm[i].submissions[j].isWinner){%>text-white bg-success<%}%> p-0">
                             <div class="card-header">
-                                <h5 class="card-title"><%=bhotm[i].submissions[j].place%>. <%=bhotm[i].submissions[j].name%></h5>
+                                <a href="/bhotm/entry/<%=bhotm[i].submissions[j].id%>"><h5 class="card-title"><%=bhotm[i].submissions[j].place%>. <%=bhotm[i].submissions[j].name%></h5></a>
                                 <% if(bhotm[i].submissions[j].entryName){%>
                                     <h6 class=""><%=bhotm[i].submissions[j].entryName%></h6>
                                 <%}%>

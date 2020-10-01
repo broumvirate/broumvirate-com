@@ -28,6 +28,7 @@ class EntryContainer extends React.Component {
 
     render() {
         if (this.state.entryLoaded) {
+            document.title = `${this.state.entry.name}'s ${this.state.entry.month.month} BHotM Submission - The Broumvirate`;
             return (
                 <div className="container mt-4">
                     <BhotmEntry entry={this.state.entry} />

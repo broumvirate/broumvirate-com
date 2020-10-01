@@ -56,7 +56,7 @@ router.delete("/month/:id", function (req, res) {
 router.get("/entry/:id", function (req, res) {
     bhotmEntry
         .findById(req.params.id)
-        .populate("boy")
+        .populate("month")
         .exec(function (err, entr) {
             if (err) {
                 console.log(err);
