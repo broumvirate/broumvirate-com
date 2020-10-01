@@ -131,4 +131,10 @@ router.delete("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
     });
 });
 
+router.get("/bhotm/entry/:id", function (req, res) {
+    res.render("partials/react", {
+        pageName: "BHotM Entry",
+        reactScript: "bhotmEntry",
+    });
+});
 module.exports = router;
