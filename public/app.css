@@ -95,7 +95,7 @@ body {
     height: 100%;
 }
 
-.bhotmHeader {
+.bhotm-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -105,13 +105,17 @@ body {
     padding: 0px 13px;
 }
 
-.bhotmHeaderGrad {
+.bhotm-image {
+    margin: 0 auto;
+}
+
+.bhotm-header-gradient {
     height: 15px;
     background-image: linear-gradient(#f3f3f3, rgba(255, 0, 0, 0));
     margin-bottom: 5px;
 }
 
-.bhotmHeaderTitle h1,
-.bhotmHeaderTitle h3 {
+.bhotm-header-title h1,
+.bhotm-header-title h3 {
     display: inline-block;
 }
