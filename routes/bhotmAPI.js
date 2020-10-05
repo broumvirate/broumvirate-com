@@ -12,6 +12,7 @@ router.get("/", function (req, res) {
     bhotm
         .find()
         .populate("submissions")
+        .sort({ date: -1, "submissions.place": 1 })
         .exec(function (err, month) {
             if (err) {
                 console.log(err);
@@ -26,6 +27,8 @@ router.get("/month/:id", function (req, res) {
     bhotm
         .findById(req.params.id)
         .populate("submissions")
+        .sort({ "submissions.place": 1 })
+        //.populate({ path: "month", select: "submissions" })
         .exec(function (err, month) {
             if (err) {
                 console.log(err);
@@ -50,6 +53,34 @@ router.delete("/month/:id", function (req, res) {
             res.json({ message: "month deleted" });
         }
     });
+});
+
+// Entry list
+router.get("/entry", function (req, res) {
+    bhotmEntry
+        .find()
+        .populate("month")
+        .exec(function (err, entr) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(entr);
+            }
+        });
+});
+
+// Entry unjudged
+router.get("/entry/unjudged", function (req, res) {
+    bhotmEntry
+        .find({ hasBeenJudged: false })
+        .populate("month")
+        .exec(function (err, entr) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json(entr);
+            }
+        });
 });
 
 // Entry get

@@ -50,10 +50,9 @@ function BhotmEntryContent(props) {
     }
 
     return (
-        <div>
+        <div className="bhotm-entry-content">
             {content}
             {fullLink}
-            <h4 className="text-muted mt-2">{description}</h4>
         </div>
     );
 }

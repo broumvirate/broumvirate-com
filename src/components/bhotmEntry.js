@@ -20,12 +20,7 @@ function BhotmHeader(props) {
     }
 
     if (props.entry.hasBeenJudged) {
-        place = (
-            <BhotmPlace
-                place={props.entry.place}
-                total={props.entry.month.submissions.length}
-            />
-        );
+        place = <BhotmPlace place={props.entry.place} total={props.total} />;
     }
 
     return (
@@ -33,6 +28,9 @@ function BhotmHeader(props) {
             <div className="bhotm-header">
                 <div className="bhotm-header-text">
                     {heading}
+                    <h6 className="text-muted mt-0">
+                        {props.entry.entryDescription}
+                    </h6>
                     <h5>{props.entry.month.month}</h5>
                 </div>
                 {place}
@@ -44,21 +42,52 @@ function BhotmHeader(props) {
 
 // Place widget thingo
 function BhotmPlace(props) {
+    let classN = "text-muted";
+    if (props.place === 1) {
+        classN = "text-success";
+    }
     return (
         <div className="bhotm-header-place">
-            <p>
-                {props.place} / {props.total}
-            </p>
+            <h3 className={classN}>{ordinalSuffix(props.place)}</h3>
         </div>
     );
 }
 
+function ordinalSuffix(i) {
+    const j = i % 10,
+        k = i % 100;
+
+    if (j === 1 && k != 11) {
+        return i + "st";
+    }
+    if (j === 2 && k != 12) {
+        return i + "nd";
+    }
+    if (j === 3 && k != 13) {
+        return i + "rd";
+    }
+    return i + "th";
+}
+
 // Full entry, including header and content. Single page entry info
 class BhotmEntry extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            total: props.total,
+        };
+
+        if (!props.total) {
+            this.state = { total: this.props.entry.month.submissions.length };
+        }
+    }
     render() {
         return (
             <div className="bhotm-entry">
-                <BhotmHeader entry={this.props.entry} />
+                <BhotmHeader
+                    entry={this.props.entry}
+                    total={this.state.total}
+                />
                 <BhotmEntryContent entry={this.props.entry} />
             </div>
         );

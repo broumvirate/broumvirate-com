@@ -137,4 +137,12 @@ router.get("/bhotm/entry/:id", function (req, res) {
         reactScript: "bhotmEntry",
     });
 });
+
+router.get("/bhotm/month/:id", function (req, res) {
+    res.render("react", {
+        pageName: "BHotM Month",
+        reactScript: "bhotmMonth",
+    });
+});
+
 module.exports = router;
