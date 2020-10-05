@@ -6,7 +6,7 @@
     "scripts": {
         "start": "node app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "npx babel src --out-dir public/dist"
+        "build": "npx babel src --out-dir public/dist & sass src/stylesheets:public/dist/stylesheets"
     },
     "author": "Ben Hagle",
     "license": "ISC",
@@ -24,7 +24,8 @@
         "mongoose": "^5.8.1",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
-        "passport-local-mongoose": "^5.0.1"
+        "passport-local-mongoose": "^5.0.1",
+        "sass": "^1.26.11"
     },
     "devDependencies": {
         "jest": "^26.4.2"
