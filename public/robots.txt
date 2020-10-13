@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /bhotm/
+Disallow: /img/
