@@ -1,4 +1,4 @@
-import { BhotmEntryContent } from "./bhotmEntryContent.js";
+import BhotmEntryContent from "./bhotmEntryContent.js";
 
 // Full header for BHotM single entry view
 function BhotmHeader(props) {
@@ -80,10 +80,16 @@ class BhotmEntry extends React.Component {
         if (!props.total) {
             this.state = { total: this.props.entry.month.submissions.length };
         }
+
+        if (this.props.entry.place === 1) {
+            this.state.class = "bhotm-entry bhotm-winner";
+        } else {
+            this.state.class = "bhotm-entry";
+        }
     }
     render() {
         return (
-            <div className="bhotm-entry">
+            <div className={this.state.class}>
                 <BhotmHeader
                     entry={this.props.entry}
                     total={this.state.total}
@@ -94,5 +100,4 @@ class BhotmEntry extends React.Component {
     }
 }
 
-const _BhotmEntry = BhotmEntry;
-export { _BhotmEntry as BhotmEntry };
+export default BhotmEntry;

@@ -15,7 +15,7 @@ function BhotmEntryContent(props) {
             content = <BhotmEntryYoutube link={props.entry.link} />;
             break;
         case "phrase":
-            content = <p className="lead">{props.entry.link}</p>;
+            content = <h2 className="text-center">{props.entry.link}</h2>;
             break;
         case "link":
             content = (
@@ -84,4 +84,4 @@ function BhotmEntryYoutube(props) {
         </div>
     );
 }
-export { BhotmEntryContent };
+export default BhotmEntryContent;

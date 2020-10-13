@@ -1,4 +1,5 @@
-import { BhotmEntry } from "../components/bhotmEntry.js";
+import BhotmEntry from "../components/bhotmEntry.js";
+import EditDeleteButtons from "../components/editDelete.js";
 
 class MonthContainer extends React.Component {
     constructor(props) {
@@ -37,7 +38,12 @@ class MonthContainer extends React.Component {
                     </div>
                 );
             });
-            return <div className="container mt-4">{entries}</div>;
+            return (
+                <div className="container mt-4">
+                    {entries}
+                    <EditDeleteButtons context="Month" />
+                </div>
+            );
         } else {
             return (
                 <div className="container mt-4">

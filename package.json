@@ -6,7 +6,8 @@
     "scripts": {
         "start": "node app.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "npx babel src --out-dir public/dist & sass src/stylesheets:public/dist/stylesheets"
+        "build": "npx babel src --out-dir public/dist & sass src/stylesheets:public/dist/stylesheets",
+        "sass": "sass src/stylesheets:public/dist/stylesheets"
     },
     "author": "Ben Hagle",
     "license": "ISC",
