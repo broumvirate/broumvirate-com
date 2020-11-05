@@ -4,3 +4,4 @@ migration/
 broumvirate-com.code-workspace
 .vscode/
 public/dist/
+.parcel-cache/
