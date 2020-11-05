@@ -39,20 +39,21 @@ router.get("/month/:id", function (req, res) {
 });
 
 // Month create
-router.post("/month", function (req, res) {});
+router.post("/month", bmHelpers.isAdmin, function (req, res) {});
 
 // Month update
-router.put("/month/:id", function (req, res) {});
+router.put("/month/:id", bmHelpers.isAdmin, function (req, res) {});
 
 // Month delete
-router.delete("/month/:id", function (req, res) {
-    bhotm.deleteOne({ _id: req.params.id }, function (err) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json({ message: "month deleted" });
-        }
-    });
+router.delete("/month/:id", bmHelpers.isAdmin, function (req, res) {
+    console.log("delete month", req.params.id);
+    // bhotm.deleteOne({ _id: req.params.id }, function (err) {
+    //     if (err) {
+    //         res.send(err);
+    //     } else {
+    //         res.json({ message: "month deleted" });
+    //     }
+    // });
 });
 
 // Entry list
@@ -110,7 +111,7 @@ router.post("/entry", function (req, res) {
 });
 
 // Entry update
-router.put("/entry/:id", function (req, res) {
+router.put("/entry/:id", bmHelpers.isAdmin, function (req, res) {
     // Process entry
     bhotmEntry.findByIdAndUpdate(
         req.params.id,
@@ -127,14 +128,16 @@ router.put("/entry/:id", function (req, res) {
 });
 
 // Entry delete
-router.delete("/entry/:id", function (req, res) {
-    bhotmEntry.deleteOne({ _id: req.params.id }, function (err) {
-        if (err) {
-            res.send(err);
-        } else {
-            res.json({ message: "entry deleted" });
-        }
-    });
+router.delete("/entry/:id", bmHelpers.isAdmin, function (req, res) {
+    console.log("delete entry", req.params.id);
+    // bhotmEntry.deleteOne({ _id: req.params.id }, function (err) {
+    //     if (err) {
+    //         res.send(err);
+    //     } else {
+    //         res.redirect("/");
+    //         //res.json({ message: "entry deleted" });
+    //     }
+    // });
 });
 
 module.exports = router;

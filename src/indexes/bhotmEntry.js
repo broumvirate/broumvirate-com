@@ -4,14 +4,15 @@ import EditDeleteButtons from "../components/editDelete.js";
 class EntryContainer extends React.Component {
     constructor(props) {
         super(props);
+        const href = window.location.pathname.split("/");
         this.state = {
+            id: href[href.length - 1],
             entryLoaded: false,
             entry: null,
         };
     }
     componentDidMount() {
-        const href = window.location.pathname.split("/");
-        fetch("/api/bhotm/entry/" + href[href.length - 1])
+        fetch("/api/bhotm/entry/" + this.state.id)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({
@@ -33,7 +34,13 @@ class EntryContainer extends React.Component {
             return (
                 <div className="container mt-4">
                     <BhotmEntry entry={this.state.entry} />
-                    <EditDeleteButtons context="Entry" />
+                    <EditDeleteButtons
+                        context="Entry"
+                        editEndpoint={
+                            "/api/bhotm/entry/" + this.state.id + "/edit"
+                        }
+                        deleteEndpoint={"/api/bhotm/entry/" + this.state.id}
+                    />
                 </div>
             );
         } else {

@@ -4,14 +4,15 @@ import EditDeleteButtons from "../components/editDelete.js";
 class MonthContainer extends React.Component {
     constructor(props) {
         super(props);
+        const href = window.location.pathname.split("/");
         this.state = {
+            id: href[href.length - 1],
             monthLoaded: false,
             month: null,
         };
     }
     componentDidMount() {
-        const href = window.location.pathname.split("/");
-        fetch("/api/bhotm/month/" + href[href.length - 1])
+        fetch("/api/bhotm/month/" + this.state.id)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({
@@ -28,20 +29,31 @@ class MonthContainer extends React.Component {
     }
 
     render() {
+        const href = window.location.pathname.split("/");
         if (this.state.monthLoaded) {
             document.title = `${this.state.month.month} BHotM - The Broumvirate`;
             const total = this.state.month.submissions.length;
-            const entries = this.state.month.submissions.map((el) => {
+
+            const entries = this.state.month.submissions.map((el, i) => {
+                let classNames = "mt-5";
+                if (i == 0) classNames = "";
                 return (
-                    <div className="mb-5" key={el._id}>
+                    <div className={classNames} key={el._id}>
                         <BhotmEntry entry={el} total={total} />
                     </div>
                 );
             });
+
             return (
                 <div className="container mt-4">
                     {entries}
-                    <EditDeleteButtons context="Month" />
+                    <EditDeleteButtons
+                        context="Month"
+                        editEndpoint={
+                            "/api/bhotm/month/" + this.state.id + "/edit"
+                        }
+                        deleteEndpoint={"/api/bhotm/month/" + this.state.id}
+                    />
                 </div>
             );
         } else {

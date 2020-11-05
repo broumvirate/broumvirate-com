@@ -69,4 +69,23 @@ router.get("/logout", function (req, res) {
     res.redirect("/");
 });
 
+// API AUTH
+router.get("/api/user/authenticated", function (req, res) {
+    let result = {
+        isLoggedIn: false,
+        isAdmin: false,
+    };
+
+    console.log(req.user);
+
+    if (req.isAuthenticated()) {
+        result.isLoggedIn = true;
+        result.boy = req.user.boy;
+        if (req.user.isAdmin) {
+            result.isAdmin = true;
+        }
+    }
+    res.json(result);
+});
+
 module.exports = router;

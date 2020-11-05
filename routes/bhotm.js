@@ -145,4 +145,12 @@ router.get("/bhotm/month/:id", function (req, res) {
     });
 });
 
+router.get("/bhotm/entry/:id/edit", function (req, res) {
+    console.log("edit entry");
+});
+
+router.get("/bhotm/month/:id/edit", function (req, res) {
+    console.log("edit month");
+});
+
 module.exports = router;
