@@ -80,8 +80,8 @@ body {
     border-left: 1px black;
 }
 
-$bhotm-entry-title: #f3f3f3;
-$bhotm-entry-border: lightgrey;
+$bhotm-entry-title: #f3f3f3e0;
+$bhotm-entry-border: rgba(211, 211, 211, 0.774);
 
 .bhotm-header {
     display: flex;
@@ -90,7 +90,8 @@ $bhotm-entry-border: lightgrey;
     align-items: center;
     background-color: $bhotm-entry-title;
     padding: 0px 13px;
-    border-radius: 6px 6px 0 0;
+    border-bottom: 1px solid $bhotm-entry-border;
+    // border-radius: 3px 6px 0 0;
 
     .bhotm-header-title {
         h1,
@@ -106,8 +107,8 @@ $bhotm-entry-border: lightgrey;
 }
 
 .bhotm-entry {
-    border: 3px solid $bhotm-entry-border;
-    border-radius: 10px;
+    border: 1px solid $bhotm-entry-border;
+    //border-radius: 10px;
     .bhotm-entry-content {
         margin: 8px;
     }
