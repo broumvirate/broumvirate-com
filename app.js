@@ -11,9 +11,9 @@ const express = require("express"),
     methodOverride = require("method-override"),
     dotEnv = require("dotenv");
 
-if (process.env.NODE_ENV !== "production") {
-    dotEnv.config();
-}
+//if (process.env.NODE_ENV !== "production") {
+dotEnv.config();
+//}
 
 /////////////////
 // ROUTES SETUP
@@ -48,7 +48,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
-mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect(process.env.DATABASEPRODURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
