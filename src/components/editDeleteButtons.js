@@ -1,4 +1,6 @@
-import { checkAuth } from "../helpers.js";
+import { checkAuth } from "../helpers/helpers.js";
+import React from "react";
+import { Link, Redirect } from "react-router-dom";
 
 class EditDeleteButtons extends React.Component {
     constructor(props) {
@@ -6,6 +8,7 @@ class EditDeleteButtons extends React.Component {
         this.state = {
             userLoaded: false,
             user: null,
+            hasDeleted: false,
         };
     }
     componentDidMount() {
@@ -18,19 +21,24 @@ class EditDeleteButtons extends React.Component {
             })
             .catch();
     }
-    editClick() {
-        console.log("Clicked edit!");
+    onDelete() {
+        console.log("Clicked delete, send ajax to ", this.props.deleteEndpoint);
+        this.setState({ hasDeleted: true });
     }
     render() {
         if (this.state.userLoaded && this.state.user.isAdmin) {
+            if (this.state.hasDeleted) {
+                return <Redirect to={this.props.redirect} />;
+            }
+
             return (
                 <div className="m-2">
-                    <a
+                    <Link
                         className="btn btn-secondary text-white"
-                        href={this.props.editEndpoint}
+                        to={this.props.editEndpoint}
                     >
                         Edit {this.props.context}
-                    </a>
+                    </Link>
                     <a
                         className="btn btn-danger mx-2 text-white"
                         data-toggle="modal"
@@ -40,7 +48,7 @@ class EditDeleteButtons extends React.Component {
                     </a>
                     <DeleteModal
                         context={this.props.context}
-                        deleteEndpoint={this.props.deleteEndpoint}
+                        onDelete={this.onDelete.bind(this)}
                     />
                 </div>
             );
@@ -75,12 +83,13 @@ function DeleteModal(props) {
                         </button>
                     </div>
                     <div className="modal-footer">
-                        <form
-                            action={props.deleteEndpoint + "?_method=DELETE"}
-                            method="POST"
+                        <button
+                            onClick={props.onDelete}
+                            className="btn btn-danger"
+                            data-dismiss="modal"
                         >
-                            <button className="btn btn-danger">Yes</button>
-                        </form>
+                            Yes
+                        </button>
                         <button
                             type="button"
                             className="btn btn-secondary"

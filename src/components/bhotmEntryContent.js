@@ -1,3 +1,5 @@
+import React from "react";
+
 // Just the content of a BHotM entry, without title/entrant/place info. Scales.
 function BhotmEntryContent(props) {
     let content, fullLink;
@@ -38,7 +40,12 @@ function BhotmEntryContent(props) {
             );
             break;
         default:
-            content = <p>{props.entry.format}</p>;
+            content = (
+                <p>
+                    Ben didn't code the {props.entry.format} format because he
+                    sucks
+                </p>
+            );
     }
 
     if (props.entry.clickLink) {
@@ -84,4 +91,5 @@ function BhotmEntryYoutube(props) {
         </div>
     );
 }
+
 export default BhotmEntryContent;

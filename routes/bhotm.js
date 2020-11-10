@@ -131,26 +131,11 @@ router.delete("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
     });
 });
 
-router.get("/bhotm/entry/:id", function (req, res) {
+router.get("/bhotm2*", function (req, res) {
     res.render("react", {
-        pageName: "BHotM Entry",
-        reactScript: "bhotmEntry",
+        pageName: "Ben Haqle of the Month",
+        reactScript: "bhotm",
     });
-});
-
-router.get("/bhotm/month/:id", function (req, res) {
-    res.render("react", {
-        pageName: "BHotM Month",
-        reactScript: "bhotmMonth",
-    });
-});
-
-router.get("/bhotm/entry/:id/edit", function (req, res) {
-    console.log("edit entry");
-});
-
-router.get("/bhotm/month/:id/edit", function (req, res) {
-    console.log("edit month");
 });
 
 module.exports = router;

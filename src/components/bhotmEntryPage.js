@@ -1,18 +1,17 @@
-import BhotmEntry from "../components/bhotmEntry.js";
-import EditDeleteButtons from "../components/editDelete.js";
+import BhotmEntry from "./bhotmEntry.js";
+import EditDeleteButtons from "./editDeleteButtons.js";
+import React from "react";
 
-class EntryContainer extends React.Component {
+class EntryPage extends React.Component {
     constructor(props) {
         super(props);
-        const href = window.location.pathname.split("/");
         this.state = {
-            id: href[href.length - 1],
             entryLoaded: false,
             entry: null,
         };
     }
     componentDidMount() {
-        fetch("/api/bhotm/entry/" + this.state.id)
+        fetch("/api/bhotm/entry/" + this.props.match.params.entryId)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({
@@ -33,13 +32,16 @@ class EntryContainer extends React.Component {
             document.title = `${this.state.entry.name}'s ${this.state.entry.month.month} BHotM Submission - The Broumvirate`;
             return (
                 <div className="container mt-4">
-                    <BhotmEntry entry={this.state.entry} />
+                    <BhotmEntry entry={this.state.entry} mode="single" />
                     <EditDeleteButtons
                         context="Entry"
                         editEndpoint={
-                            "/api/bhotm/entry/" + this.state.id + "/edit"
+                            "/api/bhotm/entry/" + this.state.entry._id + "/edit"
                         }
-                        deleteEndpoint={"/api/bhotm/entry/" + this.state.id}
+                        deleteEndpoint={
+                            "/api/bhotm/entry/" + this.state.entry._id
+                        }
+                        redirect="/bhotm2"
                     />
                 </div>
             );
@@ -53,4 +55,4 @@ class EntryContainer extends React.Component {
     }
 }
 
-ReactDOM.render(<EntryContainer />, document.getElementById("app"));
+export default EntryPage;

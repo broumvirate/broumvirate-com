@@ -1,37 +1,62 @@
 import BhotmEntryContent from "./bhotmEntryContent.js";
+import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
 // Full header for BHotM single entry view
 function BhotmHeader(props) {
-    let place = <div></div>;
-    let heading;
-    if (props.entry.entryName) {
+    // Define header elements, with ternary switches based on certain flags
+
+    // Use either the submission title, or the submittee's name as the title
+    let heading = props.entry.entryName ? (
+        <span className="bhotm-header-title">
+            <h1 className="mr-2">{props.entry.entryName}</h1>
+            <h3 className="text-muted"> by {props.entry.name}</h3>
+        </span>
+    ) : (
+        <span className="bhotm-header-title">
+            <h1 className="mr-2">{props.entry.name}</h1>
+        </span>
+    );
+
+    // If this is a judged submission, display the place
+    let place = props.entry.hasBeenJudged ? (
+        <BhotmPlace
+            place={props.entry.place}
+            total={props.total}
+            id={props.entry._id}
+        />
+    ) : (
+        <div></div>
+    );
+
+    // Define month and description
+    let month = <h5>{props.entry.month.month}</h5>;
+
+    let description = (
+        <h6 className="text-muted mt-0">{props.entry.entryDescription}</h6>
+    );
+
+    // Assign title and month to links to single/month entry, if needed
+    if (props.mode === "month") {
         heading = (
-            <span className="bhotm-header-title">
-                <h1 className="mr-2">{props.entry.entryName}</h1>
-                <h3 className="text-muted"> by {props.entry.name}</h3>
-            </span>
-        );
-    } else {
-        heading = (
-            <span className="bhotm-header-title">
-                <h1 className="mr-2">{props.entry.name}</h1>
-            </span>
+            <Link
+                className="bhotm-header-clickable"
+                to={`/bhotm2/entry/${props.entry._id}`}
+            >
+                {heading}
+            </Link>
         );
     }
 
-    if (props.entry.hasBeenJudged) {
-        place = <BhotmPlace place={props.entry.place} total={props.total} />;
-    }
+    month = <Link to={`/bhotm2/month/${props.entry.month._id}`}>{month}</Link>;
 
     return (
         <div>
             <div className="bhotm-header">
                 <div className="bhotm-header-text">
                     {heading}
-                    <h6 className="text-muted mt-0">
-                        {props.entry.entryDescription}
-                    </h6>
-                    <h5>{props.entry.month.month}</h5>
+                    {description}
+                    {month}
                 </div>
                 {place}
             </div>
@@ -93,6 +118,7 @@ class BhotmEntry extends React.Component {
                 <BhotmHeader
                     entry={this.props.entry}
                     total={this.state.total}
+                    mode={this.props.mode}
                 />
                 <BhotmEntryContent entry={this.props.entry} />
             </div>

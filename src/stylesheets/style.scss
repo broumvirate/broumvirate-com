@@ -94,10 +94,19 @@ $bhotm-entry-border: rgba(211, 211, 211, 0.774);
     // border-radius: 3px 6px 0 0;
 
     .bhotm-header-title {
+        h1 {
+            color: black;
+        }
+
         h1,
         h3 {
+            text-decoration: none;
             display: inline-block;
         }
+    }
+
+    .bhotm-header-clickable h1:hover {
+        color: #494949c7;
     }
 }
 

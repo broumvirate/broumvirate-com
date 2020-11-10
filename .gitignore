@@ -5,3 +5,4 @@ broumvirate-com.code-workspace
 .vscode/
 public/dist/
 .parcel-cache/
+yarn-error.log

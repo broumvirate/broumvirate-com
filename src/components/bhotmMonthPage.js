@@ -1,18 +1,17 @@
-import BhotmEntry from "../components/bhotmEntry.js";
-import EditDeleteButtons from "../components/editDelete.js";
+import BhotmEntry from "./bhotmEntry.js";
+import EditDeleteButtons from "./editDeleteButtons.js";
+import React from "react";
 
-class MonthContainer extends React.Component {
+class MonthPage extends React.Component {
     constructor(props) {
         super(props);
-        const href = window.location.pathname.split("/");
         this.state = {
-            id: href[href.length - 1],
             monthLoaded: false,
             month: null,
         };
     }
     componentDidMount() {
-        fetch("/api/bhotm/month/" + this.state.id)
+        fetch("/api/bhotm/month/" + this.props.match.params.monthId)
             .then((res) => res.json())
             .then((res) => {
                 this.setState({
@@ -39,7 +38,7 @@ class MonthContainer extends React.Component {
                 if (i == 0) classNames = "";
                 return (
                     <div className={classNames} key={el._id}>
-                        <BhotmEntry entry={el} total={total} />
+                        <BhotmEntry entry={el} total={total} mode="month" />
                     </div>
                 );
             });
@@ -50,9 +49,12 @@ class MonthContainer extends React.Component {
                     <EditDeleteButtons
                         context="Month"
                         editEndpoint={
-                            "/api/bhotm/month/" + this.state.id + "/edit"
+                            "/api/bhotm/month/" + this.state.month._id + "/edit"
                         }
-                        deleteEndpoint={"/api/bhotm/month/" + this.state.id}
+                        deleteEndpoint={
+                            "/api/bhotm/month/" + this.state.month._id
+                        }
+                        redirect="/bhotm2"
                     />
                 </div>
             );
@@ -66,4 +68,4 @@ class MonthContainer extends React.Component {
     }
 }
 
-ReactDOM.render(<MonthContainer />, document.getElementById("app"));
+export default MonthPage;
