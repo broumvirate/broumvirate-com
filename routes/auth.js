@@ -76,8 +76,6 @@ router.get("/api/user/authenticated", function (req, res) {
         isAdmin: false,
     };
 
-    console.log(req.user);
-
     if (req.isAuthenticated()) {
         result.isLoggedIn = true;
         result.boy = req.user.boy;

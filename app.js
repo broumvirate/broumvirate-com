@@ -21,7 +21,8 @@ const indexRouter = require("./routes/index"),
     authRouter = require("./routes/auth"),
     rateRouter = require("./routes/rate"),
     bhotmRouter = require("./routes/bhotm"),
-    bhotmAPIRouter = require("./routes/bhotmAPI"),
+    bhotmMonthsRouter = require("./routes/bhotmMonths"),
+    bhotmEntriesRouter = require("./routes/bhotmmEntries"),
     adminRouter = require("./routes/admin"),
     gameRouter = require("./routes/games");
 
@@ -103,7 +104,8 @@ passport.deserializeUser(User.deserializeUser());
 app.use(indexRouter);
 app.use(rateRouter);
 app.use(bhotmRouter);
-app.use("/api/bhotm", bhotmAPIRouter);
+app.use("/api/bhotm/months", bhotmMonthsRouter);
+app.use("/api/bhotm/entries", bhotmEntriesRouter);
 app.use(authRouter);
 app.use(adminRouter);
 app.use(gameRouter);

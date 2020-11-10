@@ -36,7 +36,7 @@ class EntryPage extends React.Component {
                     <EditDeleteButtons
                         context="Entry"
                         editEndpoint={
-                            "/api/bhotm/entry/" + this.state.entry._id + "/edit"
+                            "/bhotm/entry/" + this.state.entry._id + "/edit"
                         }
                         deleteEndpoint={
                             "/api/bhotm/entry/" + this.state.entry._id

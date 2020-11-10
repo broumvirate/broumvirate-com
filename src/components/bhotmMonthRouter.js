@@ -6,6 +6,10 @@ export default function BhotmEntryRouter() {
     let { path } = useRouteMatch();
     return (
         <Switch>
+            <Route path={`${path}/new`}>New month</Route>
+            <Route path={`${path}/:monthId/edit`} component={MonthPage}>
+                Edit month formgo
+            </Route>
             <Route path={`${path}/:monthId`} component={MonthPage}></Route>
         </Switch>
     );

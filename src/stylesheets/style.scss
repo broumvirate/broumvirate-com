@@ -123,28 +123,28 @@ $bhotm-entry-border: rgba(211, 211, 211, 0.774);
     }
     .bhotm-image {
         margin: 0 auto;
-        max-height: 90vh;
+        max-height: 80vh;
         padding: 3px;
         display: block;
     }
+}
 
-    .bhotm-entry-content h2 {
-        padding: 10px 0;
-    }
+.bhotm-entry-content h2 {
+    padding: 10px 0;
+}
 
-    .bhotm-video-container {
-        position: relative;
-        padding-bottom: 56.25%;
-        padding-top: 30px;
-        height: 0;
-        overflow: hidden;
+.bhotm-video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: hidden;
 
-        iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
     }
 }

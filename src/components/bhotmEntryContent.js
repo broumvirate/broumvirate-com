@@ -3,7 +3,6 @@ import React from "react";
 // Just the content of a BHotM entry, without title/entrant/place info. Scales.
 function BhotmEntryContent(props) {
     let content, fullLink;
-    let description = props.entry.entryDescription;
     switch (props.entry.format) {
         case "image":
             content = (
@@ -28,7 +27,6 @@ function BhotmEntryContent(props) {
             break;
 
         case "mason":
-            description = "Did not submit, is Mason.";
             content = (
                 <div>
                     <img
@@ -43,7 +41,7 @@ function BhotmEntryContent(props) {
             content = (
                 <p>
                     Ben didn't code the {props.entry.format} format because he
-                    sucks
+                    sucks. Eat him.
                 </p>
             );
     }

@@ -3,14 +3,15 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import BhotmEntryRouter from "./components/bhotmEntryRouter";
 import BhotmMonthRouter from "./components/bhotmMonthRouter";
+import BhotmIndexTemp from "./components/bhotmIndexTemp";
 
-const PREFIX = "/bhotm2/";
+const PREFIX = "/bhotm/";
 
 const BHotM = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path={PREFIX}>
-                <div>BHotM Index</div>
+                <BhotmIndexTemp />
             </Route>
             <Route path={PREFIX + "entry"}>
                 <BhotmEntryRouter />
