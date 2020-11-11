@@ -34,12 +34,12 @@ const EntryValidator = object({
 });
 
 const MonthValidator = object({
-    month: string(),
+    month: defaulted(string(), "Blank BHotM"),
     date: defaulted(date(), () => {
         const d = new Date();
         return d;
     }),
-    submissions: array(),
+    submissions: defaulted(array(), []),
     notes: optional(string()),
     winner: optional(string()),
     winnerRef: optional(string()),

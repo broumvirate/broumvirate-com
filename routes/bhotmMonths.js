@@ -8,7 +8,7 @@ const Boy = require("../models/boy"),
     { bhotm } = require("../models/bhotm"),
     { bhotmEntry } = require("../models/bhotm");
 
-const { coerce, validate } = require("superstruct");
+const { coerce, is } = require("superstruct");
 const { MonthValidator } = require("../validators/bhotm.js");
 
 // GET /api/bhotm/month
@@ -34,37 +34,39 @@ router.get("/", function (req, res, next) {
 
 router.post("/", async function (req, res, next) {
     let newMonth;
-    let errors = [];
     try {
         if (req.body.month) {
-            newMonth = new bhotm(JSON.parse(req.body.month));
-            if (!newMonth.date) {
-                newMonth.date = dayjs().format();
-            }
+            // Try to process the pre-made month. Need to sanitize, probably/
+            newMonth = coerce(JSON.parse(req.body.month), MonthValidator);
         } else if (req.body.type) {
-            newMonth = await newBhotmMonthTypes(req.body);
+            // Alternatively, get a premade month from the generator
+            newMonth = await generateBhotmMonth(req.body.type);
         } else {
             throw "error";
         }
     } catch {
-        errors.push({
+        next({
             code: 400,
-            title: "Unable to parse month",
+            title: "Unable to parse input",
         });
     }
-    if (errors) {
-        next(errors);
-    } else {
-        newMonth.save().then((month, err) => {
+
+    // Validate the month, then add it to the database
+    if (is(newMonth, MonthValidator)) {
+        bhotm.create(newMonth).then((month, err) => {
             if (err) {
-                errors.push({
+                next({
                     code: 500,
                     title: "Unable to save month",
                     detail: err,
                 });
-                next(errors);
             }
             res.json(month);
+        });
+    } else {
+        next({
+            code: 400,
+            title: "Month invalid",
         });
     }
 });
@@ -98,38 +100,34 @@ router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
         );
 });
 
-async function newBhotmMonthTypes(params) {
+async function generateBhotmMonth(type) {
     let filter = {};
     let limit = 1000;
-    let month = new bhotm();
-    let now = dayjs();
-    let string = "";
+    let month = coerce({}, MonthValidator);
+    const now = dayjs();
 
-    switch (params.type) {
+    switch (type) {
         case "bhoty":
             filter = { place: 1 };
             limit = 13;
-            string = `BHotY ${now.format("YYYY")}`;
+            month.month = `BHotY ${now.format("YYYY")}`;
+            month.isBhoty = true;
             break;
         case "month":
             filter = { hasBeenJudged: false };
-            string = `${now.format("MMM. YYYY")}`;
+            month.month = `${now.format("MMM. YYYY")}`;
             break;
         case "blank":
-            month.date = now.format();
             month.month = `Blank Month, ${now.format("MMM. YYYY")}`;
             return month;
         default:
-            throw "error";
+            throw "Incorrect Type";
     }
     return bhotmEntry
         .find(filter)
         .sort({ date: -1 })
         .limit(limit)
         .then((results) => {
-            month.month = string;
-            month.date = now.format();
-            month.isBhoty = params.type === "bhoty";
             month.submissions = results;
             return month;
         })
