@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "description": "Broumvirate Website",
     "main": "app.js",
-    "targets":{
-        "main":false
+    "targets": {
+        "main": false
     },
     "scripts": {
         "start": "node app.js",
@@ -34,7 +34,8 @@
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-router-dom": "^5.2.0",
-        "sass": "^1.26.11"
+        "sass": "^1.26.11",
+        "superstruct": "^0.10.12"
     },
     "devDependencies": {
         "jest": "^26.4.2",

@@ -86,4 +86,13 @@ router.get("/api/user/authenticated", function (req, res) {
     res.json(result);
 });
 
+// API BOYS
+router.get("/api/boys", function (req, res) {
+    Boy.find()
+        .then((data) => res.json(data))
+        .catch((err) =>
+            next([{ code: 500, title: "Unable to get boys", details: err }])
+        );
+});
+
 module.exports = router;

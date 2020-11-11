@@ -8,9 +8,12 @@ const Boy = require("../models/boy"),
     { bhotm } = require("../models/bhotm"),
     { bhotmEntry } = require("../models/bhotm");
 
+const { coerce, validate } = require("superstruct");
+const { MonthValidator } = require("../validators/bhotm.js");
+
 // GET /api/bhotm/month
 // Every month without populated entries
-router.get("/", function (req, res) {
+router.get("/", function (req, res, next) {
     let find = {};
     if (req.query.filter === "unjudged") {
         find = { hasBeenJudged: false };
@@ -67,7 +70,7 @@ router.post("/", async function (req, res, next) {
 });
 
 // Month get
-router.get("/:id", function (req, res) {
+router.get("/:id", function (req, res, next) {
     bhotm
         .findById(req.params.id)
         .populate("submissions")
@@ -80,12 +83,12 @@ router.get("/:id", function (req, res) {
 });
 
 // Month update
-router.put("/:id", bmHelpers.isAdmin, function (req, res) {
+router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     // This is a mongo one
 });
 
 // Month delete
-router.delete("/:id", bmHelpers.isAdmin, function (req, res) {
+router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
     console.log("wanna delete it");
     bhotm
         .deleteOne({ _id: req.body.id })

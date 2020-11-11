@@ -21,6 +21,7 @@ module.exports = {
     isAdmin: function (req, res, next) {
         if (req.isAuthenticated()) {
             if (req.user.isAdmin) {
+                console.log(req.user);
                 return next();
             } else {
                 res.redirect("/bhotm");
@@ -64,10 +65,20 @@ module.exports = {
                 format = "phrase";
             }
 
-            return {
-                format: format,
-                link: returnLink,
-            };
+            return { format, link: returnLink };
+        },
+
+        sanitizeEntry: function (oEntry) {
+            let entry = Object.assign(JSON.parse(oEntry));
+            delete entry.entryMethod;
+            delete entry.hasBeenJudged;
+            delete entry.place;
+            delete entry.isWinner;
+            delete entry.bhotyPlace;
+            delete entry.edited;
+            delete entry.lastEditedDate;
+            delete entry.month;
+            return entry;
         },
 
         processMonth: function (month) {

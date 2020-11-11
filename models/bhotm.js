@@ -47,6 +47,8 @@ let entrySchema = new mongoose.Schema({
     isWinner: { type: Boolean, default: false },
     hasBeenJudged: { type: Boolean, default: false },
     entryMethod: String,
+    edited: { type: Boolean, default: false },
+    lastEditedDate: Date,
 });
 
 const bhotmEntry = mongoose.model("bhotmEntry", entrySchema, "bhotmentries");
