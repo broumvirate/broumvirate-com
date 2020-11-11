@@ -144,11 +144,13 @@ router.get("/api/bhotm/", function (req, res) {
         .find({ hasBeenJudged: true })
         .populate("submissions")
         .sort({ date: -1, "submissions.place": 1 })
-        .exec(function (err, month) {
+        .exec(function (err, months) {
             if (err) {
-                console.log(err);
+                next([
+                    { code: 500, title: "Unable to get BHotMs", details: err },
+                ]);
             } else {
-                res.json(month);
+                res.json(months);
             }
         });
 });

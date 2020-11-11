@@ -46,11 +46,7 @@ class EntryPage extends React.Component {
                 </div>
             );
         } else {
-            return (
-                <div className="container mt-4">
-                    <p>Loading Entry...</p>
-                </div>
-            );
+            return <div className="container mt-4"></div>;
         }
     }
 }

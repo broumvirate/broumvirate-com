@@ -5,7 +5,6 @@
 const express = require("express"),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
-    passportLocalMongoose = require("passport-local-mongoose"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
@@ -22,7 +21,7 @@ const indexRouter = require("./routes/index"),
     rateRouter = require("./routes/rate"),
     bhotmRouter = require("./routes/bhotm"),
     bhotmMonthsRouter = require("./routes/bhotmMonths"),
-    bhotmEntriesRouter = require("./routes/bhotmmEntries"),
+    bhotmEntriesRouter = require("./routes/bhotmEntries"),
     adminRouter = require("./routes/admin"),
     gameRouter = require("./routes/games");
 
@@ -104,11 +103,26 @@ passport.deserializeUser(User.deserializeUser());
 app.use(indexRouter);
 app.use(rateRouter);
 app.use(bhotmRouter);
-app.use("/api/bhotm/months", bhotmMonthsRouter);
-app.use("/api/bhotm/entries", bhotmEntriesRouter);
+app.use("/api/bhotm/month/", bhotmMonthsRouter);
+app.use("/api/bhotm/entry/", bhotmEntriesRouter);
 app.use(authRouter);
 app.use(adminRouter);
 app.use(gameRouter);
+
+////////////////
+// API ERROR HANDLING
+////////////////
+app.use(function (err, req, res, next) {
+    if (res.headersSent) {
+        return next(err);
+    }
+    if (req.url.split("/")[1] === "api") {
+        console.error(req.url, err); // Some work could be done making this not SUCC
+        res.status(err[0].code).json({ errors: err });
+    } else {
+        return next(err);
+    }
+});
 
 ////////////////
 // INIT

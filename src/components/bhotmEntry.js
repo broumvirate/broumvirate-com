@@ -67,7 +67,7 @@ function BhotmHeader(props) {
             <BhotmPlace
                 place={
                     props.mode === "bhoty"
-                        ? props.entry.placeBhoty
+                        ? props.entry.bhotyPlace
                         : props.entry.place
                 }
                 total={props.total}
@@ -115,6 +115,10 @@ function BhotmPlace(props) {
 
 // Get the nd and rd
 function ordinalSuffix(i) {
+    if (!i || i <= 0) {
+        return;
+    }
+
     const j = i % 10,
         k = i % 100;
 

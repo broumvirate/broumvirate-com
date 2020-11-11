@@ -10,6 +10,7 @@ class MonthPage extends React.Component {
         this.state = {
             monthLoaded: false,
             month: null,
+            err: null,
         };
     }
     // Load the data
@@ -24,12 +25,13 @@ class MonthPage extends React.Component {
                 this.setState({
                     monthLoaded: true,
                     month: res,
+                    err: res.errors,
                 });
             })
             .catch((err) => {
                 this.setState({
                     monthLoaded: true,
-                    error,
+                    err,
                 });
             });
     }
@@ -37,7 +39,7 @@ class MonthPage extends React.Component {
     render() {
         if (this.state.monthLoaded) {
             // Set some page variables
-            document.title = `${this.state.month.month} BHotM - The Broumvirate`;
+            document.title = `${this.state.month.month}- BHotM - The Broumvirate`;
             const total = this.state.month.submissions.length;
 
             // Generate entries
@@ -58,7 +60,10 @@ class MonthPage extends React.Component {
                     <h1 className="text-center display-3">
                         {this.state.month.month}
                     </h1>
-                    <h4 className="text-center">Ben Hagle of the Month</h4>
+                    <h4 className="text-center">
+                        Ben Hagle of the{" "}
+                        {this.state.month.isBhoty ? "Year" : "Month"}
+                    </h4>
                     {this.state.month.judge ? (
                         <h4 className="text-center">
                             Judged by {this.state.month.judge}
@@ -85,11 +90,7 @@ class MonthPage extends React.Component {
                 </div>
             );
         } else {
-            return (
-                <div className="container mt-4">
-                    <p>Loading Month...</p>
-                </div>
-            );
+            return <div className="container mt-4"></div>;
         }
     }
 }
