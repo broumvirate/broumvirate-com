@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import ErrorHandler from "./components/errorHandling/errorHandler.js";
+import ErrorPage from "./components/errorHandling/errorPage.js";
 import BhotmEntryRouter from "./components/bhotmEntryRouter";
 import BhotmMonthRouter from "./components/bhotmMonthRouter";
 import BhotmIndexTemp from "./components/bhotmIndexTemp";
+import BhotmAdminPage from "./components/bhotmAdminPage";
 
 const PREFIX = "/bhotm/";
 
@@ -21,11 +23,12 @@ const BHotM = () => (
                 <Route path={PREFIX + "month"}>
                     <BhotmMonthRouter />
                 </Route>
-                <Route path={PREFIX + "admin"}>
-                    <div>BhotmAdmin</div>
-                </Route>
+                <Route
+                    path={PREFIX + "admin"}
+                    component={BhotmAdminPage}
+                ></Route>
                 <Route path={PREFIX}>
-                    <div>404</div>
+                    <ErrorPage errorStatusCode={404} errorMessage="Not Found" />
                 </Route>
             </Switch>
         </ErrorHandler>

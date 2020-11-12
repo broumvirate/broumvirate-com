@@ -40,6 +40,7 @@ class EntryPage extends React.Component {
                             "/api/bhotm/entry/" + this.state.entry._id
                         }
                         redirect="/bhotm2"
+                        history={this.props.history}
                     />
                 </div>
             );

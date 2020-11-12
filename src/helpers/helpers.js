@@ -5,19 +5,19 @@ const handleFetchErrors = (res) => {
                 throw {
                     errorMessage: "Forbidden",
                     errors: data.errors,
-                    status: res.status,
+                    code: res.status,
                 };
             } else if (res.status >= 400 && res.status < 500) {
                 throw {
-                    errorMessage: "Error with request",
+                    errorMessage: `Error: ${data.errors[0].title}`,
                     errors: data.errors,
-                    status: res.status,
+                    code: res.status,
                 };
             } else {
                 throw {
-                    errorMessage: "Server is not responding",
+                    errorMessage: `Server is not responding`,
                     errors: data.errors,
-                    status: res.status,
+                    code: res.status,
                 };
             }
         });
@@ -27,23 +27,22 @@ const handleFetchErrors = (res) => {
 };
 
 const showPageError = (error, history) => {
+    console.log(error);
     history.replace(history.location.pathname, {
-        errorStatusCode: error.status,
-        errorMessage: error.errorMessage,
-        errorDetails: error.errors,
+        error,
     });
 };
 
-export { handleFetchErrors, showPageError };
-
-export const checkAuth = () => {
+const checkAuth = () => {
     const url = "/api/user/authenticated";
     return fetch(url)
         .then(handleFetchErrors)
         .then((res) => {
             return res;
         })
-        .catch((err) => {
-            return { error: err };
+        .catch((error) => {
+            return { error };
         });
 };
+
+export { handleFetchErrors, showPageError, checkAuth };

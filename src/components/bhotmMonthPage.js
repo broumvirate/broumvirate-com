@@ -33,7 +33,7 @@ class MonthPage extends React.Component {
     }
 
     render() {
-        if (this.state.monthLoaded && !this.state.error) {
+        if (this.state.monthLoaded) {
             // Set some page variables
             document.title = `${this.state.month.month}- BHotM - The Broumvirate`;
             const total = this.state.month.submissions.length;
@@ -81,7 +81,8 @@ class MonthPage extends React.Component {
                         deleteEndpoint={
                             "/api/bhotm/month/" + this.state.month._id
                         }
-                        redirect="/bhotm"
+                        redirect="/bhotm/admin"
+                        history={this.props.history}
                     />
                 </div>
             );

@@ -1,4 +1,8 @@
-import { checkAuth } from "../helpers/helpers.js";
+import {
+    handleFetchErrors,
+    showPageError,
+    checkAuth,
+} from "../helpers/helpers.js";
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 
@@ -22,8 +26,14 @@ class EditDeleteButtons extends React.Component {
             .catch();
     }
     onDelete() {
-        console.log("Clicked delete, send ajax to ", this.props.deleteEndpoint);
-        this.setState({ hasDeleted: true });
+        fetch(this.props.deleteEndpoint, { method: "DELETE" })
+            .then(handleFetchErrors)
+            .then((res) => {
+                if (res.completed) {
+                    this.setState({ hasDeleted: true });
+                }
+            })
+            .catch((error) => showPageError(error, this.props.history));
     }
     render() {
         if (this.state.userLoaded && this.state.user.isAdmin) {

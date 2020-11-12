@@ -118,7 +118,10 @@ app.use(function (err, req, res, next) {
     }
     if (req.originalUrl.split("/")[1] === "api") {
         console.error(req.originalUrl, err); // Some work could be done making this not SUCC
-        const code = Array.isArray(err) ? err[0].code : err.code;
+        if (!Array.isArray(err)) {
+            err = [err];
+        }
+        const code = err[0].code;
         res.status(code).json({ errors: err });
     } else {
         return next(err);

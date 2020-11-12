@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bmHelpers = require("../bmHelpers");
 const dayjs = require("dayjs");
-const { coerce, validate } = require("superstruct");
+const { coerce, validate, is } = require("superstruct");
 const { EntryValidator } = require("../validators/bhotm.js");
 
 const Boy = require("../models/boy"),
@@ -67,21 +67,34 @@ router.post("/", function (req, res, next) {
 // Entry update
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     let newEntry = Object.create(req.body.entry);
-    newEntry.format = bmHelpers.bhotm.getEntryType(newEntry.link);
+    const { format, link } = bmHelpers.bhotm.getEntryType(newEntry.link); // Get/set format and updated embed link
+    newEntry.link = link;
+    newEntry.format = format;
     newEntry.entryMethod = "form";
     newEntry.edited = true;
     newEntry.lastEditedDate = dayjs().format();
     delete newEntry.month;
     delete newEntry.user;
-    bhotmEntry
-        .findByIdAndUpdate(req.params.id, newEntry, { new: true })
-        .then((data) => res.json(data))
-        .catch((err) =>
-            next([{ code: 500, title: "Unable to update entry", details: err }])
-        );
+    if (is(newEntry, EntryValidator)) {
+        bhotmEntry
+            .findByIdAndUpdate(req.params.id, newEntry, { new: true })
+            .then((data) => res.json(data))
+            .catch((err) =>
+                next([
+                    {
+                        code: 500,
+                        title: "Unable to update entry",
+                        details: err,
+                    },
+                ])
+            );
+    } else {
+        next({ code: 400, title: "Entry does not conform" });
+    }
 });
 
 // Entry delete
+// this gonna cause problemos, need to remove references from month. kill me
 router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
     bhotmEntry
         .deleteOne({ _id: req.params.id })
