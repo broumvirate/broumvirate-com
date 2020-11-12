@@ -2,32 +2,28 @@ var express = require("express");
 var dayjs = require("dayjs");
 
 module.exports = {
-    discordTags: {
-        4172: "5dfa4993ae42c901a49dc6e8", //Ben
-        4269: "5dfa4993ae42c901a49dc6ea", //Jacob
-        3529: "5dfa4993ae42c901a49dc6e9", //Alden
-        4380: "5dfa4993ae42c901a49dc6ec", //Kai
-        5591: "5dfa4993ae42c901a49dc6eb", //Emerson
-        8067: "5dfa4993ae42c901a49dc6ee", //Miles
-    },
-
     isLoggedIn: function (req, res, next) {
         if (req.isAuthenticated()) {
             return next();
+        } else {
+            res.redirect("/login?redirect=" + encodeURIComponent(req.url));
         }
-        res.redirect("/login?redirect=" + encodeURIComponent(req.url));
     },
 
     isAdmin: function (req, res, next) {
-        if (req.isAuthenticated()) {
-            if (req.user.isAdmin) {
-                console.log(req.user);
-                return next();
+        // TODO: Deal with what happens when a logged in, non admin user tries to access a non-api admin page.
+        if (req.isAuthenticated() && req.user.isAdmin) {
+            return next();
+        } else {
+            if (req.originalUrl.split("/")[1] === "api") {
+                next({
+                    code: 403,
+                    title: "Must be administrator to access this resource",
+                });
             } else {
-                res.redirect("/bhotm");
+                res.redirect("/login?redirect=" + encodeURIComponent(req.url));
             }
         }
-        res.redirect("/login?redirect=" + encodeURIComponent(req.url));
     },
 
     bhotm: {

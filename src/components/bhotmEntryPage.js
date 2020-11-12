@@ -1,6 +1,7 @@
 import BhotmEntry from "./bhotmEntry.js";
 import EditDeleteButtons from "./editDeleteButtons.js";
 import React from "react";
+import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
 
 class EntryPage extends React.Component {
     constructor(props) {
@@ -12,18 +13,15 @@ class EntryPage extends React.Component {
     }
     componentDidMount() {
         fetch("/api/bhotm/entry/" + this.props.match.params.entryId)
-            .then((res) => res.json())
+            .then(handleFetchErrors)
             .then((res) => {
                 this.setState({
                     entryLoaded: true,
                     entry: res,
                 });
             })
-            .catch((err) => {
-                this.setState({
-                    entryLoaded: true,
-                    error,
-                });
+            .catch((error) => {
+                showPageError(error, this.props.history);
             });
     }
 

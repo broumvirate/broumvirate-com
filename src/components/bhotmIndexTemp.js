@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import BhotmEntry from "./bhotmEntry.js";
+import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
 
 function MonthTemp(props) {
     const entries = props.month.submissions.map((el, i) => (
@@ -38,12 +39,15 @@ class BhotmIndexTemp extends React.Component {
     }
     componentDidMount() {
         fetch("/api/bhotm")
-            .then((res) => res.json())
+            .then(handleFetchErrors)
             .then((res) => {
                 this.setState({
                     dataLoaded: true,
                     data: res,
                 });
+            })
+            .catch((error) => {
+                showPageError(error, this.props.history);
             });
     }
 

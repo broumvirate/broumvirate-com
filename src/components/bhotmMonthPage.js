@@ -1,6 +1,7 @@
 import BhotmEntry from "./bhotmEntry.js";
 import EditDeleteButtons from "./editDeleteButtons.js";
 import React from "react";
+import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
 
 // Fully rendered page displaying a whole month of BHotM
 
@@ -10,13 +11,12 @@ class MonthPage extends React.Component {
         this.state = {
             monthLoaded: false,
             month: null,
-            err: null,
         };
     }
     // Load the data
     componentDidMount() {
         fetch("/api/bhotm/month/" + this.props.match.params.monthId)
-            .then((res) => res.json())
+            .then(handleFetchErrors)
             .then((res) => {
                 res.submissions.sort((a, b) => b.place - a.place);
                 if (res.isBhoty) {
@@ -25,19 +25,15 @@ class MonthPage extends React.Component {
                 this.setState({
                     monthLoaded: true,
                     month: res,
-                    err: res.errors,
                 });
             })
-            .catch((err) => {
-                this.setState({
-                    monthLoaded: true,
-                    err,
-                });
+            .catch((error) => {
+                showPageError(error, this.props.history);
             });
     }
 
     render() {
-        if (this.state.monthLoaded) {
+        if (this.state.monthLoaded && !this.state.error) {
             // Set some page variables
             document.title = `${this.state.month.month}- BHotM - The Broumvirate`;
             const total = this.state.month.submissions.length;

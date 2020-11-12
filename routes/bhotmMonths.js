@@ -53,7 +53,7 @@ router.post("/", async function (req, res, next) {
 
     // Validate the month, then add it to the database
     if (is(newMonth, MonthValidator)) {
-        bhotm.create(newMonth).then((month, err) => {
+        bhotm.create(newMonth, (err, month) => {
             if (err) {
                 next({
                     code: 500,
@@ -90,14 +90,17 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
 });
 
 // Month delete
-router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
+router.delete("/:id", function (req, res, next) {
     console.log("wanna delete it");
-    bhotm
-        .deleteOne({ _id: req.body.id })
-        .then((data) => res.json({ completed: true, deleted: data }))
-        .catch((err) =>
-            next([{ code: 400, title: "Unable to delete month", details: err }])
-        );
+    bhotm.findByIdAndDelete(req.params.id, function (err, data) {
+        if (err || !data) {
+            next([
+                { code: 400, title: "Unable to delete month", details: err },
+            ]);
+        } else {
+            res.json({ completed: true, deleted: data });
+        }
+    });
 });
 
 async function generateBhotmMonth(type) {

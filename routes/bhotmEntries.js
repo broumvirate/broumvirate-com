@@ -11,7 +11,7 @@ const Boy = require("../models/boy"),
     { bhotmEntry } = require("../models/bhotm");
 
 // Entry list
-router.get("/", function (req, res, next) {
+router.get("/", bmHelpers.isAdmin, function (req, res, next) {
     let find = {};
     if (req.query.filter === "unjudged") {
         find = { hasBeenJudged: false };
@@ -53,12 +53,15 @@ router.post("/", function (req, res, next) {
         next([{ code: 400, title: "Unable to validate entry", details: e }]);
     }
 
-    bhotmEntry
-        .create(newEntry)
-        .then((data) => res.json(data))
-        .catch((err) =>
-            next([{ code: 500, title: "Unable to create entry", details: err }])
-        );
+    bhotmEntry.create(newEntry, function (err, data) {
+        if (err) {
+            next([
+                { code: 500, title: "Unable to create entry", details: err },
+            ]);
+        } else {
+            res.json(data);
+        }
+    });
 });
 
 // Entry update
