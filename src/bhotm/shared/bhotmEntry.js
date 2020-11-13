@@ -1,4 +1,4 @@
-import BhotmEntryContent from "./bhotmEntryContent.js";
+import BhotmEntryContent from "./bhotmEntryContent";
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 

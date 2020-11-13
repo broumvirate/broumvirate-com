@@ -1,14 +1,14 @@
 import React, { useState } from "react";
-import EntryForm from "./bhotmEntryForm.js";
-import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import EntryForm from "./bhotmEntryForm";
+import { handleFetchErrors, showPageError } from "../../utils/helpers";
 import { Redirect, useLocation, useParams } from "react-router-dom";
-import ErrorAlert from "./errorHandling/errorAlert.js";
+import ErrorAlert from "../../utils/errorAlert";
 import {
     updateEntry,
     getEntry,
     getBoys,
     checkAuth,
-} from "../apiCalls/bhotmEntryApi.js";
+} from "../api/bhotmEntryApi";
 
 export default function EditPage() {
     const [result, setResult] = useState({

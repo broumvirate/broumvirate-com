@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import BhotmEntry from "./bhotmEntry.js";
-import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import BhotmEntry from "./shared/bhotmEntry";
+import { handleFetchErrors, showPageError } from "../utils/helpers";
 
 function MonthTemp(props) {
     const entries = props.month.submissions

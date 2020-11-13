@@ -1,4 +1,4 @@
-import { handleFetchErrors } from "../helpers/helpers.js";
+import { handleFetchErrors } from "../../utils/helpers";
 
 const getMonths = () => {
     return fetch("/api/bhotm/month").then(handleFetchErrors);

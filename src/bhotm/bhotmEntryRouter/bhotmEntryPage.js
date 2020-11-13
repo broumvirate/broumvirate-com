@@ -1,8 +1,8 @@
-import BhotmEntry from "./bhotmEntry.js";
-import EditDeleteButtons from "./editDeleteButtons.js";
+import BhotmEntry from "../shared/bhotmEntry";
+import EditDeleteButtons from "../shared/editDeleteButtons";
 import React from "react";
-import { showPageError } from "../helpers/helpers.js";
-import { getEntry } from "../apiCalls/bhotmEntryApi.js";
+import { showPageError } from "../../utils/helpers";
+import { getEntry } from "../api/bhotmEntryApi";
 
 class EntryPage extends React.Component {
     constructor(props) {

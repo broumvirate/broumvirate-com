@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, Field, Form, useField } from "formik";
-import Validators from "../../validators/bhotm.js";
-import { getBhotmLinkType } from "../helpers/helpers.js";
+import Validators from "../../../validators/bhotm";
+import { getBhotmLinkType } from "../../utils/helpers";
 
 function BootstrapTextField(props) {
     const [field, meta] = useField(props);

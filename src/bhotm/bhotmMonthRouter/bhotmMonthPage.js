@@ -1,8 +1,8 @@
-import BhotmEntry from "./bhotmEntry.js";
-import EditDeleteButtons from "./editDeleteButtons.js";
+import BhotmEntry from "../shared/bhotmEntry";
+import EditDeleteButtons from "../shared/editDeleteButtons";
 import React from "react";
-import { showPageError } from "../helpers/helpers.js";
-import { getMonth } from "../apiCalls/bhotmMonthApi.js";
+import { showPageError } from "../../utils/helpers";
+import { getMonth } from "../api/bhotmMonthApi";
 
 // Fully rendered page displaying a whole month of BHotM
 

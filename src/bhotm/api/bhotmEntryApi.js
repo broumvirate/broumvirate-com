@@ -1,4 +1,4 @@
-import { handleFetchErrors } from "../helpers/helpers.js";
+import { handleFetchErrors } from "../../utils/helpers";
 
 const getEntries = ({ unjudged }) => {
     let url = "/api/bhotm/entry";

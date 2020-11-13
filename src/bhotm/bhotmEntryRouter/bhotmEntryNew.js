@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import EntryForm from "./bhotmEntryForm.js";
-import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import EntryForm from "./bhotmEntryForm";
+import { handleFetchErrors, showPageError } from "../../utils/helpers";
 import { Redirect } from "react-router-dom";
-import ErrorAlert from "./errorHandling/errorAlert.js";
-import { newEntry, getBoys, checkAuth } from "../apiCalls/bhotmEntryApi.js";
+import ErrorAlert from "../../utils/errorAlert";
+import { newEntry, getBoys, checkAuth } from "../api/bhotmEntryApi";
 
 export default function NewPage() {
     const [result, setResult] = useState({

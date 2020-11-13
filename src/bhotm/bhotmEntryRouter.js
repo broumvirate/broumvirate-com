@@ -1,6 +1,6 @@
-import EntryPage from "./bhotmEntryPage.js";
-import NewPage from "./bhotmEntryNew.js";
-import EditPage from "./bhotmEntryEdit.js";
+import EntryPage from "./bhotmEntryRouter/bhotmEntryPage";
+import NewPage from "./bhotmEntryRouter/bhotmEntryNew";
+import EditPage from "./bhotmEntryRouter/bhotmEntryEdit";
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 

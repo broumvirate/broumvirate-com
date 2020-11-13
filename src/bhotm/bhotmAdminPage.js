@@ -1,8 +1,8 @@
 import React from "react";
-import { showPageError } from "../helpers/helpers.js";
+import { showPageError } from "../utils/helpers";
 import { Link } from "react-router-dom";
-import { checkAuth, getEntries } from "../apiCalls/bhotmEntryApi.js";
-import { getMonths } from "../apiCalls/bhotmMonthApi.js";
+import { checkAuth, getEntries } from "./api/bhotmEntryApi";
+import { getMonths } from "./api/bhotmMonthApi";
 
 class BhotmAdminPage extends React.Component {
     constructor(props) {

@@ -1,4 +1,4 @@
-import MonthPage from "./bhotmMonthPage.js";
+import MonthPage from "./bhotmMonthRouter/bhotmMonthPage";
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 

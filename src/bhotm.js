@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import ErrorHandler from "./components/errorHandling/errorHandler.js";
-import ErrorPage from "./components/errorHandling/errorPage.js";
-import BhotmEntryRouter from "./components/bhotmEntryRouter";
-import BhotmMonthRouter from "./components/bhotmMonthRouter";
-import BhotmIndexTemp from "./components/bhotmIndexTemp";
-import BhotmAdminPage from "./components/bhotmAdminPage";
+import ErrorHandler from "./utils/errorHandler";
+import ErrorPage from "./utils/errorPage";
+import BhotmEntryRouter from "./bhotm/bhotmEntryRouter";
+import BhotmMonthRouter from "./bhotm/bhotmMonthRouter";
+import BhotmIndexTemp from "./bhotm/bhotmIndexTemp";
+import BhotmAdminPage from "./bhotm/bhotmAdminPage";
 
 const PREFIX = "/bhotm/";
 

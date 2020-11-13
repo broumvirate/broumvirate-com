@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import ErrorPage from "./errorPage.js";
+import ErrorPage from "./errorPage";
 
 const ErrorHandler = ({ children }) => {
     const location = useLocation();
