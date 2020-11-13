@@ -33,6 +33,13 @@ const EntryValidator = object({
     lastEditedDate: optional(date()),
 });
 
+// const EntryValidator = object({ // used this for some testing :P
+//     name: string(),
+//     email: string(),
+//     entryName: number(),
+//     link: number(),
+// });
+
 const MonthValidator = object({
     month: defaulted(string(), "Blank BHotM"),
     date: defaulted(date(), () => {

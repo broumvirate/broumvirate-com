@@ -18,7 +18,7 @@ class MonthPage extends React.Component {
         fetch("/api/bhotm/month/" + this.props.match.params.monthId)
             .then(handleFetchErrors)
             .then((res) => {
-                res.submissions.sort((a, b) => b.place - a.place);
+                res.submissions.sort((a, b) => a.place - b.place);
                 if (res.isBhoty) {
                     res.submissions.sort((a, b) => b.bhotyPlace - a.bhotyPlace);
                 }
@@ -35,7 +35,7 @@ class MonthPage extends React.Component {
     render() {
         if (this.state.monthLoaded) {
             // Set some page variables
-            document.title = `${this.state.month.month}- BHotM - The Broumvirate`;
+            document.title = `${this.state.month.month} - BHotM - The Broumvirate`;
             const total = this.state.month.submissions.length;
 
             // Generate entries

@@ -1,3 +1,5 @@
+import { assert, coerce, StructError } from "superstruct";
+
 const handleFetchErrors = (res) => {
     if (!res.ok) {
         return res.json().then((data) => {
@@ -45,4 +47,63 @@ const checkAuth = () => {
         });
 };
 
-export { handleFetchErrors, showPageError, checkAuth };
+const getBhotmLinkType = (link) => {
+    //Using a link, determine the entry type. Return object, format and link.
+    const imgExtensions = ["jpg", "jpeg", "png", "gif"];
+    const audioExtensions = ["mp3", "wav"];
+    let splitLink = link.split(".");
+    let format = "Link";
+
+    if (link == "") {
+        //No link means ur mason
+        format = "Mason";
+    } else if (link.includes("youtube.com") || link.includes("youtu.be")) {
+        //If the link is youtube, convert it to an embed format
+        format = "Youtube Video";
+    } else if (
+        imgExtensions.includes(splitLink[splitLink.length - 1].toLowerCase())
+    ) {
+        // If the last element of the link (. delimited) is in the extension list
+        format = "Image";
+    } else if (
+        audioExtensions.includes(splitLink[splitLink.length - 1].toLowerCase())
+    ) {
+        // If the last element of the link (. delimited) is in the extension list
+        format = "Audio";
+    } else if (link.includes(" ")) {
+        // If the link has a space, it's a phrase
+        format = "Phrase";
+    }
+
+    return format;
+};
+
+const convertArrayToPathName = (paths) =>
+    paths
+        .reduce(
+            (previous, path, index) =>
+                `${previous}${
+                    typeof path === "string"
+                        ? `${index > 0 ? "." : ""}${path}`
+                        : `[${path}]`
+                }`,
+            ""
+        )
+        .toString();
+
+const formikSuperstructValidate = (data, validator) => {
+    try {
+        assert(data, validator);
+    } catch (error) {
+        return { [convertArrayToPathName(error.path)]: error.message };
+    }
+    return {};
+};
+
+export {
+    handleFetchErrors,
+    showPageError,
+    checkAuth,
+    getBhotmLinkType,
+    formikSuperstructValidate,
+};

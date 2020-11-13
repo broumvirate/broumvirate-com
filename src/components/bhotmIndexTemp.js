@@ -4,16 +4,18 @@ import BhotmEntry from "./bhotmEntry.js";
 import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
 
 function MonthTemp(props) {
-    const entries = props.month.submissions.map((el, i) => (
-        <div className="mb-3">
-            <BhotmEntry
-                entry={el}
-                key={el._id}
-                total={props.month.submissions.length}
-                mode="month"
-            />
-        </div>
-    ));
+    const entries = props.month.submissions
+        .sort((a, b) => a.place - b.place)
+        .map((el, i) => (
+            <div className="mb-3">
+                <BhotmEntry
+                    entry={el}
+                    key={el._id}
+                    total={props.month.submissions.length}
+                    mode="month"
+                />
+            </div>
+        ));
     return (
         <div className="card">
             <div className="card-header">
