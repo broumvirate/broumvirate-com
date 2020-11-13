@@ -82,9 +82,13 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     newEntry.format = format;
     newEntry.entryMethod = "form";
     newEntry.edited = true;
-    newEntry.lastEditedDate = dayjs().format();
+    newEntry.lastEditedDate = new Date();
     delete newEntry.month;
+    delete newEntry.place;
+    delete newEntry.isWinner;
+    delete newEntry.bhotyPlace;
     delete newEntry.user;
+    delete newEntry.date;
     delete newEntry._id;
     if (EntryValidator.isValid(newEntry)) {
         bhotmEntry

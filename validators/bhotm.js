@@ -5,7 +5,7 @@ const EntryValidator = object().shape({
         return new Date();
     }),
     name: string().min(1).required(),
-    email: string().email().required(),
+    email: string().email(),
     entryName: string(),
     entryDescription: string(),
     boy: array().default([]),
