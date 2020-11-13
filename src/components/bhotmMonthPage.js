@@ -1,7 +1,8 @@
 import BhotmEntry from "./bhotmEntry.js";
 import EditDeleteButtons from "./editDeleteButtons.js";
 import React from "react";
-import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import { showPageError } from "../helpers/helpers.js";
+import { getMonth } from "../apiCalls/bhotmMonthApi.js";
 
 // Fully rendered page displaying a whole month of BHotM
 
@@ -15,8 +16,7 @@ class MonthPage extends React.Component {
     }
     // Load the data
     componentDidMount() {
-        fetch("/api/bhotm/month/" + this.props.match.params.monthId)
-            .then(handleFetchErrors)
+        getMonth(this.props.match.params.monthId)
             .then((res) => {
                 res.submissions.sort((a, b) => a.place - b.place);
                 if (res.isBhoty) {
@@ -75,12 +75,8 @@ class MonthPage extends React.Component {
 
                     <EditDeleteButtons
                         context="Month"
-                        editEndpoint={
-                            "/bhotm/month/" + this.state.month._id + "/edit"
-                        }
-                        deleteEndpoint={
-                            "/api/bhotm/month/" + this.state.month._id
-                        }
+                        editEndpoint={`/bhotm/month/${this.state.month._id}/edit`}
+                        deleteEndpoint={`/api/bhotm/month/${this.state.month._id}`}
                         redirect="/bhotm/admin"
                         history={this.props.history}
                     />

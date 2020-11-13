@@ -1,10 +1,8 @@
 import React from "react";
-import {
-    handleFetchErrors,
-    showPageError,
-    checkAuth,
-} from "../helpers/helpers.js";
+import { showPageError } from "../helpers/helpers.js";
 import { Link } from "react-router-dom";
+import { checkAuth, getEntries } from "../apiCalls/bhotmEntryApi.js";
+import { getMonths } from "../apiCalls/bhotmMonthApi.js";
 
 class BhotmAdminPage extends React.Component {
     constructor(props) {
@@ -20,10 +18,8 @@ class BhotmAdminPage extends React.Component {
             .then((res) => {
                 if (res.isAdmin) {
                     return Promise.all([
-                        fetch("/api/bhotm/entry?filter=unjudged").then(
-                            handleFetchErrors
-                        ),
-                        fetch("/api/bhotm/month").then(handleFetchErrors),
+                        getEntries({ unjudged: true }),
+                        getMonths(),
                     ]);
                 } else {
                     throw { code: 403, errorMessage: "Forbidden" };

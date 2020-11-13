@@ -1,8 +1,5 @@
-import {
-    handleFetchErrors,
-    showPageError,
-    checkAuth,
-} from "../helpers/helpers.js";
+import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import { checkAuth } from "../apiCalls/bhotmEntryApi.js";
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 

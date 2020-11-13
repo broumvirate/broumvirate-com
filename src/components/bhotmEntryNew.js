@@ -3,6 +3,7 @@ import EntryForm from "./bhotmEntryForm.js";
 import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
 import { Redirect } from "react-router-dom";
 import ErrorAlert from "./errorHandling/errorAlert.js";
+import { newEntry, getBoys, checkAuth } from "../apiCalls/bhotmEntryApi.js";
 
 export default function NewPage() {
     const [result, setResult] = useState({
@@ -10,6 +11,19 @@ export default function NewPage() {
         failed: false,
         result: {},
     });
+
+    const [boys, setBoys] = useState([]);
+    const [user, setUser] = useState();
+
+    if (!user) {
+        checkAuth().then((res) => {
+            setUser(res);
+            if (res.isAdmin) {
+                getBoys().then(setBoys);
+            }
+        });
+    }
+
     if (result.loaded) {
         return <Redirect to={`/bhotm/entry/${result.result._id}`} />;
     }
@@ -26,23 +40,18 @@ export default function NewPage() {
                         entryDescription: "",
                         link: "",
                         clickLink: "",
+                        boy: [],
                     }}
                     onSubmit={(data, { setSubmitting }) => {
                         setSubmitting(true);
-                        fetch("/api/bhotm/entry/", {
-                            method: "POST",
-                            headers: new Headers({
-                                "Content-Type": "application/json",
-                            }),
-                            body: JSON.stringify({ entry: data }),
-                        })
-                            .then(handleFetchErrors)
+                        newEntry(data)
                             .then((res) => {
                                 setResult({
                                     loaded: true,
                                     failed: false,
                                     result: res,
                                 });
+                                setSubmitting(false);
                             })
                             .catch((error) => {
                                 setResult({
@@ -50,13 +59,11 @@ export default function NewPage() {
                                     failed: true,
                                     result: error,
                                 });
+                                setSubmitting(false);
                             });
-                        console.log({
-                            method: "POST",
-                            body: { entry: data },
-                        });
-                        setSubmitting(false);
                     }}
+                    boys={boys.length > 1 ? boys : []}
+                    showAdminFields={user ? user.isAdmin : false}
                 />
             </div>
         </div>

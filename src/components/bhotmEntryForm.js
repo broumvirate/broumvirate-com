@@ -44,6 +44,22 @@ function DetectLink(props) {
     return null;
 }
 
+function BoyCheckboxes(boys) {
+    return boys.boys.map((el, i) => (
+        <div className="form-check form-check-inline" key={el._id}>
+            <Field
+                type="checkbox"
+                name="boy"
+                value={String(el._id)}
+                className="form-check-input"
+            ></Field>
+            <label className="form-check-label">
+                {el.name} {el.lastName}
+            </label>
+        </div>
+    ));
+}
+
 export default function EntryForm(props) {
     return (
         <Formik
@@ -84,6 +100,23 @@ export default function EntryForm(props) {
                         label="Description"
                         helper="Optional"
                     />
+                    {props.showAdminFields ? (
+                        <div>
+                            <BootstrapTextField
+                                name="clickLink"
+                                type="input"
+                                label="Click Link"
+                                helper="The full link to the entry. Use the normal link for a preview image"
+                            />
+
+                            <div className="my-3">
+                                <p>
+                                    <strong>Attached Users:</strong>
+                                </p>
+                                <BoyCheckboxes boys={props.boys} />
+                            </div>
+                        </div>
+                    ) : null}
 
                     <div>
                         <button
@@ -96,6 +129,7 @@ export default function EntryForm(props) {
                     </div>
                     <pre>{JSON.stringify(values, null, 2)}</pre>
                     <pre>{JSON.stringify(errors, null, 2)}</pre>
+                    <pre>{JSON.stringify(isSubmitting)}</pre>
                 </Form>
             )}
         </Formik>

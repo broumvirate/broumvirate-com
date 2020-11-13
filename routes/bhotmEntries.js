@@ -85,7 +85,8 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     newEntry.lastEditedDate = dayjs().format();
     delete newEntry.month;
     delete newEntry.user;
-    if (is(newEntry, EntryValidator)) {
+    delete newEntry._id;
+    if (EntryValidator.isValid(newEntry)) {
         bhotmEntry
             .findByIdAndUpdate(req.params.id, newEntry, { new: true })
             .then((data) => res.json(data))

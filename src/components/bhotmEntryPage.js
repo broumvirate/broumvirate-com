@@ -1,7 +1,8 @@
 import BhotmEntry from "./bhotmEntry.js";
 import EditDeleteButtons from "./editDeleteButtons.js";
 import React from "react";
-import { handleFetchErrors, showPageError } from "../helpers/helpers.js";
+import { showPageError } from "../helpers/helpers.js";
+import { getEntry } from "../apiCalls/bhotmEntryApi.js";
 
 class EntryPage extends React.Component {
     constructor(props) {
@@ -12,8 +13,7 @@ class EntryPage extends React.Component {
         };
     }
     componentDidMount() {
-        fetch("/api/bhotm/entry/" + this.props.match.params.entryId)
-            .then(handleFetchErrors)
+        getEntry(this.props.match.params.entryId)
             .then((res) => {
                 this.setState({
                     entryLoaded: true,
@@ -37,13 +37,9 @@ class EntryPage extends React.Component {
                     />
                     <EditDeleteButtons
                         context="Entry"
-                        editEndpoint={
-                            "/bhotm/entry/" + this.state.entry._id + "/edit"
-                        }
-                        deleteEndpoint={
-                            "/api/bhotm/entry/" + this.state.entry._id
-                        }
-                        redirect="/bhotm2"
+                        editEndpoint={`/bhotm/entry/${this.state.entry._id}/edit`}
+                        deleteEndpoint={`/api/bhotm/entry/${this.state.entry._id}`}
+                        redirect="/bhotm"
                         history={this.props.history}
                     />
                 </div>

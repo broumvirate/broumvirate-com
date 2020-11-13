@@ -33,18 +33,6 @@ const showPageError = (error, history) => {
     });
 };
 
-const checkAuth = () => {
-    const url = "/api/user/authenticated";
-    return fetch(url)
-        .then(handleFetchErrors)
-        .then((res) => {
-            return res;
-        })
-        .catch((error) => {
-            return { error };
-        });
-};
-
 const getBhotmLinkType = (link) => {
     //Using a link, determine the entry type. Return object, format and link.
     const imgExtensions = ["jpg", "jpeg", "png", "gif"];
@@ -76,4 +64,4 @@ const getBhotmLinkType = (link) => {
     return format;
 };
 
-export { handleFetchErrors, showPageError, checkAuth, getBhotmLinkType };
+export { handleFetchErrors, showPageError, getBhotmLinkType };
