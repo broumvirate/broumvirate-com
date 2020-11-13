@@ -1,5 +1,3 @@
-import { assert, coerce, StructError } from "superstruct";
-
 const handleFetchErrors = (res) => {
     if (!res.ok) {
         return res.json().then((data) => {
@@ -78,32 +76,4 @@ const getBhotmLinkType = (link) => {
     return format;
 };
 
-const convertArrayToPathName = (paths) =>
-    paths
-        .reduce(
-            (previous, path, index) =>
-                `${previous}${
-                    typeof path === "string"
-                        ? `${index > 0 ? "." : ""}${path}`
-                        : `[${path}]`
-                }`,
-            ""
-        )
-        .toString();
-
-const formikSuperstructValidate = (data, validator) => {
-    try {
-        assert(data, validator);
-    } catch (error) {
-        return { [convertArrayToPathName(error.path)]: error.message };
-    }
-    return {};
-};
-
-export {
-    handleFetchErrors,
-    showPageError,
-    checkAuth,
-    getBhotmLinkType,
-    formikSuperstructValidate,
-};
+export { handleFetchErrors, showPageError, checkAuth, getBhotmLinkType };

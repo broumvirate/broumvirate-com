@@ -27,10 +27,14 @@ class EntryPage extends React.Component {
 
     render() {
         if (this.state.entryLoaded) {
-            document.title = `${this.state.entry.name}'s ${this.state.entry.month.month} BHotM Submission - The Broumvirate`;
+            document.title = `${this.state.entry.name}'s BHotM Submission - The Broumvirate`;
             return (
                 <div className="container mt-4">
-                    <BhotmEntry entry={this.state.entry} mode="single" />
+                    <BhotmEntry
+                        entry={this.state.entry}
+                        mode="single"
+                        total={this.state.entry.month ? undefined : 0}
+                    />
                     <EditDeleteButtons
                         context="Entry"
                         editEndpoint={

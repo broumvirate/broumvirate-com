@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const bmHelpers = require("../bmHelpers");
 const dayjs = require("dayjs");
-const { coerce, validate, is } = require("superstruct");
 const { EntryValidator } = require("../validators/bhotm.js");
 
 const Boy = require("../models/boy"),
@@ -37,31 +36,42 @@ router.get("/:id", function (req, res, next) {
 });
 
 // Entry create
-router.post("/", function (req, res, next) {
+router.post("/", async function (req, res, next) {
     let newEntry;
     try {
+        console.log(req.body);
         const sanitizeEntry = bmHelpers.bhotm.sanitizeEntry(req.body.entry); // Sanitize out some values that the user could manipulate to win
-        const coerceEntry = coerce(sanitizeEntry, EntryValidator); // Coerce some default fields
-        newEntry = validate(coerceEntry, EntryValidator)[1]; // Validate the rest
+        newEntry = EntryValidator.cast(sanitizeEntry); // Cast some default fields
+        await EntryValidator.validate(newEntry, { abortEarly: false });
         const { format, link } = bmHelpers.bhotm.getEntryType(newEntry.link); // Get/set format and updated embed link
         newEntry.link = link;
         newEntry.format = format;
         if (req.isAuthenticated()) {
             newEntry.user = req.user._id; //Put in the user
         }
+        bhotmEntry.create(newEntry, function (err, data) {
+            if (err) {
+                next([
+                    {
+                        code: 500,
+                        title: "Unable to create entry",
+                        details: err,
+                    },
+                ]);
+            } else {
+                res.json(data);
+            }
+        });
     } catch (e) {
-        next([{ code: 400, title: "Unable to validate entry", details: e }]);
+        next([
+            {
+                code: 400,
+                title: "Unable to validate entry",
+                details: e.message,
+                fullError: e,
+            },
+        ]);
     }
-
-    bhotmEntry.create(newEntry, function (err, data) {
-        if (err) {
-            next([
-                { code: 500, title: "Unable to create entry", details: err },
-            ]);
-        } else {
-            res.json(data);
-        }
-    });
 });
 
 // Entry update

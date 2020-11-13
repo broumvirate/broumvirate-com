@@ -1,58 +1,40 @@
-const {
-    object,
-    number,
-    string,
-    array,
-    date,
-    optional,
-    boolean,
-    defaulted,
-} = require("superstruct");
+const { object, date, string, array, number, boolean } = require("yup");
 
-const EntryValidator = object({
-    entryDate: defaulted(date(), () => {
-        const d = new Date();
-        return d;
+const EntryValidator = object().shape({
+    entryDate: date().default(() => {
+        return new Date();
     }),
-    name: string(),
-    email: optional(string()),
-    entryName: optional(string()),
-    entryDescription: optional(string()),
-    boy: defaulted(array(), []),
-    user: optional(string()),
-    month: optional(string()),
-    link: string(),
-    format: optional(string()),
-    clickLink: optional(string()),
-    place: defaulted(number(), -1),
-    bhotyPlace: defaulted(number(), -1),
-    isWinner: defaulted(boolean(), false),
-    hasBeenJudged: defaulted(boolean(), false),
-    entryMethod: defaulted(string(), "form"),
-    edited: defaulted(boolean(), false),
-    lastEditedDate: optional(date()),
+    name: string().min(1).required(),
+    email: string().email().required(),
+    entryName: string(),
+    entryDescription: string(),
+    boy: array().default([]),
+    user: string(),
+    month: string(),
+    link: string().min(1).required(),
+    format: string(),
+    clickLink: string().url(),
+    place: number().default(-1),
+    bhotyPlace: number().default(-1),
+    isWinner: boolean().default(false),
+    hasBeenJudged: boolean().default(false),
+    entryMethod: string().default("form"),
+    edited: boolean().default(false),
+    lastEditedDate: date(),
 });
 
-// const EntryValidator = object({ // used this for some testing :P
-//     name: string(),
-//     email: string(),
-//     entryName: number(),
-//     link: number(),
-// });
-
-const MonthValidator = object({
-    month: defaulted(string(), "Blank BHotM"),
-    date: defaulted(date(), () => {
-        const d = new Date();
-        return d;
+const MonthValidator = object().shape({
+    month: string().default("Blank BHotM"),
+    date: date().default(() => {
+        return new Date();
     }),
-    submissions: defaulted(array(), []),
-    notes: optional(string()),
-    winner: optional(string()),
-    winnerRef: optional(string()),
-    judge: optional(string()),
-    hasBeenJudged: defaulted(boolean(), false),
-    isBhoty: defaulted(boolean(), false),
+    submissions: array().default([]),
+    notes: string(),
+    winner: string(),
+    winnerRef: string(),
+    judge: string(),
+    hasBeenJudged: boolean().default(false),
+    isBhoty: boolean().default(false),
 });
 
 module.exports = { EntryValidator, MonthValidator };

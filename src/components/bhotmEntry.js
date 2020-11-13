@@ -9,7 +9,9 @@ class BhotmEntry extends React.Component {
         this.state = {
             total: props.total
                 ? props.total
-                : props.entry.month.submissions.length,
+                : props.entry.month
+                ? props.entry.month.submissions.length
+                : 0,
         };
 
         if (this.props.entry.place === 1 && this.props.entry.bhotyPlace <= 1) {
@@ -76,11 +78,11 @@ function BhotmHeader(props) {
         );
 
     // Define month and description
-    let month = (
+    let month = props.entry.month ? (
         <Link to={`/bhotm/month/${props.entry.month._id}`}>
             <h5>{props.entry.month.month}</h5>
         </Link>
-    );
+    ) : null;
 
     let description = (
         <h6 className="text-muted mt-0">{props.entry.entryDescription}</h6>

@@ -8,7 +8,6 @@ const Boy = require("../models/boy"),
     { bhotm } = require("../models/bhotm"),
     { bhotmEntry } = require("../models/bhotm");
 
-const { coerce, is } = require("superstruct");
 const { MonthValidator } = require("../validators/bhotm.js");
 
 // GET /api/bhotm/month
@@ -37,7 +36,7 @@ router.post("/", async function (req, res, next) {
     try {
         if (req.body.month) {
             // Try to process the pre-made month. Need to sanitize, probably/
-            newMonth = coerce(JSON.parse(req.body.month), MonthValidator);
+            newMonth = MonthValidator.cast(JSON.parse(req.body.month));
         } else if (req.body.type) {
             // Alternatively, get a premade month from the generator
             newMonth = await generateBhotmMonth(req.body.type);

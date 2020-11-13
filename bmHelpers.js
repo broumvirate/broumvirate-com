@@ -65,7 +65,7 @@ module.exports = {
         },
 
         sanitizeEntry: function (oEntry) {
-            let entry = Object.assign(JSON.parse(oEntry));
+            let entry = Object.assign(oEntry);
             delete entry.entryMethod;
             delete entry.hasBeenJudged;
             delete entry.place;

@@ -1,12 +1,9 @@
 import React from "react";
 import { Formik, Field, Form, useField } from "formik";
 import Validators from "../../validators/bhotm.js";
-import {
-    getBhotmLinkType,
-    formikSuperstructValidate,
-} from "../helpers/helpers.js";
+import { getBhotmLinkType } from "../helpers/helpers.js";
 
-function MyTextField(props) {
+function BootstrapTextField(props) {
     const [field, meta] = useField(props);
     const errorText = meta.error && meta.touched ? meta.error : "";
     return (
@@ -18,43 +15,30 @@ function MyTextField(props) {
                 id={field.name}
                 type={props.fieldType ? props.fieldType : "text"}
                 {...field}
-                className="form-control"
+                className={
+                    errorText === ""
+                        ? "form-control"
+                        : "form-control is-invalid"
+                }
             />
+            <div className="invalid-feedback">
+                {errorText.slice(0, 1).toUpperCase() + errorText.slice(1)}
+            </div>
             {props.helper ? (
                 <small className="form-text text-muted">{props.helper}</small>
             ) : null}
+            {props.children}
         </div>
     );
 }
-
-function MyTextArea(props) {
-    const [field, meta] = useField(props);
-    const errorText = meta.error && meta.touched ? meta.error : "";
-    return (
-        <div className="form-group">
-            <label htmlFor={props.name}>
-                <strong>{props.label}:</strong>
-            </label>
-            <textarea
-                id={field.name}
-                type="text"
-                {...field}
-                className="form-control"
-            />
-            {props.helper ? (
-                <small className="form-text text-muted">{props.helper}</small>
-            ) : null}
-        </div>
-    );
-}
-
 function DetectLink(props) {
     if (props.link) {
         const newLink = new String(props.link);
         return (
-            <span className="mb-2">
-                Submission detected as a: {getBhotmLinkType(newLink)}
-            </span>
+            <small className="form-text text-muted">
+                Submission detected as a:{" "}
+                <strong>{getBhotmLinkType(newLink)}</strong>
+            </small>
         );
     }
     return null;
@@ -65,33 +49,36 @@ export default function EntryForm(props) {
         <Formik
             initialValues={props.initialValues}
             onSubmit={props.onSubmit}
-            validate={(data) =>
-                formikSuperstructValidate(data, Validators.EntryValidator)
-            }
+            validateOnChange={true}
+            validationSchema={Validators.EntryValidator}
         >
-            {({ values, isSubmitting }) => (
+            {({ values, isSubmitting, errors }) => (
                 <Form>
-                    <MyTextField label="Your Name" type="input" name="name" />
-                    <MyTextField
+                    <BootstrapTextField
+                        label="Your Name"
+                        type="input"
+                        name="name"
+                    />
+                    <BootstrapTextField
                         name="email"
                         type="input"
-                        fieldType="email"
                         label="Email Address"
                     />
-                    <DetectLink link={values.link} />
-                    <MyTextField
+                    <BootstrapTextField
                         name="link"
                         type="input"
                         label="Submission Link"
                         helper="Please host videos on Youtube and images elsewhere. Direct image upload is in development."
-                    />
-                    <MyTextField
+                    >
+                        <DetectLink link={values.link} />{" "}
+                    </BootstrapTextField>
+                    <BootstrapTextField
                         name="entryName"
                         type="input"
                         label="Title of Submission"
                         helper="Optional"
                     />
-                    <MyTextArea
+                    <BootstrapTextField
                         name="entryDescription"
                         type="input"
                         label="Description"
@@ -107,7 +94,8 @@ export default function EntryForm(props) {
                             Submit BHotM
                         </button>
                     </div>
-                    <pre>{JSON.stringify(values, {}, 2)}</pre>
+                    <pre>{JSON.stringify(values, null, 2)}</pre>
+                    <pre>{JSON.stringify(errors, null, 2)}</pre>
                 </Form>
             )}
         </Formik>
