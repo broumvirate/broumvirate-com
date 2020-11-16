@@ -43,7 +43,7 @@ class MonthPage extends React.Component {
                     <BhotmEntry
                         entry={el}
                         mode={this.state.month.isBhoty ? "bhoty" : "month"}
-                        unjudged={!this.state.hasBeenJudged}
+                        unjudged={!this.state.month.hasBeenJudged}
                     />
                 </div>
             ));
