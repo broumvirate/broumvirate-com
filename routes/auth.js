@@ -95,4 +95,8 @@ router.get("/api/boys", function (req, res) {
         );
 });
 
+router.get("/api/alden", function (req, res) {
+    res.json({ alden: "Alden!" });
+});
+
 module.exports = router;
