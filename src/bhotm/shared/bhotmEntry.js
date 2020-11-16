@@ -1,32 +1,26 @@
 import BhotmEntryContent from "./bhotmEntryContent";
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Full entry, including header and content. Single page entry info
 class BhotmEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            total: props.total
-                ? props.total
-                : props.entry.month
-                ? props.entry.month.submissions.length
-                : 0,
+            class: `bhotm-entry ${
+                this.props.entry.place === 1 && this.props.entry.bhotyPlace <= 1
+                    ? "bhotm-winner"
+                    : null
+            }`,
         };
-
-        if (this.props.entry.place === 1 && this.props.entry.bhotyPlace <= 1) {
-            this.state.class = "bhotm-entry bhotm-winner";
-        } else {
-            this.state.class = "bhotm-entry";
-        }
     }
     render() {
         return (
             <div className={this.state.class}>
                 <BhotmHeader
                     entry={this.props.entry}
-                    total={this.state.total}
                     mode={this.props.mode}
+                    unjudged={this.props.unjudged}
                 />
                 <BhotmEntryContent entry={this.props.entry} />
             </div>
@@ -72,8 +66,6 @@ function BhotmHeader(props) {
                         ? props.entry.bhotyPlace
                         : props.entry.place
                 }
-                total={props.total}
-                id={props.entry._id}
             />
         );
 

@@ -30,11 +30,7 @@ class EntryPage extends React.Component {
             document.title = `${this.state.entry.name}'s BHotM Submission - The Broumvirate`;
             return (
                 <div className="container mt-4">
-                    <BhotmEntry
-                        entry={this.state.entry}
-                        mode="single"
-                        total={this.state.entry.month ? undefined : 0}
-                    />
+                    <BhotmEntry entry={this.state.entry} mode="single" />
                     <EditDeleteButtons
                         context="Entry"
                         editEndpoint={`/bhotm/entry/${this.state.entry._id}/edit`}

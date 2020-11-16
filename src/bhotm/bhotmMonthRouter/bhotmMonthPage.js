@@ -36,14 +36,12 @@ class MonthPage extends React.Component {
         if (this.state.monthLoaded) {
             // Set some page variables
             document.title = `${this.state.month.month} - BHotM - The Broumvirate`;
-            const total = this.state.month.submissions.length;
 
             // Generate entries
             const entries = this.state.month.submissions.map((el, i) => (
                 <div className="mt-5" key={el._id}>
                     <BhotmEntry
                         entry={el}
-                        total={total}
                         mode={this.state.month.isBhoty ? "bhoty" : "month"}
                         unjudged={!this.state.hasBeenJudged}
                     />
