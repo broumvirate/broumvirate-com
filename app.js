@@ -3,6 +3,8 @@
 //////////////////
 
 const express = require("express"),
+    session = require("express-session"),
+    MongoStore = require("connect-mongo")(session),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
     bodyParser = require("body-parser"),
@@ -11,6 +13,8 @@ const express = require("express"),
     dotEnv = require("dotenv");
 
 dotEnv.config();
+
+const DATABASEURL = process.env.DATABASEURL;
 
 /////////////////
 // ROUTES SETUP
@@ -48,7 +52,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
-mongoose.connect(process.env.DATABASEURL, {
+mongoose.connect(DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
@@ -60,10 +64,11 @@ mongoose.connect(process.env.DATABASEURL, {
 /////////////////
 
 app.use(
-    require("express-session")({
-        secret: "butt butt",
+    session({
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
 );
 
