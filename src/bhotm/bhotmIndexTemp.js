@@ -62,6 +62,10 @@ class BhotmIndexTemp extends React.Component {
             <div className="container">
                 <div>
                     <h1 className="display-4 my-3">Ben Hagle of the Month</h1>
+                    <h4 className="my-3">
+                        This is the WIP new BHotM page. It is not done. You can
+                        get to the old one <a href="/bhotmold">here.</a>
+                    </h4>
                     <p className="lead">
                         Ben Hagle of the Month is a monthly competetion to
                         determine who is Ben Hagle. Submissions can be literally

@@ -13,7 +13,7 @@ const Boy = require("../models/boy"),
 // INDEX - BHoTM Standard Viewing Page
 router.get("/bhotmold", function (req, res) {
     bhotm
-        .find({})
+        .find({ hasBeenJudged: true })
         .sort({ date: -1, "entries.place": 1 })
         .populate("submissions")
         .exec(function (err, bhotm) {
