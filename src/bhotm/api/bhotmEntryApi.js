@@ -34,7 +34,13 @@ const updateEntry = (data, id) => {
 
 const checkAuth = () => {
     const url = "/api/user/authenticated";
-    return fetch(url)
+    return fetch(url, {
+        headers: new Headers({
+            Pragma: "no-cache",
+            "Cache-Control": "no-cache",
+            Expires: 0,
+        }),
+    })
         .then(handleFetchErrors)
         .then((res) => {
             return res;
