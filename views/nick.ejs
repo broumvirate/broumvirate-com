@@ -44,27 +44,20 @@
             </tr>
         </thead>
         <tbody>
-            <% for(i=0;i<nicknames.length;i++){ // Loop through each nickname db
-            entry. Sort the nicknames by nickOrder. (Can't do this ahead for
-            disc scraped) try{ nicknames[i].nicknames.sort((a, b) =>
-            ((parseInt(a.boy.nickOrder) > parseInt(b.boy.nickOrder)) ? 1 : -1))
-            } catch(err){ console.log(err); } var index = 0 %>
+            <% for(i=0;i<nicknames.length;i++){ try{
+            nicknames[i].nicknames.sort((a, b) => ((parseInt(a.boy.nickOrder) >
+            parseInt(b.boy.nickOrder)) ? 1 : -1)) } catch(err){
+            console.log(err); } var index = 0 %>
             <tr>
                 <%for(j=0;j<10;j++){%>
-                <td
-                    class="bm-nick<%=j%><% //Loop through each of the columns for this row TODO: Better way to do this if(j==9){%> bm-nick-notes"
-                >
+                <td class="bm-nick<%=j%><% if(j==9){%> bm-nick-notes">
                     <%=nicknames[i].notes%> <%} else if(j==8){%>
                     bm-nick-editor"> <%=nicknames[i].editedBy%> <%} else
                     if(j==7){%> bm-nick-date"> <%=nicknames[i].dateString%> <%}
-                    else{ %>"><% // If it isn't one of those meta-column, it's a
-                    nickname col try{ // Start with 1st nickname, if it's in the
-                    right row, print it
+                    else{ %>"><% try{
                     if(nicknames[i].nicknames[index].boy.nickOrder == j){%>
                     <%=nicknames[i].nicknames[index].nickname%> <%index = index
-                    + 1 //Move onto the next nickname } // If the current
-                    nickname isn't in the right row, don't print anything (blank
-                    col) } catch(err){} }%>
+                    + 1} } catch(err){} }%>
                 </td>
                 <%}%>
             </tr>

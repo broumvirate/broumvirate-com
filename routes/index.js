@@ -25,11 +25,13 @@ router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res) {
     Nick.find()
         .sort({ date: 1 })
         .populate("nicknames.boy")
-        .exec()
-        .then((nicks) => {
-            res.render("nick", { pageName: "Nicknames", nicknames: nicks });
-        })
-        .catch((err) => console.log(err));
+        .exec((err, nicks) => {
+            if (err) {
+                next();
+            } else {
+                res.render("nick", { pageName: "Nicknames", nicknames: nicks });
+            }
+        });
 });
 
 module.exports = router;
