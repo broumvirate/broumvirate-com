@@ -69,4 +69,30 @@ router.get("/logout", function (req, res) {
     res.redirect("/");
 });
 
+// API AUTH
+router.get("/api/user/authenticated", function (req, res) {
+    let result = {
+        isLoggedIn: false,
+        isAdmin: false,
+    };
+
+    if (req.isAuthenticated()) {
+        result.isLoggedIn = true;
+        result.boy = req.user.boy;
+        if (req.user.isAdmin) {
+            result.isAdmin = true;
+        }
+    }
+    res.json(result);
+});
+
+// API BOYS
+router.get("/api/boys", function (req, res) {
+    Boy.find()
+        .then((data) => res.json(data))
+        .catch((err) =>
+            next([{ code: 500, title: "Unable to get boys", details: err }])
+        );
+});
+
 module.exports = router;

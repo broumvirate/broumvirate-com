@@ -3,17 +3,18 @@
 //////////////////
 
 const express = require("express"),
+    session = require("express-session"),
+    MongoStore = require("connect-mongo")(session),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
-    passportLocalMongoose = require("passport-local-mongoose"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     dotEnv = require("dotenv");
 
-//if (process.env.NODE_ENV !== "production") {
 dotEnv.config();
-//}
+
+const DATABASEURL = process.env.DATABASEURL;
 
 /////////////////
 // ROUTES SETUP
@@ -23,6 +24,8 @@ const indexRouter = require("./routes/index"),
     authRouter = require("./routes/auth"),
     rateRouter = require("./routes/rate"),
     bhotmRouter = require("./routes/bhotm"),
+    bhotmMonthsRouter = require("./routes/bhotmMonths"),
+    bhotmEntriesRouter = require("./routes/bhotmEntries"),
     adminRouter = require("./routes/admin"),
     gameRouter = require("./routes/games");
 
@@ -44,14 +47,16 @@ const Boy = require("./models/boy"),
 const app = express();
 
 app.use(express.static("public"));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
-mongoose.connect(process.env.DATABASEPRODURL, {
+mongoose.connect(DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    useCreateIndex: true,
 });
 
 /////////////////
@@ -59,10 +64,11 @@ mongoose.connect(process.env.DATABASEPRODURL, {
 /////////////////
 
 app.use(
-    require("express-session")({
-        secret: "butt butt",
+    session({
+        secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
+        store: new MongoStore({ mongooseConnection: mongoose.connection }),
     })
 );
 
@@ -103,20 +109,35 @@ passport.deserializeUser(User.deserializeUser());
 app.use(indexRouter);
 app.use(rateRouter);
 app.use(bhotmRouter);
+app.use("/api/bhotm/month/", bhotmMonthsRouter);
+app.use("/api/bhotm/entry/", bhotmEntriesRouter);
 app.use(authRouter);
 app.use(adminRouter);
 app.use(gameRouter);
 
 ////////////////
+// API ERROR HANDLING
+////////////////
+app.use(function (err, req, res, next) {
+    if (res.headersSent) {
+        return next(err);
+    }
+    if (req.originalUrl.split("/")[1] === "api") {
+        console.error(req.originalUrl, err); // Some work could be done making this not SUCC
+        if (!Array.isArray(err)) {
+            err = [err];
+        }
+        const code = err[0].code;
+        res.status(code).json({ errors: err });
+    } else {
+        return next(err);
+    }
+});
+
+////////////////
 // INIT
 ////////////////
 
-if (process.env.NODE_ENV !== "production") {
-    app.listen(3000, function () {
-        console.log("Broumvirate testing server running on port 3000!");
-    });
-} else {
-    app.listen(process.env.PORT || 5000, process.env.IP, function () {
-        console.log("Broumvirate production server running on port 3000!");
-    });
-}
+app.listen(3000, function () {
+    console.log("Broumvirate server running on port 3000!");
+});

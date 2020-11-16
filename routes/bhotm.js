@@ -11,11 +11,11 @@ const Boy = require("../models/boy"),
 // This module has not been promisifed, as it is in the midst of being re-written in the bhotmAPI branch
 
 // INDEX - BHoTM Standard Viewing Page
-router.get("/bhotm", function (req, res) {
+router.get("/bhotmold", function (req, res) {
     bhotm
-        .find({})
+        .find({ hasBeenJudged: true })
         .sort({ date: -1, "entries.place": 1 })
-        .populate("entries.boy")
+        .populate("submissions")
         .exec(function (err, bhotm) {
             if (err) {
                 console.log(err);
@@ -29,7 +29,7 @@ router.get("/bhotm", function (req, res) {
 });
 
 // ADMIN INDEX - Admin page, available only to admins like Ben Hagle
-router.get("/bhotm/admin", bmHelpers.isAdmin, function (req, res) {
+router.get("/bhotmold/admin", bmHelpers.isAdmin, function (req, res) {
     bhotm
         .find({})
         .sort("-date")
@@ -47,7 +47,7 @@ router.get("/bhotm/admin", bmHelpers.isAdmin, function (req, res) {
 });
 
 // NEW
-router.get("/bhotm/new", bmHelpers.isAdmin, function (req, res) {
+router.get("/bhotmold/new", bmHelpers.isAdmin, function (req, res) {
     Boy.find({}, function (err, boys) {
         if (err) {
             console.log(err);
@@ -62,7 +62,7 @@ router.get("/bhotm/new", bmHelpers.isAdmin, function (req, res) {
 });
 
 // CREATE -- Add new BHotM from creation page
-router.post("/bhotm", bmHelpers.isAdmin, function (req, res) {
+router.post("/bhotmold", bmHelpers.isAdmin, function (req, res) {
     var thisMonth = bmHelpers.bhotm.processMonth(req.body.bhotm);
     var d = new Date();
     thisMonth.date = d.getTime();
@@ -79,12 +79,12 @@ router.post("/bhotm", bmHelpers.isAdmin, function (req, res) {
 
 // Trying to get a specific month by ID redirects you back to main BHotM page
 // TODO - make specific month page? maybe with more info?
-router.get("/bhotm/:id", function (req, res) {
+router.get("/bhotmold/:id", function (req, res) {
     res.redirect("/bhotm");
 });
 
 // EDIT - Edit existing bhotm
-router.get("/bhotm/:id/edit", bmHelpers.isAdmin, function (req, res) {
+router.get("/bhotmold/:id/edit", bmHelpers.isAdmin, function (req, res) {
     bhotm
         .findById(req.params.id)
         .populate("entries.boy")
@@ -104,7 +104,7 @@ router.get("/bhotm/:id/edit", bmHelpers.isAdmin, function (req, res) {
 });
 
 // PUT - Updates a month after an edit
-router.put("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
+router.put("/bhotmold/:id", bmHelpers.isAdmin, function (req, res) {
     var thisMonth = bmHelpers.bhotm.processMonth(req.body.bhotm);
 
     bhotm.findByIdAndUpdate(req.params.id, thisMonth, function (
@@ -121,7 +121,7 @@ router.put("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
 });
 
 // DELETE - Deletes specified BHoTM
-router.delete("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
+router.delete("/bhotmold/:id", bmHelpers.isAdmin, function (req, res) {
     bhotm.deleteOne({ _id: req.params.id }, function (err) {
         if (err) {
             console.log(err);
@@ -129,6 +129,30 @@ router.delete("/bhotm/:id", bmHelpers.isAdmin, function (req, res) {
             res.redirect("/bhotm/admin");
         }
     });
+});
+
+router.get("/bhotm*", function (req, res) {
+    res.render("react", {
+        pageName: "Ben Haqle of the Month",
+        reactScript: "bhotm",
+    });
+});
+
+// BHotM Index
+router.get("/api/bhotm/", function (req, res) {
+    bhotm
+        .find({ hasBeenJudged: true })
+        .populate("submissions")
+        .sort({ date: -1, "submissions.place": 1 })
+        .exec(function (err, months) {
+            if (err) {
+                next([
+                    { code: 500, title: "Unable to get BHotMs", details: err },
+                ]);
+            } else {
+                res.json(months);
+            }
+        });
 });
 
 module.exports = router;

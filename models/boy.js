@@ -5,6 +5,7 @@ let boySchema = new mongoose.Schema({
     lastName: String,
     email: String,
     bid: Number,
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
     active: Boolean, //DELETE ME
     registered: Boolean, //DELETE ME
     nickOrder: Number, //order in which you're shown on nickname page

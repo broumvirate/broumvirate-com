@@ -1,30 +1,32 @@
 let countDownDate = undefined;
 
-let setupDate = function(){
+function setupDate() {
     countDownDate = dayjs();
-    if(dayjs().date() > 4){ //if it's after the 4th, add a month and set submission time
+    if (dayjs().date() > 4) {
+        //if it's after the 4th, add a month and set submission time
         countDownDate = countDownDate.add(1, "M").date(5).startOf("day");
-    }
-    else{                         //if it's before the 4th, its this month
+    } else {
+        //if it's before the 4th, its this month
         countDownDate = countDownDate.date(5).startOf("day");
     }
 }
 
-setupDate()
+setupDate();
 
-let cd = setInterval(function(){
-    let distance = countDownDate.diff(dayjs());
+const cd = setInterval(() => {
+    const distance = countDownDate.diff(dayjs());
 
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-    document.getElementById("bhotmCountdown").innerHTML = days + "d " + hours + "h "
-    + minutes + "m " + seconds + "s ";
+    document.getElementById("bhotmCountdown").innerHTML =
+        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
 
-    if(distance < 0) {
+    if (distance <= 0) {
         setupDate();
     }
-
 }, 1000);

@@ -3,23 +3,43 @@
     "version": "1.0.0",
     "description": "Broumvirate Website",
     "main": "app.js",
+    "targets": {
+        "main": false
+    },
     "scripts": {
         "start": "node app.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "parcel watch './src/*.js' --dist-dir './public/dist' --no-hmr",
+        "build": "parcel build './src/*.js' --dist-dir './public/dist'",
+        "sass": "sass src/stylesheets:public/dist"
     },
     "author": "Ben Hagle",
     "license": "ISC",
     "dependencies": {
+        "@babel/cli": "^7.11.6",
+        "@babel/core": "^7.11.6",
+        "@babel/preset-react": "^7.10.4",
         "body-parser": "^1.19.0",
+        "connect-mongo": "^3.2.0",
         "dayjs": "^1.8.35",
         "dotenv": "^8.2.0",
         "ejs": "^3.0.1",
         "express": "^4.17.1",
-        "express-session": "^1.17.0",
+        "express-session": "^1.17.1",
+        "formik": "^2.2.2",
         "method-override": "^3.0.0",
         "mongoose": "^5.8.1",
         "passport": "^0.4.1",
         "passport-local": "^1.0.0",
-        "passport-local-mongoose": "^5.0.1"
+        "passport-local-mongoose": "^5.0.1",
+        "react": "^17.0.1",
+        "react-dom": "^17.0.1",
+        "react-router-dom": "^5.2.0",
+        "sass": "^1.26.11",
+        "yup": "^0.29.3"
+    },
+    "devDependencies": {
+        "jest": "^26.4.2",
+        "parcel": "^2.0.0-beta.1"
     }
 }

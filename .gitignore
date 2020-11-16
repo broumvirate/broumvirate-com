@@ -3,5 +3,6 @@ migration/
 .env
 broumvirate-com.code-workspace
 .vscode/
-.parcel-cache/
 public/dist/
+.parcel-cache/
+yarn-error.log

@@ -1,0 +1,57 @@
+import { handleFetchErrors } from "../../utils/helpers";
+
+const getEntries = ({ unjudged }) => {
+    let url = "/api/bhotm/entry";
+    if (unjudged) {
+        url = "/api/bhotm/entry?filter=unjudged";
+    }
+    return fetch(url).then(handleFetchErrors);
+};
+
+const getEntry = (id) => {
+    return fetch("/api/bhotm/entry/" + id).then(handleFetchErrors);
+};
+
+const newEntry = (data) => {
+    return fetch("/api/bhotm/entry/", {
+        method: "POST",
+        headers: new Headers({
+            "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ entry: data }),
+    }).then(handleFetchErrors);
+};
+
+const updateEntry = (data, id) => {
+    return fetch(`/api/bhotm/entry/${id}`, {
+        method: "PUT",
+        headers: new Headers({
+            "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ entry: data }),
+    }).then(handleFetchErrors);
+};
+
+const checkAuth = () => {
+    const url = "/api/user/authenticated";
+    return fetch(url, {
+        headers: new Headers({
+            Pragma: "no-cache",
+            "Cache-Control": "no-cache",
+            Expires: 0,
+        }),
+    })
+        .then(handleFetchErrors)
+        .then((res) => {
+            return res;
+        })
+        .catch((error) => {
+            return { error };
+        });
+};
+
+const getBoys = () => {
+    return fetch("/api/boys").then(handleFetchErrors);
+};
+
+export { getBoys, getEntry, getEntries, checkAuth, newEntry, updateEntry };
