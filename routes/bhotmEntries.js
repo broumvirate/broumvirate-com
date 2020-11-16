@@ -11,9 +11,11 @@ const Boy = require("../models/boy"),
 
 // Entry list
 router.get("/", bmHelpers.isAdmin, function (req, res, next) {
-    let find = {};
+    let find = {
+        isDeleted: false,
+    };
     if (req.query.filter === "unjudged") {
-        find = { hasBeenJudged: false };
+        find.hasBeenJudged = false;
     }
     bhotmEntry
         .find(find)
@@ -111,8 +113,28 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
 // Entry delete
 // this gonna cause problemos, need to remove references from month. kill me
 router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
-    bhotmEntry
-        .deleteOne({ _id: req.params.id })
+    bhotm
+        .find({ submissions: req.params.id })
+        .then((mons) => {
+            if (mons.length === 0) {
+                return bhotmEntry.deleteOne({ _id: req.params.id });
+            } else {
+                return bhotmEntry.findByIdAndUpdate(req.params.id, {
+                    name: "Entry Deleted",
+                    email: undefined,
+                    entryName: undefined,
+                    entryDescription: undefined,
+                    boy: [],
+                    user: undefined,
+                    clickLink: undefined,
+                    link: undefined,
+                    format: "deleted",
+                    isDeleted: true,
+                    edited: true,
+                    lastEditedDate: new Date(),
+                });
+            }
+        })
         .then((data) => res.json({ completed: true, deleted: data }))
         .catch((err) =>
             next([{ code: 400, title: "Unable to delete entry", details: err }])

@@ -37,6 +37,11 @@ function BhotmEntryContent(props) {
                 </div>
             );
             break;
+        case "deleted":
+            content = (
+                <p>This entry has been deleted by the admins. :bencry:</p>
+            );
+            break;
         default:
             content = (
                 <p>
@@ -83,7 +88,7 @@ function BhotmEntryYoutube(props) {
             <iframe
                 src={props.link}
                 frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                // allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
             ></iframe>
         </div>

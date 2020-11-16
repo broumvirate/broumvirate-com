@@ -39,7 +39,7 @@ class EntryPage extends React.Component {
                         context="Entry"
                         editEndpoint={`/bhotm/entry/${this.state.entry._id}/edit`}
                         deleteEndpoint={`/api/bhotm/entry/${this.state.entry._id}`}
-                        redirect="/bhotm"
+                        redirect="/bhotm/admin"
                         history={this.props.history}
                     />
                 </div>

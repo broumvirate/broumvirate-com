@@ -43,29 +43,29 @@ router.post("/", async function (req, res, next) {
         } else {
             throw "error";
         }
+
+        // Validate the month, then add it to the database
+        if (MonthValidator.isValidSync(newMonth)) {
+            bhotm.create(newMonth, (err, month) => {
+                if (err) {
+                    next({
+                        code: 500,
+                        title: "Unable to save month",
+                        detail: err,
+                    });
+                }
+                res.json(month);
+            });
+        } else {
+            next({
+                code: 400,
+                title: "Month invalid",
+            });
+        }
     } catch {
         next({
             code: 400,
             title: "Unable to parse input",
-        });
-    }
-
-    // Validate the month, then add it to the database
-    if (is(newMonth, MonthValidator)) {
-        bhotm.create(newMonth, (err, month) => {
-            if (err) {
-                next({
-                    code: 500,
-                    title: "Unable to save month",
-                    detail: err,
-                });
-            }
-            res.json(month);
-        });
-    } else {
-        next({
-            code: 400,
-            title: "Month invalid",
         });
     }
 });
@@ -90,7 +90,6 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
 
 // Month delete
 router.delete("/:id", function (req, res, next) {
-    console.log("wanna delete it");
     bhotm.findByIdAndDelete(req.params.id, function (err, data) {
         if (err || !data) {
             next([
@@ -105,7 +104,7 @@ router.delete("/:id", function (req, res, next) {
 async function generateBhotmMonth(type) {
     let filter = {};
     let limit = 1000;
-    let month = coerce({}, MonthValidator);
+    let month = MonthValidator.cast({});
     const now = dayjs();
 
     switch (type) {

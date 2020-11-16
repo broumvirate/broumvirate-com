@@ -7,10 +7,9 @@ function MonthTemp(props) {
     const entries = props.month.submissions
         .sort((a, b) => a.place - b.place)
         .map((el, i) => (
-            <div className="mb-3">
+            <div className="mb-3" key={el._id}>
                 <BhotmEntry
                     entry={el}
-                    key={el._id}
                     total={props.month.submissions.length}
                     mode="month"
                 />
