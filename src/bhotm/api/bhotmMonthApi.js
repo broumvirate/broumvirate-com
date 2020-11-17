@@ -28,4 +28,14 @@ const newMonth = (month) => {
     }).then(handleFetchErrors);
 };
 
-export { getMonths, getMonth, newMonthType, newMonth };
+const updateMonth = (data, id, metadata) => {
+    return fetch(`/api/bhotm/month/${id}`, {
+        method: "PUT",
+        headers: new Headers({
+            "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ month: data, ...metadata }),
+    }).then(handleFetchErrors);
+};
+
+export { getMonths, getMonth, newMonthType, newMonth, updateMonth };

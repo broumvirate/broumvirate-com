@@ -24,7 +24,7 @@ const EntryValidator = object().shape({
 });
 
 const MonthValidator = object().shape({
-    month: string().default("Blank BHotM"),
+    month: string().required(),
     date: date().default(() => {
         return new Date();
     }),

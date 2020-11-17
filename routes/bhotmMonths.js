@@ -31,7 +31,7 @@ router.get("/", function (req, res, next) {
 // Body properties: month - JSON string of pre-created month. Errors out if unparseable or doesn't fit schema
 //                  type - either "month", "bhoty", or "blank". Creates a month of unjudged entries, first place entries, or blank month respectively
 
-router.post("/", async function (req, res, next) {
+router.post("/", bmHelpers.isAdmin, async function (req, res, next) {
     let newMonth;
     try {
         if (req.body.month) {
@@ -85,11 +85,61 @@ router.get("/:id", function (req, res, next) {
 
 // Month update
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
-    // This is a mongo one
+    try {
+        let month = Object.create(req.body.month);
+        month.submissions = req.body.month.submissions.map((el, i) => el._id);
+        if (req.body.judged) {
+            month.winner = req.body.month.submissions[0].name;
+            month.winnerRef = month.submissions[0];
+            month.hasBeenJudged = true;
+        }
+        MonthValidator.validate(month)
+            .then(() => {
+                return bhotm.findByIdAndUpdate(month._id, month);
+            })
+            .then((oldMonth) => {
+                if (req.body.changedOrder) {
+                    console.log("I'm goin off!");
+                    return oldMonth;
+                    // return Promise.all(
+                    //     month.submissions.map((el, i) => {
+                    //         let update = month.isBhoty
+                    //             ? { bhotyPlace: i + 1 }
+                    //             : { place: i + 1 };
+                    //         update.isWinner = i === 0;
+                    //         if (req.body.judged) {
+                    //             update.hasBeenJudged = true;
+                    //         }
+                    //         if (!month.isBhoty) {
+                    //             update.month = month._id;
+                    //         }
+                    //         return bhotmEntry.findByIdAndUpdate(el, update);
+                    //     })
+                    // ).then(() => oldMonth);
+                } else {
+                    return oldMonth;
+                }
+            })
+            .then((month) => res.json(month))
+            .catch((error) => {
+                console.log(error);
+                next({
+                    code: 500,
+                    title: "Unable to save month",
+                    details: error,
+                });
+            });
+    } catch (error) {
+        console.log(error);
+        next({
+            code: 400,
+            title: "Unable to parse input",
+        });
+    }
 });
 
 // Month delete
-router.delete("/:id", function (req, res, next) {
+router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
     bhotm.findByIdAndDelete(req.params.id, function (err, data) {
         if (err || !data) {
             next([

@@ -66,7 +66,11 @@ class BhotmIndexTemp extends React.Component {
                         This is the WIP new BHotM page. It is not done. You can
                         get to the old one <a href="/bhotmold">here.</a>
                     </h4>
-                    <p className="lead">
+                    <h4 className="">Try our new online submission form:</h4>
+                    <Link to="/bhotm/entry/new" className="btn btn-primary">
+                        Submit to BHotM
+                    </Link>
+                    <p className="lead my-3">
                         Ben Hagle of the Month is a monthly competetion to
                         determine who is Ben Hagle. Submissions can be literally
                         anything, creativity is encouraged. The winner is

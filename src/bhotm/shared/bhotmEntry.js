@@ -8,9 +8,7 @@ class BhotmEntry extends React.Component {
         super(props);
         this.state = {
             class: `bhotm-entry ${
-                this.props.entry.place === 1 && this.props.entry.bhotyPlace <= 1
-                    ? "bhotm-winner"
-                    : null
+                this.props.entry.place === 1 ? "bhotm-winner" : null
             }`,
         };
     }
@@ -66,6 +64,7 @@ function BhotmHeader(props) {
                         ? props.entry.bhotyPlace
                         : props.entry.place
                 }
+                isBhoty={props.mode === "bhoty"}
             />
         );
 
@@ -97,12 +96,16 @@ function BhotmHeader(props) {
 // Place widget thingo
 function BhotmPlace(props) {
     let classN = "text-muted";
-    if (props.place === 1) {
+    let inside = ordinalSuffix(props.place);
+    if (props.place === 1 && !props.isBhoty) {
         classN = "text-success";
+    }
+    if (props.isBhoty) {
+        inside = `${props.place} votes`;
     }
     return (
         <div className="bhotm-header-place">
-            <h3 className={classN}>{ordinalSuffix(props.place)}</h3>
+            <h3 className={classN}>{inside}</h3>
         </div>
     );
 }

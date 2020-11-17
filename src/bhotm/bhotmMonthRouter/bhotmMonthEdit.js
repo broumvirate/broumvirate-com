@@ -6,7 +6,7 @@ import ErrorAlert from "../../utils/errorAlert";
 import { getEntries, checkAuth } from "../api/bhotmEntryApi";
 import { getMonth, updateMonth } from "../api/bhotmMonthApi";
 
-function MonthEditPage() {
+export default function MonthEditPage() {
     const { monthId } = useParams();
     const history = useHistory();
 
@@ -55,38 +55,44 @@ function MonthEditPage() {
         return <Redirect to={`/bhotm/month/${monthId}`} />;
     } else if (month.loaded) {
         return (
-            <div>
+            <div className="container">
                 <ErrorAlert
                     error={editResult.failed ? editResult.result : null}
                 />
-                <MonthForm
-                    initialValues={toEdit.result}
-                    showAdminFields={user.isAdmin}
-                    onSubmit={(data, { setSubmitting }) => {
-                        setSubmitting(true);
-                        updateMonth(data, monthId)
-                            .then((res) => {
-                                setEditResult({
-                                    loaded: true,
-                                    failed: false,
-                                    result: res,
-                                });
-                                setSubmitting(false);
+                <h2 className="text-center my-2">Edit BHotM</h2>
+                <div className="col-md-8 mx-auto">
+                    <MonthForm
+                        initialValues={month.result}
+                        showAdminFields={user.isAdmin}
+                        onSubmit={(data, { setSubmitting }) => {
+                            setSubmitting(true);
+                            updateMonth(data, monthId, {
+                                judged: false,
+                                changedOrder: false,
                             })
-                            .catch((error) => {
-                                setEditResult({
-                                    loaded: false,
-                                    failed: true,
-                                    result: error,
+                                .then((res) => {
+                                    setEditResult({
+                                        loaded: true,
+                                        failed: false,
+                                        result: res,
+                                    });
+                                    setSubmitting(false);
+                                })
+                                .catch((error) => {
+                                    setEditResult({
+                                        loaded: false,
+                                        failed: true,
+                                        result: error,
+                                    });
+                                    setSubmitting(false);
                                 });
-                                setSubmitting(false);
-                            });
-                    }}
-                    entries={entries.loaded ? entries.result : []}
-                />
+                        }}
+                        entries={entries.loaded ? entries.result : []}
+                    />
+                </div>
             </div>
         );
+    } else {
+        return null;
     }
 }
-
-export default MonthEditPage;
