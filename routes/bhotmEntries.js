@@ -39,11 +39,9 @@ router.get("/:id", function (req, res, next) {
 
 // Entry create
 router.post("/", async function (req, res, next) {
-    let newEntry;
     try {
-        console.log(req.body);
-        const sanitizeEntry = bmHelpers.bhotm.sanitizeEntry(req.body.entry); // Sanitize out some values that the user could manipulate to win
-        newEntry = EntryValidator.cast(sanitizeEntry); // Cast some default fields
+        const sanitizedEntry = bmHelpers.bhotm.sanitizeEntry(req.body.entry); // Sanitize out some values that the user could manipulate to win
+        const newEntry = EntryValidator.cast(sanitizedEntry); // Cast some default fields
         await EntryValidator.validate(newEntry, { abortEarly: false });
         const { format, link } = bmHelpers.bhotm.getEntryType(newEntry.link); // Get/set format and updated embed link
         newEntry.link = link;
@@ -78,7 +76,7 @@ router.post("/", async function (req, res, next) {
 
 // Entry update
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
-    let newEntry = Object.create(req.body.entry);
+    const newEntry = { ...req.body.entry };
     const { format, link } = bmHelpers.bhotm.getEntryType(newEntry.link); // Get/set format and updated embed link
     newEntry.link = link;
     newEntry.format = format;

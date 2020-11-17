@@ -86,7 +86,7 @@ router.get("/:id", function (req, res, next) {
 // Month update
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     try {
-        let month = Object.create(req.body.month);
+        const month = { ...req.body.month };
         month.submissions = req.body.month.submissions.map((el, i) => el._id);
         if (req.body.judged) {
             month.winner = req.body.month.submissions[0].name;
