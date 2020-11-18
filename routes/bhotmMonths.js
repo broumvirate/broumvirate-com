@@ -87,7 +87,9 @@ router.get("/:id", function (req, res, next) {
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     try {
         const month = { ...req.body.month };
-        month.submissions = req.body.month.submissions.map((el, i) => el._id);
+        month.submissions = req.body.month.places
+            .sort((a, b) => a.place - b.place)
+            .map((el) => el.submission._id);
         if (req.body.judged) {
             month.winner = req.body.month.submissions[0].name;
             month.winnerRef = month.submissions[0];
@@ -99,23 +101,26 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
             })
             .then((oldMonth) => {
                 if (req.body.changedOrder) {
-                    console.log("I'm goin off!");
-                    return oldMonth;
-                    // return Promise.all(
-                    //     month.submissions.map((el, i) => {
-                    //         let update = month.isBhoty
-                    //             ? { bhotyPlace: i + 1 }
-                    //             : { place: i + 1 };
-                    //         update.isWinner = i === 0;
-                    //         if (req.body.judged) {
-                    //             update.hasBeenJudged = true;
-                    //         }
-                    //         if (!month.isBhoty) {
-                    //             update.month = month._id;
-                    //         }
-                    //         return bhotmEntry.findByIdAndUpdate(el, update);
-                    //     })
-                    // ).then(() => oldMonth);
+                    console.log("Order changed");
+                    return Promise.all(
+                        month.submissions.map((el, i) => {
+                            let update = month.isBhoty
+                                ? {
+                                      bhotyPlace: req.body.month.places.sort(
+                                          (a, b) => a.place - b.place
+                                      )[i].place,
+                                  }
+                                : { place: i + 1 };
+                            update.isWinner = i === 0;
+                            if (req.body.judged) {
+                                update.hasBeenJudged = true;
+                            }
+                            if (!month.isBhoty) {
+                                update.month = month._id;
+                            }
+                            return bhotmEntry.findByIdAndUpdate(el, update);
+                        })
+                    ).then(() => oldMonth);
                 } else {
                     return oldMonth;
                 }

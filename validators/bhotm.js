@@ -29,6 +29,7 @@ const MonthValidator = object().shape({
         return new Date();
     }),
     submissions: array().default([]),
+    places: array(),
     notes: string(),
     winner: string(),
     winnerRef: string(),

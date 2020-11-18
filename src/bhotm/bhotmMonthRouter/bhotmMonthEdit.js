@@ -41,13 +41,21 @@ export default function MonthEditPage() {
                 <h2 className="text-center my-2">Edit BHotM</h2>
                 <div className="col-md-8 mx-auto">
                     <MonthForm
-                        initialValues={month}
+                        initialValues={{
+                            ...month,
+                            places: month.submissions.map((el, i) => ({
+                                place: i,
+                                submission: el,
+                            })),
+                        }}
                         showAdminFields={user.isAdmin}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
                             updateMonth(data, monthId, {
-                                judged: false,
-                                changedOrder: false,
+                                judged: true,
+                                changedOrder:
+                                    data.places.map((el) => el.submission) !==
+                                    month.submissions,
                             })
                                 .then((res) => {
                                     setSubmitting(false);

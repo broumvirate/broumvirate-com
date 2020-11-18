@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, Field, Form, useField } from "formik";
+import { Formik, Field, Form, useField, FieldArray } from "formik";
 import Validators from "../../../validators/bhotm";
 import bhotmEntry from "../shared/bhotmEntry";
 import { BootstrapTextField } from "../shared/formikBootstrap";
@@ -33,6 +33,40 @@ export default function MonthForm(props) {
                             />
                         </div>
                     ) : null}
+                    <div>
+                        <FieldArray
+                            name="places"
+                            render={(arrayHelpers) => (
+                                <div>
+                                    {values.places
+                                        .sort((a, b) => a.place - b.place)
+                                        .map((el, i) => (
+                                            <div key={el.submission._id}>
+                                                <p>
+                                                    {el.submission.entryTitle} -{" "}
+                                                    {el.submission.name}
+                                                </p>
+                                                <input
+                                                    type="number"
+                                                    onChange={(e) => {
+                                                        arrayHelpers.replace(
+                                                            i,
+                                                            {
+                                                                place:
+                                                                    e.target
+                                                                        .value,
+                                                                submission:
+                                                                    el.submission,
+                                                            }
+                                                        );
+                                                    }}
+                                                ></input>
+                                            </div>
+                                        ))}
+                                </div>
+                            )}
+                        ></FieldArray>
+                    </div>
                     <div>
                         <button
                             type="submit"
