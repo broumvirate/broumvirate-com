@@ -11,21 +11,10 @@ export default function MonthEditPage() {
     const { monthId } = useParams();
     const history = useHistory();
 
-    const [month, setMonth] = useState({
-        loaded: false,
-        failed: false,
-        result: {},
-    });
-    const [entries, setEntries] = useState({
-        loaded: false,
-        failed: false,
-        result: {},
-    });
-    const [editResult, setEditResult] = useState({
-        loaded: false,
-        failed: false,
-        result: {},
-    });
+    const [month, setMonth] = useState(null);
+    const [entries, setEntries] = useState([]);
+    const [error, setError] = useState(null);
+    const [editResult, setEditResult] = useState(null);
     const [user, setUser] = useState();
 
     if (!user) {
@@ -35,26 +24,24 @@ export default function MonthEditPage() {
                 setUser(res);
                 return getMonth(monthId); // Get month and entries, store in state. Go immediately to 400 error if no worky.
             })
-            .then((month) => setMonth({ loaded: true, result: month }))
+            .then((month) => setMonth(month))
             .then(() => getEntries({ unjudged: false }))
-            .then((entries) => setEntries({ loaded: true, result: entries }))
+            .then((entries) => setEntries(entries))
             .catch((err) => {
                 showPageError(err, history);
             });
     }
 
-    if (editResult.loaded) {
+    if (editResult !== null) {
         return <Redirect to={`/bhotm/month/${monthId}`} />;
-    } else if (month.loaded) {
+    } else if (month !== null) {
         return (
             <div className="container">
-                <ErrorAlert
-                    error={editResult.failed ? editResult.result : null}
-                />
+                <ErrorAlert error={error} />
                 <h2 className="text-center my-2">Edit BHotM</h2>
                 <div className="col-md-8 mx-auto">
                     <MonthForm
-                        initialValues={month.result}
+                        initialValues={month}
                         showAdminFields={user.isAdmin}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
@@ -63,23 +50,15 @@ export default function MonthEditPage() {
                                 changedOrder: false,
                             })
                                 .then((res) => {
-                                    setEditResult({
-                                        loaded: true,
-                                        failed: false,
-                                        result: res,
-                                    });
                                     setSubmitting(false);
+                                    setEditResult(res);
                                 })
                                 .catch((error) => {
-                                    setEditResult({
-                                        loaded: false,
-                                        failed: true,
-                                        result: error,
-                                    });
                                     setSubmitting(false);
+                                    setError(error);
                                 });
                         }}
-                        entries={entries.loaded ? entries.result : []}
+                        entries={entries !== null ? entries : []}
                     />
                 </div>
             </div>

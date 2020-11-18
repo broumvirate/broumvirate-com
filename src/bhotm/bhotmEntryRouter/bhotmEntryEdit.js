@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
-import { handleFetchErrors, showPageError } from "../../utils/helpers";
+import { showPageError } from "../../utils/helpers";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import ErrorAlert from "../../utils/errorAlert";
 import { updateEntry, getEntry } from "../api/bhotmEntryApi";
@@ -8,21 +8,12 @@ import { getBoys, checkAdmin } from "../api/userApi";
 
 export default function EditPage() {
     const history = useHistory();
-    const [result, setResult] = useState({
-        loaded: false,
-        failed: false,
-        result: {},
-    });
-
-    const [toEdit, setEdit] = useState({
-        loaded: false,
-        failed: false,
-        result: {},
-    });
-
     const { entryId } = useParams();
 
     const [boys, setBoys] = useState([]);
+    const [entry, setEntry] = useState(null);
+    const [editResult, setEditResult] = useState(null);
+    const [error, setError] = useState(null);
     const [user, setUser] = useState();
 
     if (!user) {
@@ -30,61 +21,35 @@ export default function EditPage() {
             .then((res) => {
                 setUser(res);
                 getBoys().then(setBoys);
+                return getEntry(entryId).then((res) => setEntry(res));
             })
             .catch((err) => showPageError(err, history));
     }
 
-    if (!toEdit.loaded && !toEdit.failed) {
-        getEntry(entryId)
-            .then((res) => {
-                setEdit({
-                    loaded: true,
-                    failed: false,
-                    result: res,
-                });
-            })
-            .catch((error) => {
-                setEdit({
-                    loaded: false,
-                    failed: true,
-                    result: error,
-                });
-            });
-    }
-
-    if (result.loaded) {
-        return <Redirect to={`/bhotm/entry/${result.result._id}`} />;
-    } else if (toEdit.loaded) {
+    if (editResult !== null) {
+        return <Redirect to={`/bhotm/entry/${editResult._id}`} />;
+    } else if (entry !== null) {
         return (
             <div className="container">
-                <ErrorAlert error={result.failed ? result.result : null} />
+                <ErrorAlert error={error} />
                 <h2 className="text-center my-2">Edit BHotM Entry</h2>
                 <div className="col-md-8 mx-auto">
                     <EntryForm
-                        initialValues={toEdit.result}
+                        initialValues={entry}
                         onSubmit={(data, { setSubmitting }) => {
                             setSubmitting(true);
-                            console.log("wanna submit?");
                             updateEntry(data, entryId)
                                 .then((res) => {
-                                    setResult({
-                                        loaded: true,
-                                        failed: false,
-                                        result: res,
-                                    });
                                     setSubmitting(false);
+                                    setEditResult(res);
                                 })
                                 .catch((error) => {
-                                    setResult({
-                                        loaded: false,
-                                        failed: true,
-                                        result: error,
-                                    });
                                     setSubmitting(false);
+                                    setError(error);
                                 });
                         }}
-                        boys={boys.length > 1 ? boys : []}
-                        showAdminFields={true}
+                        boys={boys}
+                        showAdminFields
                     />
                 </div>
             </div>
