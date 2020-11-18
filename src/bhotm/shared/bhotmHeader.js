@@ -74,7 +74,9 @@ function BhotyPlace(props) {
     let classN = "text-muted";
     return (
         <div className="bhotm-header-place">
-            <h3 className={classN}>{props.place} votes</h3>
+            <h3 className={classN}>
+                {props.place} {props.place === 1 ? "vote" : "votes"}
+            </h3>
         </div>
     );
 }

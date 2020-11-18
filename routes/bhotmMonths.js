@@ -86,10 +86,11 @@ router.get("/:id", function (req, res, next) {
 // Month update
 router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
     try {
+        const sortedPlaces = req.body.month.places.sort(
+            (a, b) => a.place - b.place
+        );
         const month = { ...req.body.month };
-        month.submissions = req.body.month.places
-            .sort((a, b) => a.place - b.place)
-            .map((el) => el.submission._id);
+        month.submissions = sortedPlaces.map((el) => el.submission._id);
         if (req.body.judged) {
             month.winner = req.body.month.submissions[0].name;
             month.winnerRef = month.submissions[0];
@@ -101,14 +102,12 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
             })
             .then((oldMonth) => {
                 if (req.body.changedOrder) {
-                    console.log("Order changed");
+                    // console.log("Order changed");
                     return Promise.all(
                         month.submissions.map((el, i) => {
                             let update = month.isBhoty
                                 ? {
-                                      bhotyPlace: req.body.month.places.sort(
-                                          (a, b) => a.place - b.place
-                                      )[i].place,
+                                      bhotyPlace: sortedPlaces[i].place,
                                   }
                                 : { place: i + 1 };
                             update.isWinner = i === 0;
