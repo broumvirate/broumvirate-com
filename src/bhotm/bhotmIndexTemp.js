@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import BhotmEntry from "./shared/bhotmEntry";
 import { handleFetchErrors, showPageError } from "../utils/helpers";
+import BhotmCountdown from "./shared/bhotmCountdown";
 
 function MonthTemp(props) {
     const entries = props.month.submissions
@@ -82,6 +83,7 @@ class BhotmIndexTemp extends React.Component {
                         , and are due on the 4th of each month, at midnight in
                         your local timezone.
                     </p>
+                    <BhotmCountdown />
                     <h2 className="display-5 my-4">Previous submissions</h2>
                 </div>
                 <div className="accordion" id="previousAccordion">
