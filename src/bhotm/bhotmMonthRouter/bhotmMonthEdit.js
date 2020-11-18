@@ -3,8 +3,9 @@ import MonthForm from "./bhotmMonthForm";
 import { showPageError } from "../../utils/helpers";
 import { Redirect, useParams, useHistory } from "react-router-dom";
 import ErrorAlert from "../../utils/errorAlert";
-import { getEntries, checkAuth } from "../api/bhotmEntryApi";
+import { getEntries } from "../api/bhotmEntryApi";
 import { getMonth, updateMonth } from "../api/bhotmMonthApi";
+import { checkAdmin } from "../api/userApi";
 
 export default function MonthEditPage() {
     const { monthId } = useParams();
@@ -29,26 +30,17 @@ export default function MonthEditPage() {
 
     if (!user) {
         // Check auth first
-        checkAuth().then((res) => {
-            setUser(res);
-            if (res.isAdmin) {
-                getMonth(monthId) // Get month and entries, store in state. Go immediately to 400 error if no worky.
-                    .then((month) => setMonth({ loaded: true, result: month }))
-                    .then(() => getEntries(false))
-                    .then((entries) =>
-                        setEntries({ loaded: true, result: entries })
-                    )
-                    .catch((err) => {
-                        showPageError(err, history);
-                    });
-            } else {
-                // Show 403 if not authorized
-                showPageError(
-                    { code: 403, errorMessage: "Forbidden" },
-                    history
-                );
-            }
-        });
+        checkAdmin()
+            .then((res) => {
+                setUser(res);
+                return getMonth(monthId); // Get month and entries, store in state. Go immediately to 400 error if no worky.
+            })
+            .then((month) => setMonth({ loaded: true, result: month }))
+            .then(() => getEntries({ unjudged: false }))
+            .then((entries) => setEntries({ loaded: true, result: entries }))
+            .catch((err) => {
+                showPageError(err, history);
+            });
     }
 
     if (editResult.loaded) {

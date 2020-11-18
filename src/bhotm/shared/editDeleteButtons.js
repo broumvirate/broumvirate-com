@@ -1,5 +1,5 @@
 import { handleFetchErrors, showPageError } from "../../utils/helpers";
-import { checkAuth } from "../api/bhotmEntryApi";
+import { checkAuth } from "../api/userApi";
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 

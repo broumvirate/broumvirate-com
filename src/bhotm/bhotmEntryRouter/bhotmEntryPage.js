@@ -32,11 +32,7 @@ class EntryPage extends React.Component {
     }
     loadEntry(id) {
         getEntry(id)
-            .then((res) => {
-                this.setState({
-                    entry: res,
-                });
-            })
+            .then((entry) => this.setState({ entry }))
             .catch((error) => {
                 showPageError(error, this.props.history);
             });

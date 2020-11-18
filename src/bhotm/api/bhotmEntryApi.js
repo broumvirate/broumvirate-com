@@ -32,26 +32,4 @@ const updateEntry = (data, id) => {
     }).then(handleFetchErrors);
 };
 
-const checkAuth = () => {
-    const url = "/api/user/authenticated";
-    return fetch(url, {
-        headers: new Headers({
-            Pragma: "no-cache",
-            "Cache-Control": "no-cache",
-            Expires: 0,
-        }),
-    })
-        .then(handleFetchErrors)
-        .then((res) => {
-            return res;
-        })
-        .catch((error) => {
-            return { error };
-        });
-};
-
-const getBoys = () => {
-    return fetch("/api/boys").then(handleFetchErrors);
-};
-
-export { getBoys, getEntry, getEntries, checkAuth, newEntry, updateEntry };
+export { getEntry, getEntries, newEntry, updateEntry };

@@ -36,14 +36,14 @@ class MonthPage extends React.Component {
     // Load the data
     loadData(id) {
         getMonth(id)
-            .then((res) => {
-                res.submissions.sort((a, b) => a.place - b.place);
-                if (res.isBhoty) {
-                    res.submissions.sort((a, b) => b.bhotyPlace - a.bhotyPlace);
+            .then((month) => {
+                month.submissions.sort((a, b) => a.place - b.place);
+                if (month.isBhoty) {
+                    month.submissions.sort(
+                        (a, b) => b.bhotyPlace - a.bhotyPlace
+                    );
                 }
-                this.setState({
-                    month: res,
-                });
+                this.setState({ month });
             })
             .catch((error) => {
                 showPageError(error, this.props.history);

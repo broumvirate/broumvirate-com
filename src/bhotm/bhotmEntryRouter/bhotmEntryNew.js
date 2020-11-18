@@ -3,7 +3,8 @@ import EntryForm from "./bhotmEntryForm";
 import { handleFetchErrors, showPageError } from "../../utils/helpers";
 import { Redirect } from "react-router-dom";
 import ErrorAlert from "../../utils/errorAlert";
-import { newEntry, getBoys, checkAuth } from "../api/bhotmEntryApi";
+import { newEntry } from "../api/bhotmEntryApi";
+import { getBoys, checkAuth } from "../api/userApi";
 
 export default function NewPage() {
     const [result, setResult] = useState({

@@ -1,8 +1,9 @@
 import React from "react";
 import { showPageError } from "../utils/helpers";
 import { Link, Redirect } from "react-router-dom";
-import { checkAuth, getEntries } from "./api/bhotmEntryApi";
+import { getEntries } from "./api/bhotmEntryApi";
 import { getMonths, newMonthType } from "./api/bhotmMonthApi";
+import { checkAdmin } from "./api/userApi";
 
 class BhotmAdminPage extends React.Component {
     constructor(props) {
@@ -16,17 +17,10 @@ class BhotmAdminPage extends React.Component {
         this.newBhotm = this.newBhotm.bind(this);
     }
     componentDidMount() {
-        checkAuth()
-            .then((res) => {
-                if (res.isAdmin) {
-                    return Promise.all([
-                        getEntries({ unjudged: true }),
-                        getMonths(),
-                    ]);
-                } else {
-                    throw { code: 403, errorMessage: "Forbidden" };
-                }
-            })
+        checkAdmin()
+            .then(() =>
+                Promise.all([getEntries({ unjudged: true }), getMonths()])
+            )
             .then((res) => {
                 this.setState({
                     contentLoaded: true,

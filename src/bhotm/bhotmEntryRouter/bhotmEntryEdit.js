@@ -1,16 +1,13 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
 import { handleFetchErrors, showPageError } from "../../utils/helpers";
-import { Redirect, useLocation, useParams } from "react-router-dom";
+import { Redirect, useParams, useHistory } from "react-router-dom";
 import ErrorAlert from "../../utils/errorAlert";
-import {
-    updateEntry,
-    getEntry,
-    getBoys,
-    checkAuth,
-} from "../api/bhotmEntryApi";
+import { updateEntry, getEntry } from "../api/bhotmEntryApi";
+import { getBoys, checkAdmin } from "../api/userApi";
 
 export default function EditPage() {
+    const history = useHistory();
     const [result, setResult] = useState({
         loaded: false,
         failed: false,
@@ -29,12 +26,12 @@ export default function EditPage() {
     const [user, setUser] = useState();
 
     if (!user) {
-        checkAuth().then((res) => {
-            setUser(res);
-            if (res.isAdmin) {
+        checkAdmin()
+            .then((res) => {
+                setUser(res);
                 getBoys().then(setBoys);
-            }
-        });
+            })
+            .catch((err) => showPageError(err, history));
     }
 
     if (!toEdit.loaded && !toEdit.failed) {
