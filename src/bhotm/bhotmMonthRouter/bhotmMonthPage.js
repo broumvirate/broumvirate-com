@@ -10,20 +10,38 @@ class MonthPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            monthLoaded: false,
             month: null,
         };
+        this.loadData = this.loadData.bind(this);
+    }
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.monthId !== state.prevId) {
+            return {
+                month: null,
+                prevId: props.match.params.monthId,
+            };
+        }
+        return null;
+    }
+
+    componentDidMount() {
+        this.loadData(this.props.match.params.monthId);
+    }
+
+    componentDidUpdate() {
+        if (this.state.month === null) {
+            this.loadData(this.props.match.params.monthId);
+        }
     }
     // Load the data
-    componentDidMount() {
-        getMonth(this.props.match.params.monthId)
+    loadData(id) {
+        getMonth(id)
             .then((res) => {
                 res.submissions.sort((a, b) => a.place - b.place);
                 if (res.isBhoty) {
                     res.submissions.sort((a, b) => b.bhotyPlace - a.bhotyPlace);
                 }
                 this.setState({
-                    monthLoaded: true,
                     month: res,
                 });
             })
@@ -33,7 +51,7 @@ class MonthPage extends React.Component {
     }
 
     render() {
-        if (this.state.monthLoaded) {
+        if (this.state.month !== null) {
             // Set some page variables
             document.title = `${this.state.month.month} - BHotM - The Broumvirate`;
 
@@ -42,8 +60,10 @@ class MonthPage extends React.Component {
                 <div className="mt-5" key={el._id}>
                     <BhotmEntry
                         entry={el}
-                        mode={this.state.month.isBhoty ? "bhoty" : "month"}
                         unjudged={!this.state.month.hasBeenJudged}
+                        linkToEntry
+                        linkToMonth={this.state.month.isBhoty}
+                        bhoty={this.state.month.isBhoty}
                     />
                 </div>
             ));

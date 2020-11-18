@@ -8,15 +8,32 @@ class EntryPage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            entryLoaded: false,
             entry: null,
         };
     }
+    static getDerivedStateFromProps(props, state) {
+        if (props.match.params.entryId !== state.prevId) {
+            return {
+                entry: null,
+                prevId: props.match.params.entryId,
+            };
+        }
+        return null;
+    }
+
     componentDidMount() {
-        getEntry(this.props.match.params.entryId)
+        this.loadEntry(this.props.match.params.entryId);
+    }
+
+    componentDidUpdate() {
+        if (this.state.entry === null) {
+            this.loadEntry(this.props.match.params.entryId);
+        }
+    }
+    loadEntry(id) {
+        getEntry(id)
             .then((res) => {
                 this.setState({
-                    entryLoaded: true,
                     entry: res,
                 });
             })
@@ -26,11 +43,15 @@ class EntryPage extends React.Component {
     }
 
     render() {
-        if (this.state.entryLoaded) {
+        if (this.state.entry !== null) {
             document.title = `${this.state.entry.name}'s BHotM Submission - The Broumvirate`;
             return (
                 <div className="container mt-4">
-                    <BhotmEntry entry={this.state.entry} mode="single" />
+                    <BhotmEntry
+                        entry={this.state.entry}
+                        unjudged={!this.state.entry.hasBeenJudged}
+                        linkToMonth
+                    />
                     <EditDeleteButtons
                         context="Entry"
                         editEndpoint={`/bhotm/entry/${this.state.entry._id}/edit`}
