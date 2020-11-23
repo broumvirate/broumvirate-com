@@ -41,9 +41,12 @@ export default function MonthForm(props) {
                                     {values.places
                                         .sort((a, b) => a.place - b.place)
                                         .map((el, i) => (
-                                            <div key={el.submission._id}>
+                                            <div
+                                                className="d-flex justify-content-between"
+                                                key={el.submission._id}
+                                            >
                                                 <p>
-                                                    {el.submission.entryTitle} -{" "}
+                                                    {el.submission.entryName} -{" "}
                                                     {el.submission.name}
                                                 </p>
                                                 <input

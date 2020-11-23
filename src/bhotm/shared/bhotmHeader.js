@@ -36,7 +36,10 @@ function BhotmHeader(props) {
     ) : props.bhoty ? (
         <BhotyPlace place={props.entry.bhotyPlace} />
     ) : (
-        <BhotmPlace place={props.entry.place} />
+        <BhotmPlace
+            place={props.entry.place}
+            isWinner={props.entry.place === 1}
+        />
     );
 
     // Define month and description
@@ -72,6 +75,9 @@ function BhotmHeader(props) {
 // Place widget thingo
 function BhotyPlace(props) {
     let classN = "text-muted";
+    if (props.isWinner) {
+        classN = "text-success";
+    }
     return (
         <div className="bhotm-header-place">
             <h3 className={classN}>
@@ -85,7 +91,7 @@ function BhotyPlace(props) {
 function BhotmPlace(props) {
     let classN = "text-muted";
     let inside = ordinalSuffix(props.place);
-    if (props.place === 1) {
+    if (props.isWinner) {
         classN = "text-success";
     }
     return (
