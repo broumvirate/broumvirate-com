@@ -6,13 +6,17 @@ import BhotmCountdown from "./shared/bhotmCountdown";
 
 function MonthTemp(props) {
     const entries = props.month.submissions
-        .sort((a, b) => a.place - b.place)
+        .sort((a, b) =>
+            props.month.isBhoty
+                ? b.bhotyPlace - a.bhotyPlace
+                : a.place - b.place
+        )
         .map((el, i) => (
             <div className="mb-3" key={el._id}>
                 <BhotmEntry
                     entry={el}
                     total={props.month.submissions.length}
-                    mode="month"
+                    bhoty={props.month.isBhoty}
                 />
             </div>
         ));
