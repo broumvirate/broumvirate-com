@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function BhotmHeader(props) {
     // Define header elements, with ternary switches based on certain flags
     // Use either the submission title, or the submittee's name as the title
-    const hasMonth = props.entry.month !== undefined;
+    let hasMonth = props.entry.month !== undefined;
 
     if (hasMonth) {
         hasMonth = props.entry.month._id ? true : false;
