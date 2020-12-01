@@ -46,7 +46,7 @@ class EntryPage extends React.Component {
                     <BhotmEntry
                         entry={this.state.entry}
                         unjudged={!this.state.entry.hasBeenJudged}
-                        linkToMonth
+                        linkToMonth={this.state.month !== undefined}
                     />
                     <EditDeleteButtons
                         context="Entry"

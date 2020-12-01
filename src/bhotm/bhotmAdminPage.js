@@ -54,7 +54,9 @@ class BhotmAdminPage extends React.Component {
             const entries = this.state.entries.map((el) => (
                 <li>
                     <Link key={el._id} to={`/bhotm/entry/${el._id}`}>
-                        {el.name ? el.name : "Untitled"}
+                        {el.entryName
+                            ? `${el.entryName} - ${el.name}`
+                            : el.name}
                     </Link>
                 </li>
             ));

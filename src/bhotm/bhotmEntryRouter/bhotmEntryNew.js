@@ -21,7 +21,7 @@ export default function NewPage() {
     }
 
     if (result !== null) {
-        return <Redirect to={`/bhotm/entry/${result.result._id}`} />;
+        return <Redirect to={`/bhotm/entry/${result._id}`} />;
     } else {
         return (
             <div className="container">
