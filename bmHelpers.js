@@ -20,6 +20,8 @@ module.exports = {
                     code: 403,
                     title: "Must be administrator to access this resource",
                 });
+            } else if (req.isAuthenticated()) {
+                res.json({ text: "I hate you" });
             } else {
                 res.redirect("/login?redirect=" + encodeURIComponent(req.url));
             }
@@ -29,6 +31,10 @@ module.exports = {
     bhotm: {
         getEntryType: function (link) {
             //Using a link, determine the entry type. Return object, format and link.
+            if (typeof link !== "string" && !(link instanceof String)) {
+                throw new Error("BHothM: Link not string");
+            }
+
             const imgExtensions = ["jpg", "jpeg", "png", "gif"];
             const audioExtensions = ["mp3", "wav"];
             let splitLink = link.split(".");
@@ -42,6 +48,12 @@ module.exports = {
                 //If the link is youtube, convert it to an embed format
                 format = "youtube";
                 returnLink = link.replace("watch?v=", "embed/");
+            } else if (link.includes("youtu.be")) {
+                format = "youtube";
+                returnLink = link.replace(
+                    "youtu.be/",
+                    "www.youtube.com/embed/"
+                );
             } else if (
                 imgExtensions.includes(
                     splitLink[splitLink.length - 1].toLowerCase()
