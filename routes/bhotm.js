@@ -107,17 +107,18 @@ router.get("/bhotmold/:id/edit", bmHelpers.isAdmin, function (req, res) {
 router.put("/bhotmold/:id", bmHelpers.isAdmin, function (req, res) {
     var thisMonth = bmHelpers.bhotm.processMonth(req.body.bhotm);
 
-    bhotm.findByIdAndUpdate(req.params.id, thisMonth, function (
-        err,
-        updateMonth
-    ) {
-        //Update month in database
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect("/bhotm/admin");
+    bhotm.findByIdAndUpdate(
+        req.params.id,
+        thisMonth,
+        function (err, updateMonth) {
+            //Update month in database
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect("/bhotm/admin");
+            }
         }
-    });
+    );
 });
 
 // DELETE - Deletes specified BHoTM

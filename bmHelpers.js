@@ -1,5 +1,5 @@
-var express = require("express");
-var dayjs = require("dayjs");
+const dayjs = require("dayjs");
+const sanitize = require("mongo-sanitize");
 
 module.exports = {
     isLoggedIn: function (req, res, next) {
@@ -24,6 +24,16 @@ module.exports = {
                 res.redirect("/login?redirect=" + encodeURIComponent(req.url));
             }
         }
+    },
+
+    cleanBody: function (req, res, next) {
+        req.body = sanitize(req.body);
+        next();
+    },
+
+    cleanParams: function (req, res, next) {
+        req.params = sanitize(req.params);
+        next();
     },
 
     bhotm: {

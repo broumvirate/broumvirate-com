@@ -22,7 +22,7 @@ router.get("/register", function (req, res) {
 });
 
 // REGISTER POST
-router.post("/register", function (req, res) {
+router.post("/register", bmHelpers.cleanBody, function (req, res) {
     Boy.findByIdAndUpdate(req.body.boy, {
         "flags.registered": true,
         email: req.body.username,

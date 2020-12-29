@@ -10,6 +10,7 @@ const express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
+    rateLimit = require("express-rate-limit"),
     dotEnv = require("dotenv");
 
 dotEnv.config();
@@ -101,6 +102,17 @@ app.use(function (req, res, next) {
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+//////////////////
+// RATE LIMITING
+//////////////////
+
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 100,
+});
+
+app.use(limiter);
 
 //////////////////
 // ROUTES
