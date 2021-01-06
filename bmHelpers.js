@@ -41,6 +41,7 @@ module.exports = {
             //Using a link, determine the entry type. Return object, format and link.
             const imgExtensions = ["jpg", "jpeg", "png", "gif"];
             const audioExtensions = ["mp3", "wav"];
+            const videoExtensions = ["mp4", "mov"];
             let splitLink = link.split(".");
             let format = "link";
             let returnLink = link;
@@ -66,6 +67,13 @@ module.exports = {
             ) {
                 // If the last element of the link (. delimited) is in the extension list
                 format = "audio";
+            } else if (
+                videoExtensions.includes(
+                    splitLink[splitLink.length - 1].toLowerCase()
+                )
+            ) {
+                // If the last element of the link (. delimited) is in the extension list
+                format = "video";
             } else if (link.includes(" ")) {
                 // If the link has a space, it's a phrase
                 format = "phrase";
@@ -137,9 +145,9 @@ module.exports = {
             return this.dueMoment(true).add(3, "d");
         },
 
-        currentMonth: function () {
+        currentMonth: function (format = "MMM. YYYY") {
             //Returns format of the current month entries fall in
-            return this.dueMoment(true).format("MMM. YYYY");
+            return this.dueMoment(true).format(format);
         },
 
         canSubmit: function () {

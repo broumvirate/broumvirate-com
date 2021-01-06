@@ -5,7 +5,7 @@ import ErrorHandler from "./utils/errorHandler";
 import ErrorPage from "./utils/errorPage";
 import BhotmEntryRouter from "./bhotm/bhotmEntryRouter";
 import BhotmMonthRouter from "./bhotm/bhotmMonthRouter";
-import BhotmIndexTemp from "./bhotm/bhotmIndexTemp";
+import BhotmIndexTempTemp from "./bhotm/bhotmIndexTempTemp";
 import BhotmAdminPage from "./bhotm/bhotmAdminPage";
 
 const PREFIX = "/bhotm/";
@@ -15,7 +15,7 @@ const BHotM = () => (
         <ErrorHandler>
             <Switch>
                 <Route exact path={PREFIX}>
-                    <BhotmIndexTemp />
+                    <BhotmIndexTempTemp />
                 </Route>
                 <Route path={PREFIX + "entry"}>
                     <BhotmEntryRouter />

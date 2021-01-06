@@ -16,6 +16,8 @@ router.get("/", function (req, res, next) {
     let find = {};
     if (req.query.filter === "unjudged") {
         find = { hasBeenJudged: false };
+    } else if (req.query.filter === "judged") {
+        find = { hasBeenJudged: true };
     }
     bhotm
         .find(find)

@@ -30,7 +30,7 @@ function BhotmEntryContent(props) {
             content = (
                 <div>
                     <img
-                        src="/img/SmackSonUS1.jpg"
+                        src="https://broumvirate.s3.us-east-2.amazonaws.com/img/SmackSonUS1.jpg"
                         className="img-fluid bhotm-image"
                         alt="Mason Gurtler"
                     />
@@ -40,6 +40,22 @@ function BhotmEntryContent(props) {
         case "deleted":
             content = (
                 <p>This entry has been deleted by the admins. :bencry:</p>
+            );
+            break;
+        case "audio":
+            content = (
+                <audio controls style={{ width: "100%" }}>
+                    <source src={props.entry.link} type="audio/mpeg" />
+                    Your browser does not support the audio tag.
+                </audio>
+            );
+            break;
+        case "video":
+            content = (
+                <video controls style={{ width: "100%" }}>
+                    <source src={props.entry.link} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
             );
             break;
         default:

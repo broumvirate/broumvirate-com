@@ -4,37 +4,6 @@ import BhotmEntry from "./shared/bhotmEntry";
 import { handleFetchErrors, showPageError } from "../utils/helpers";
 import BhotmCountdown from "./shared/bhotmCountdown";
 
-function MonthTemp(props) {
-    const entries = props.month.submissions
-        .sort((a, b) =>
-            props.month.isBhoty
-                ? b.bhotyPlace - a.bhotyPlace
-                : a.place - b.place
-        )
-        .map((el, i) => (
-            <div className="mb-3 bhotm-entry-temp" key={el._id}>
-                <BhotmEntry
-                    entry={el}
-                    total={props.month.submissions.length}
-                    bhoty={props.month.isBhoty}
-                />
-            </div>
-        ));
-    return (
-        <div className="card">
-            <div className="card-header">
-                <Link to={`/bhotm/month/${props.month._id}`}>
-                    <h4 className="mb-0">{props.month.month}</h4>
-                </Link>
-            </div>
-            <div className="card-body">
-                <div className="card-columns">{entries}</div>
-                <h5 className="mx-auto">{props.month.notes}</h5>
-            </div>
-        </div>
-    );
-}
-
 class BhotmIndexTemp extends React.Component {
     constructor(props) {
         super(props);
@@ -44,7 +13,7 @@ class BhotmIndexTemp extends React.Component {
         };
     }
     componentDidMount() {
-        fetch("/api/bhotm")
+        fetch("/api/bhotm/month?filter=judged")
             .then(handleFetchErrors)
             .then((res) => {
                 this.setState({
@@ -60,7 +29,12 @@ class BhotmIndexTemp extends React.Component {
     render() {
         const months = this.state.dataLoaded
             ? this.state.data.map((el, i) => (
-                  <MonthTemp month={el} i={i} key={el._id} />
+                  <h5
+                      className="list-group-item list-group-item-action"
+                      style={{ marginBottom: "0" }}
+                  >
+                      <Link to={`/bhotm/month/${el._id}`}>{el.month}</Link>
+                  </h5>
               ))
             : null;
         return (
@@ -68,8 +42,9 @@ class BhotmIndexTemp extends React.Component {
                 <div>
                     <h1 className="display-4 my-3">Ben Hagle of the Month</h1>
                     <h4 className="my-3">
-                        This is the WIP new BHotM page. It is not done. You can
-                        get to the old one <a href="/bhotmold">here.</a>
+                        This is a new temporary BHotM page. It is not done. You
+                        can get to the old, old one{" "}
+                        <a href="/bhotmold">here.</a>
                     </h4>
                     <h4 className="">Try our new online submission form:</h4>
                     <Link to="/bhotm/entry/new" className="btn btn-primary">
@@ -88,9 +63,11 @@ class BhotmIndexTemp extends React.Component {
                         your local timezone.
                     </p>
                     <BhotmCountdown />
-                    <h2 className="display-5 my-4">Previous submissions</h2>
                 </div>
-                <div className="accordion" id="previousAccordion">
+                <div className="list-group list-group-flush">
+                    <div className="list-group-item">
+                        <h2>Previous Submissions:</h2>
+                    </div>
                     {months}
                 </div>
             </div>

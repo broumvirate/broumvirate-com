@@ -3,6 +3,7 @@ import EditDeleteButtons from "../shared/editDeleteButtons";
 import React from "react";
 import { showPageError } from "../../utils/helpers";
 import { getMonth } from "../api/bhotmMonthApi";
+import { Link } from "react-router-dom";
 
 // Fully rendered page displaying a whole month of BHotM
 
@@ -70,6 +71,11 @@ class MonthPage extends React.Component {
 
             return (
                 <div className="container mt-4">
+                    <p className="text-muted d-inline">
+                        <Link to={"/bhotm/"} className="text-reset">
+                            Back to BHotM Page
+                        </Link>
+                    </p>
                     {/* Header */}
                     <h1 className="text-center display-3">
                         {this.state.month.month}
