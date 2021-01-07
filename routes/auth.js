@@ -43,7 +43,10 @@ router.post("/register", bmHelpers.cleanBody, function (req, res) {
                 }
             );
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            console.log(err);
+            res.redirect("/register");
+        });
 });
 
 // LOGIN INDEX
