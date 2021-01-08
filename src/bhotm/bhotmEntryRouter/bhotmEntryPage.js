@@ -1,66 +1,40 @@
 import BhotmEntry from "../shared/bhotmEntry";
 import EditDeleteButtons from "../shared/editDeleteButtons";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { showPageError } from "../../utils/helpers";
 import { getEntry } from "../api/bhotmEntryApi";
 
-class EntryPage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            entry: null,
-        };
-    }
-    static getDerivedStateFromProps(props, state) {
-        if (props.match.params.entryId !== state.prevId) {
-            return {
-                entry: null,
-                prevId: props.match.params.entryId,
-            };
-        }
-        return null;
-    }
+const EntryPage = (props) => {
+    const [entry, setEntry] = useState(null);
 
-    componentDidMount() {
-        this.loadEntry(this.props.match.params.entryId);
-    }
-
-    componentDidUpdate() {
-        if (this.state.entry === null) {
-            this.loadEntry(this.props.match.params.entryId);
-        }
-    }
-    loadEntry(id) {
-        getEntry(id)
-            .then((entry) => this.setState({ entry }))
+    useEffect(() => {
+        getEntry(props.match.params.entryId)
+            .then((entry) => setEntry({ ...entry }))
             .catch((error) => {
-                showPageError(error, this.props.history);
+                showPageError(error);
             });
-    }
+    }, [props.match.params.entryId]);
 
-    render() {
-        if (this.state.entry !== null) {
-            document.title = `${this.state.entry.name}'s BHotM Submission - The Broumvirate`;
-            return (
-                <div className="container mt-4">
-                    <BhotmEntry
-                        entry={this.state.entry}
-                        unjudged={!this.state.entry.hasBeenJudged}
-                        linkToMonth={this.state.month !== undefined}
-                    />
-                    <EditDeleteButtons
-                        context="Entry"
-                        editEndpoint={`/bhotm/entry/${this.state.entry._id}/edit`}
-                        deleteEndpoint={`/api/bhotm/entry/${this.state.entry._id}`}
-                        redirect="/bhotm/admin"
-                        history={this.props.history}
-                    />
-                </div>
-            );
-        } else {
-            return <div className="container mt-4"></div>;
-        }
+    if (entry !== null) {
+        document.title = `${entry.name}'s BHotM Submission - The Broumvirate`;
+        return (
+            <div className="container mt-4">
+                <BhotmEntry
+                    entry={entry}
+                    unjudged={!entry.hasBeenJudged}
+                    linkToMonth={entry.month !== undefined}
+                />
+                <EditDeleteButtons
+                    context="Entry"
+                    editEndpoint={`/bhotm/entry/${entry._id}/edit`}
+                    deleteEndpoint={`/api/bhotm/entry/${entry._id}`}
+                    redirect="/bhotm/admin"
+                />
+            </div>
+        );
+    } else {
+        return <div className="container mt-4"></div>;
     }
-}
+};
 
 export default EntryPage;
