@@ -1,69 +1,56 @@
 import { handleFetchErrors, showPageError } from "../../utils/helpers";
 import { checkAuth } from "../api/userApi";
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
-class EditDeleteButtons extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            userLoaded: false,
-            user: null,
-            hasDeleted: false,
-        };
-    }
-    componentDidMount() {
-        checkAuth()
-            .then((res) => {
-                this.setState({
-                    userLoaded: true,
-                    user: res,
-                });
-            })
-            .catch();
-    }
-    onDelete() {
-        fetch(this.props.deleteEndpoint, { method: "DELETE" })
-            .then(handleFetchErrors)
-            .then((res) => {
-                if (res.completed) {
-                    this.setState({ hasDeleted: true });
-                }
-            })
-            .catch((error) => showPageError(error, this.props.history));
-    }
-    render() {
-        if (this.state.userLoaded && this.state.user.isAdmin) {
-            if (this.state.hasDeleted) {
-                return <Redirect to={this.props.redirect} />;
-            }
+const EditDeleteButtons = (props) => {
+    const history = useHistory();
+    const [user, setUser] = useState(null);
+    const [hasDeleted, setHasDeleted] = useState(false);
 
-            return (
-                <div className="m-2">
-                    <Link
-                        className="btn btn-secondary text-white"
-                        to={this.props.editEndpoint}
-                    >
-                        Edit {this.props.context}
-                    </Link>
-                    <a
-                        className="btn btn-danger mx-2 text-white"
-                        data-toggle="modal"
-                        data-target="#deleteModal"
-                    >
-                        Delete {this.props.context}
-                    </a>
-                    <DeleteModal
-                        context={this.props.context}
-                        onDelete={this.onDelete.bind(this)}
-                    />
-                </div>
-            );
-        } else {
-            return null;
+    useEffect(() => {
+        checkAuth().then(setUser).catch();
+    }, []);
+
+    if (user?.isAdmin) {
+        if (hasDeleted) {
+            return <Redirect to={props.redirect} />;
         }
+
+        return (
+            <div className="m-2">
+                <Link
+                    className="btn btn-secondary text-white"
+                    to={props.editEndpoint}
+                >
+                    Edit {props.context}
+                </Link>
+                <a
+                    className="btn btn-danger mx-2 text-white"
+                    data-toggle="modal"
+                    data-target="#deleteModal"
+                >
+                    Delete {props.context}
+                </a>
+                <DeleteModal
+                    context={props.context}
+                    onDelete={() => {
+                        fetch(props.deleteEndpoint, { method: "DELETE" })
+                            .then(handleFetchErrors)
+                            .then((res) => {
+                                if (res.completed) {
+                                    setHasDeleted(true);
+                                }
+                            })
+                            .catch((error) => showPageError(error, history));
+                    }}
+                />
+            </div>
+        );
+    } else {
+        return null;
     }
-}
+};
 
 function DeleteModal(props) {
     return (
