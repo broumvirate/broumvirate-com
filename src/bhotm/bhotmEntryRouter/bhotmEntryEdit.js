@@ -1,19 +1,17 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
-import { showPageError } from "../../utils/helpers";
+import { showPageError, showAlert } from "../../utils/helpers";
 import { Redirect, useParams, useHistory } from "react-router-dom";
-import ErrorAlert from "../../utils/errorAlert";
 import { updateEntry, getEntry } from "../api/bhotmEntryApi";
 import { getBoys, checkAdmin } from "../api/userApi";
 
 export default function EditPage() {
-    const history = useHistory();
     const { entryId } = useParams();
+    const history = useHistory();
 
     const [boys, setBoys] = useState([]);
     const [entry, setEntry] = useState(null);
     const [editResult, setEditResult] = useState(null);
-    const [error, setError] = useState(null);
     const [user, setUser] = useState();
 
     if (!user) {
@@ -31,7 +29,6 @@ export default function EditPage() {
     } else if (entry !== null) {
         return (
             <div className="container">
-                <ErrorAlert error={error} />
                 <h2 className="text-center my-2">Edit BHotM Entry</h2>
                 <div className="col-md-8 mx-auto">
                     <EntryForm
@@ -45,7 +42,7 @@ export default function EditPage() {
                                 })
                                 .catch((error) => {
                                     setSubmitting(false);
-                                    setError(error);
+                                    showAlert(error, history);
                                 });
                         }}
                         boys={boys}

@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
-import { Redirect } from "react-router-dom";
-import ErrorAlert from "../../utils/errorAlert";
+import { Redirect, useHistory } from "react-router-dom";
 import { newEntry } from "../api/bhotmEntryApi";
 import { getBoys, checkAuth } from "../api/userApi";
 
 export default function NewPage() {
+    const history = useHistory();
     const [result, setResult] = useState(null);
     const [boys, setBoys] = useState([]);
-    const [error, setError] = useState(null);
     const [user, setUser] = useState();
 
     if (!user) {
@@ -25,7 +24,6 @@ export default function NewPage() {
     } else {
         return (
             <div className="container">
-                <ErrorAlert error={error} />
                 <h2 className="text-center my-2">New BHotM Entry</h2>
                 <div className="col-md-8 mx-auto">
                     <EntryForm
@@ -47,7 +45,7 @@ export default function NewPage() {
                                 })
                                 .catch((error) => {
                                     setSubmitting(false);
-                                    setError(error);
+                                    showAlert(error, history);
                                 });
                         }}
                         boys={boys}

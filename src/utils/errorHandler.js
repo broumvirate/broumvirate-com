@@ -1,15 +1,29 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
+import BMAlert from "./BMAlert";
 import ErrorPage from "./errorPage";
 
 const ErrorHandler = ({ children }) => {
     const location = useLocation();
-    if (!location.state) {
-        return children;
-    } else if (location.state.error) {
-        return <ErrorPage {...location.state.error} />;
+    const history = useHistory();
+    if (location?.state?.error) {
+        return <ErrorPage {...location?.state.error} />;
     }
-    return children;
+    return (
+        <div>
+            {location?.state && (
+                <BMAlert
+                    alert={location?.state.alert}
+                    close={() => {
+                        history.replace(history.location.pathname, {
+                            close: null,
+                        });
+                    }}
+                />
+            )}
+            {children}
+        </div>
+    );
 };
 
 export default ErrorHandler;

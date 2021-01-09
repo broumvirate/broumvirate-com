@@ -14,9 +14,7 @@ const BHotM = () => (
     <BrowserRouter>
         <ErrorHandler>
             <Switch>
-                <Route exact path={PREFIX}>
-                    <BhotmIndexTempTemp />
-                </Route>
+                <Route exact path={PREFIX} component={BhotmIndexTempTemp} />
                 <Route path={PREFIX + "entry"}>
                     <BhotmEntryRouter />
                 </Route>

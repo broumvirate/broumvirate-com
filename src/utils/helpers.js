@@ -26,10 +26,19 @@ const handleFetchErrors = (res) => {
     }
 };
 
+// TODO: Make these two functions work without passing in a history object
+// createBrowserHistory() directly from the history package doesn't trigger a react re-render for whatever reason
+// I suspect a custom hook would be best but not having a lot of luck
+
 const showPageError = (error, history) => {
-    console.log(error);
     history.replace(history.location.pathname, {
         error,
+    });
+};
+
+const showAlert = (alert, history) => {
+    history.replace(history.location.pathname, {
+        alert,
     });
 };
 
@@ -37,7 +46,9 @@ const getBhotmLinkType = (link) => {
     //Using a link, determine the entry type. Return object, format and link.
     const imgExtensions = ["jpg", "jpeg", "png", "gif"];
     const audioExtensions = ["mp3", "wav"];
+    const videoExtensions = ["mp4", "mov"];
     let splitLink = link.split(".");
+    let fileExtension = splitLink[splitLink.length - 1].toLowerCase();
     let format = "Link";
 
     if (link == "") {
@@ -46,16 +57,12 @@ const getBhotmLinkType = (link) => {
     } else if (link.includes("youtube.com") || link.includes("youtu.be")) {
         //If the link is youtube, convert it to an embed format
         format = "Youtube Video";
-    } else if (
-        imgExtensions.includes(splitLink[splitLink.length - 1].toLowerCase())
-    ) {
-        // If the last element of the link (. delimited) is in the extension list
+    } else if (imgExtensions.includes(fileExtension)) {
         format = "Image";
-    } else if (
-        audioExtensions.includes(splitLink[splitLink.length - 1].toLowerCase())
-    ) {
-        // If the last element of the link (. delimited) is in the extension list
+    } else if (audioExtensions.includes(fileExtension)) {
         format = "Audio";
+    } else if (videoExtensions.includes(fileExtension)) {
+        format = "Video File";
     } else if (link.includes(" ")) {
         // If the link has a space, it's a phrase
         format = "Phrase";
@@ -64,4 +71,4 @@ const getBhotmLinkType = (link) => {
     return format;
 };
 
-export { handleFetchErrors, showPageError, getBhotmLinkType };
+export { handleFetchErrors, showPageError, getBhotmLinkType, showAlert };

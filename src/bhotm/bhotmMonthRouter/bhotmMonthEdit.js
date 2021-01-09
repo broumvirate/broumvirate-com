@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import MonthForm from "./bhotmMonthForm";
-import { showPageError } from "../../utils/helpers";
+import { showPageError, showAlert } from "../../utils/helpers";
 import { Redirect, useParams, useHistory } from "react-router-dom";
-import ErrorAlert from "../../utils/errorAlert";
 import { getEntries } from "../api/bhotmEntryApi";
 import { getMonth, updateMonth } from "../api/bhotmMonthApi";
 import { checkAdmin } from "../api/userApi";
@@ -13,7 +12,6 @@ export default function MonthEditPage() {
 
     const [month, setMonth] = useState(null);
     const [entries, setEntries] = useState([]);
-    const [error, setError] = useState(null);
     const [editResult, setEditResult] = useState(null);
     const [user, setUser] = useState();
 
@@ -37,7 +35,6 @@ export default function MonthEditPage() {
     } else if (month !== null) {
         return (
             <div className="container">
-                <ErrorAlert error={error} />
                 <h2 className="text-center my-2">Edit BHotM</h2>
                 <div className="col-md-8 mx-auto">
                     <MonthForm
@@ -63,7 +60,7 @@ export default function MonthEditPage() {
                                 })
                                 .catch((error) => {
                                     setSubmitting(false);
-                                    setError(error);
+                                    showAlert(error, history);
                                 });
                         }}
                         entries={entries !== null ? entries : []}

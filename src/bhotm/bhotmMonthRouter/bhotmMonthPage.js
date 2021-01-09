@@ -1,18 +1,19 @@
-import BhotmMonthPageContent, {
-    bhotmMonthPageContent,
-} from "./bhotmMonthPageContent";
+import BhotmMonthPageContent from "./bhotmMonthPageContent";
 import React, { useState, useEffect } from "react";
 import { showPageError } from "../../utils/helpers";
 import { getMonth } from "../api/bhotmMonthApi";
+import { useRouteMatch, useHistory } from "react-router-dom";
 
 // Fully rendered page displaying a whole month of BHotM
 
 const MonthPage = (props) => {
+    const match = useRouteMatch();
+    const history = useHistory();
     const [month, setMonth] = useState(null);
 
     // Load the data
     useEffect(() => {
-        getMonth(props.match.params.monthId)
+        getMonth(match.params.monthId)
             .then((month) => {
                 document.title = `${month.month} - BHotM - The Broumvirate`;
                 month.submissions.sort((a, b) => a.place - b.place);
@@ -24,9 +25,9 @@ const MonthPage = (props) => {
                 setMonth({ ...month });
             })
             .catch((error) => {
-                showPageError(error);
+                showPageError(error, history);
             });
-    }, [props.match.params.monthId]);
+    }, [match.params.monthId]);
 
     if (month !== null) {
         return <BhotmMonthPageContent month={month} />;

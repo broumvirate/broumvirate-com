@@ -1,10 +1,11 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import BhotmEntry from "./shared/bhotmEntry";
 import { handleFetchErrors, showPageError } from "../utils/helpers";
 import BhotmCountdown from "./shared/bhotmCountdown";
 
 function MonthTemp(props) {
+    const history = useHistory();
     const entries = props.month.submissions
         .sort((a, b) =>
             props.month.isBhoty
@@ -53,7 +54,7 @@ class BhotmIndexTemp extends React.Component {
                 });
             })
             .catch((error) => {
-                showPageError(error, this.props.history);
+                showPageError(error, history);
             });
     }
 
