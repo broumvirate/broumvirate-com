@@ -47,6 +47,15 @@ router.get("/", async function (req, res, next) {
     }
 });
 
+router.get("/text", async function (req, res, next) {
+    try {
+        const text = await bhothmText.find();
+        res.json(text.map((el) => el.text));
+    } catch (err) {
+        next([{ code: 500, title: "Unable to generate meme", details: err }]);
+    }
+});
+
 router.post("/", async function (req, res, next) {
     try {
         const text = req.body.text;
