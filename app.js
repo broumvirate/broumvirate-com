@@ -28,7 +28,8 @@ const indexRouter = require("./routes/index"),
     bhotmMonthsRouter = require("./routes/bhotmMonths"),
     bhotmEntriesRouter = require("./routes/bhotmEntries"),
     adminRouter = require("./routes/admin"),
-    gameRouter = require("./routes/games");
+    gameRouter = require("./routes/games"),
+    bhothmRouter = require("./routes/bhothm");
 
 /////////////////
 // SCHEMA SETUP
@@ -76,6 +77,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+//////////////////
+// RATE LIMITING
+//////////////////
+
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 100,
+});
+
+app.use(limiter);
+
 ////////////////
 // RES LOCALS
 ////////////////
@@ -104,17 +116,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //////////////////
-// RATE LIMITING
-//////////////////
-
-const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 100,
-});
-
-app.use(limiter);
-
-//////////////////
 // ROUTES
 //////////////////
 
@@ -123,6 +124,7 @@ app.use(rateRouter);
 app.use(bhotmRouter);
 app.use("/api/bhotm/month/", bhotmMonthsRouter);
 app.use("/api/bhotm/entry/", bhotmEntriesRouter);
+app.use("/api/bhothm", bhothmRouter);
 app.use(authRouter);
 app.use(adminRouter);
 app.use(gameRouter);
