@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect, useHistory, useLocation } from "react-router-dom";
+import { showPageError, showAlert } from "../../utils/helpers";
 import { newEntry } from "../api/bhotmEntryApi";
 import { getBoys, checkAuth } from "../api/userApi";
 
 export default function NewPage() {
     const history = useHistory();
+    const search = useLocation().search;
+    const query = new URLSearchParams(search);
     const [result, setResult] = useState(null);
     const [boys, setBoys] = useState([]);
     const [user, setUser] = useState();
@@ -32,7 +35,7 @@ export default function NewPage() {
                             email: "",
                             entryName: "",
                             entryDescription: "",
-                            link: "",
+                            link: query.has("link") ? query.get("link") : "",
                             clickLink: "",
                             boy: [],
                         }}

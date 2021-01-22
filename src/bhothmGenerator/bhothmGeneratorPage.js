@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { handleFetchErrors } from "../utils/helpers";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const BhothmGeneratorPage = (props) => {
     const [meme, setMeme] = useState({});
@@ -8,6 +8,7 @@ const BhothmGeneratorPage = (props) => {
     useEffect(() => {
         getMeme().then(setMeme);
     }, []);
+
     return (
         <div className="container">
             <div className="d-flex flex-column align-items-center">
@@ -23,15 +24,17 @@ const BhothmGeneratorPage = (props) => {
                     >
                         <h6>Generate Another</h6>
                     </button>
-                    <button
-                        className="btn btn-secondary mx-2"
-                        onClick={() => {
-                            setMeme("");
-                            getMeme().then(setMeme);
-                        }}
-                    >
-                        <h6>Submit To BHotM</h6>
-                    </button>
+                    {meme !== "" ? (
+                        <Link
+                            to={{
+                                pathname: "/bhotm/entry/new",
+                                search: `?link=${meme.url}`,
+                            }}
+                            className="btn btn-secondary mx-2"
+                        >
+                            <h6>Submit To BHotM</h6>
+                        </Link>
+                    ) : null}
                 </div>
             </div>
             <Link to="/bhotm/bhothm-generator/add">Add Bhothmtext</Link>
