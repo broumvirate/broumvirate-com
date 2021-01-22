@@ -41,6 +41,13 @@ const BhotmIndexTempTemp = () => {
                 <Link to="/bhotm/entry/new" className="btn btn-primary">
                     Submit to BHotM
                 </Link>
+
+                <Link
+                    to="/bhotm/bhothm-generator"
+                    className="btn btn-success mx-2"
+                >
+                    I'm Feeling BHOTHM
+                </Link>
                 <p className="lead my-3">
                     Ben Hagle of the Month is a monthly competetion to determine
                     who is Ben Hagle. Submissions can be literally anything,

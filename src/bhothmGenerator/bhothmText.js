@@ -8,7 +8,7 @@ const AddBhothmText = () => {
     const history = useHistory();
     return (
         <div className="container mt-2">
-            <h3 className="text-center">Add Bhothmtext</h3>
+            <h3 className="text-center">Add BHOTHMtext</h3>
             <div className="col-md-8 mx-auto">
                 <Formik
                     initialValues={{ text: "" }}
@@ -21,7 +21,7 @@ const AddBhothmText = () => {
                                 showAlert(
                                     {
                                         success: true,
-                                        message: `"${data.text}" added to BhothmText`,
+                                        message: `"${data.text}" added to BHOTHMText`,
                                     },
                                     history
                                 );
@@ -35,7 +35,7 @@ const AddBhothmText = () => {
                     {({ values, isSubmitting, errors }) => (
                         <Form>
                             <BootstrapTextField
-                                label="New Bhothmtext"
+                                label="BHOTHMtext"
                                 type="input"
                                 name="text"
                             />
@@ -58,7 +58,7 @@ const AddBhothmText = () => {
                     Back to BHOTHM Generator
                 </Link>
                 <div>
-                    <a href="/api/bhothm/text">See All Bhothmtext</a>
+                    <a href="/api/bhothm/text">See All BHOTHMtext</a>
                 </div>
             </p>
         </div>
