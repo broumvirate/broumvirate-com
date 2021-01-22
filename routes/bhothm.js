@@ -12,11 +12,9 @@ router.get("/", async function (req, res, next) {
     try {
         const memes = await bhothmMeme.aggregate([{ $sample: { size: 1 } }]);
         const meme = memes[0];
-        console.log(meme);
         let texts = await bhothmText.aggregate([
             { $sample: { size: meme.textCount } },
         ]);
-        console.log(texts);
 
         texts = texts.map((textResult) => {
             let text = textResult.text;
@@ -46,6 +44,16 @@ router.get("/", async function (req, res, next) {
         res.json({ url });
     } catch (err) {
         next([{ code: 500, title: "Unable to generate meme", details: err }]);
+    }
+});
+
+router.post("/", async function (req, res, next) {
+    try {
+        const text = req.body.text;
+        let result = await bhothmText.create({ text });
+        res.json(result);
+    } catch (err) {
+        next([{ code: 500, title: "Unable to add Bhothmtext", details: err }]);
     }
 });
 
