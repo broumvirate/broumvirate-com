@@ -15,7 +15,7 @@ const express = require("express"),
 
 dotEnv.config();
 
-const DATABASEURL = process.env.DATABASEURL;
+const DATABASEURL = process.env.DATABASEPRODURL;
 
 /////////////////
 // ROUTES SETUP
@@ -49,6 +49,7 @@ const Boy = require("./models/boy"),
 const app = express();
 
 app.use(express.static("public"));
+// app.use("/src", express.static("src"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");

@@ -24,17 +24,15 @@ const BhothmGeneratorPage = (props) => {
                     >
                         <h6>Generate Another</h6>
                     </button>
-                    {meme !== "" ? (
-                        <Link
-                            to={{
-                                pathname: "/bhotm/entry/new",
-                                search: `?link=${meme.url}`,
-                            }}
-                            className="btn btn-secondary mx-2"
-                        >
-                            <h6>Submit To BHotM</h6>
-                        </Link>
-                    ) : null}
+                    <Link
+                        to={{
+                            pathname: "/bhotm/entry/new",
+                            search: `?link=${meme.url}`,
+                        }}
+                        className="btn btn-secondary mx-2"
+                    >
+                        <h6>Submit To BHotM</h6>
+                    </Link>
                 </div>
             </div>
             <Link to="/bhotm/bhothm-generator/add">Add BHOTHMtext</Link>
