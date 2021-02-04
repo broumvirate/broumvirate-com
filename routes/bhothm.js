@@ -32,6 +32,10 @@ router.get("/", async function (req, res, next) {
             texts = ["_", texts[0]];
         }
 
+        if (meme.repeatLast) {
+            texts = texts.concat(texts[texts.length - 1]);
+        }
+
         let urlSuffix = ".png";
         if (meme.urlSuffix) {
             urlSuffix = `.png?${meme.urlSuffix}`;

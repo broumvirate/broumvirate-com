@@ -27,7 +27,6 @@ router.post("/register", bmHelpers.cleanBody, function (req, res) {
         "flags.registered": true,
         email: req.body.username,
     })
-        .exec()
         .then((result) => {
             User.register(
                 new User({ username: req.body.username, boy: result }),
