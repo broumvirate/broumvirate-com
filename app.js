@@ -84,7 +84,7 @@ app.use(passport.session());
 
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 100,
+    max: 250,
 });
 
 app.use(limiter);

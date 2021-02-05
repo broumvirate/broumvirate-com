@@ -32,6 +32,15 @@ router.get("/", async function (req, res, next) {
             texts = ["_", texts[0]];
         }
 
+        if (meme.lastPrefix) {
+            texts[texts.length - 1] =
+                meme.lastPrefix + " " + texts[texts.length - 1];
+        }
+
+        if (meme.firstPrefix) {
+            texts[0] = meme.lastPrefix + " " + texts[0];
+        }
+
         if (meme.repeatLast) {
             texts = texts.concat(texts[texts.length - 1]);
         }
