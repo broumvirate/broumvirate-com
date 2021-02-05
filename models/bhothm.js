@@ -6,9 +6,8 @@ const bhothmMemeSchema = new mongoose.Schema({
     urlSuffix: String,
     textCount: Number,
     lines: Number,
+    templates: [{  type: String  }],
     repeatLast: { type: Boolean, default: false },
-    lastPrefix: String,
-    firstPrefix: String,
 });
 
 const bhothmMeme = mongoose.model("bhothmMeme", bhothmMemeSchema);
