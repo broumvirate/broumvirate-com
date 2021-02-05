@@ -15,7 +15,7 @@ const express = require("express"),
 
 dotEnv.config();
 
-const DATABASEURL = process.env.DATABASEPRODURL;
+const DATABASEURL = process.env.DATABASEURL;
 
 /////////////////
 // ROUTES SETUP
