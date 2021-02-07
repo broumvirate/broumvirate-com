@@ -42,10 +42,15 @@ router.get("/", async function (req, res, next) {
                 text = text.replace(/_/g, "__");
                 text = text.replace(/-/g, "--");
                 text = text.replace(/ /g, "_");
+                text = text.replace(/\n/g, "~n");
+
                 text = text.replace(/\?/g, "~q");
-                text = text.replace(/#/g, "~h");
                 text = text.replace(/&/g, "~a");
                 text = text.replace(/%/g, "~p");
+                text = text.replace(/#/g, "~h");
+                text = text.replace(/\//g, "~s");
+                text = text.replace(/\\/g, "~b");
+                text = text.replace(/"/g, "''");
                 
                 return text;
             })
