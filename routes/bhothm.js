@@ -16,18 +16,23 @@ router.get("/", async function (req, res, next) {
             { $sample: { size: meme.textCount } },
         ]);
 
-        texts = await Promise.all(
-            texts.map(async (textResult, i, arr) => {
-                let text = textResult.text;
+        // Fill in wildcards.
+        texts = await Promise.all(texts.map(async (textResult) => {
+            let text = textResult.text;
+            
+            while (text.includes("*")) {
+                const innerText = await bhothmText.aggregate([
+                    { $sample: { size: 1 } },
+                ]);
 
-                // Fill in wildcards.
-                while (text.includes("*")) {
-                    const innerText = await bhothmText.aggregate([
-                        { $sample: { size: 1 } },
-                    ]);
+                text = text.replace(/\*/g, innerText[0].text);
+            }
 
-                    text = text.replace(/\*/g, innerText[0].text);
-                }
+            return text;
+        }))
+
+        texts = texts.map((textResult, i, arr) => {
+                let text = textResult;
 
                 // Place bhothmtext within meme-specific templates
                 if (
@@ -35,8 +40,13 @@ router.get("/", async function (req, res, next) {
                     meme.templates[i] &&
                     meme.templates[i] !== ""
                 ) {
-                    text = meme.templates[i].replace(/X-1/g, arr[i - 1].text);
-                    text = meme.templates[i].replace(/X/g, text);
+                    if(meme.templates[i].includes("X-1"))
+                    {
+                        text = meme.templates[i].replace(/X-1/g, arr[i - 1]);
+                    }
+                    else{
+                        text = meme.templates[i].replace(/X/g, text);
+                    }
                 }
 
                 // Replace special characters with api replacements
@@ -54,8 +64,7 @@ router.get("/", async function (req, res, next) {
                 text = text.replace(/"/g, "''");
 
                 return text;
-            })
-        );
+            });
 
         // Early method of only putting text on bottom.
         // Can cause problems/confusion with templates and should be refactored
