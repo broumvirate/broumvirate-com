@@ -16,8 +16,14 @@ router.get("/", async function (req, res, next) {
             { $sample: { size: meme.textCount } },
         ]);
 
-        texts = texts.map((textResult, i) => {
+        texts = await Promise.all(texts.map(async (textResult, i) => {
             let text = textResult.text;
+            if (text.includes("*"))
+            {
+                innerText = await bhothmText.aggregate([{ $sample: { size: 1 } }]);
+                text = text.replace(/\*/g, innerText[0].text);
+            }
+
             if(meme.templates && meme.templates[i] && meme.templates[i] !== "")
             {
                 text = meme.templates[i].replace(/X/, text);
@@ -30,7 +36,7 @@ router.get("/", async function (req, res, next) {
             text = text.replace(/&/g, "~a");
             text = text.replace(/%/g, "~p");
             return text;
-        });
+        }));
 
         if (texts.length == 1 && meme.lines == 2) {
             texts = ["_", texts[0]];
