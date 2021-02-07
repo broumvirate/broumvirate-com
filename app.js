@@ -96,6 +96,7 @@ app.use(limiter);
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     res.locals.pageName = "";
+    res.locals.version = process.env.VERSION;
     if (req.user) {
         User.findById(req.user.id)
             .populate("boy")
