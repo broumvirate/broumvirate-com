@@ -16,32 +16,48 @@ router.get("/", async function (req, res, next) {
             { $sample: { size: meme.textCount } },
         ]);
 
-        texts = await Promise.all(texts.map(async (textResult, i) => {
-            let text = textResult.text;
-            if (text.includes("*"))
-            {
-                innerText = await bhothmText.aggregate([{ $sample: { size: 1 } }]);
-                text = text.replace(/\*/g, innerText[0].text);
-            }
+        texts = await Promise.all(
+            texts.map(async (textResult, i) => {
+                let text = textResult.text;
+                
+                // Fill in wildcards.
+                while (text.includes("*")) {
+                    const innerText = await bhothmText.aggregate([
+                        { $sample: { size: 1 } },
+                    ]);
+                    
+                    text = text.replace(/\*/g, innerText[0].text);
+                }
+                
+                // Place bhothmtext within meme-specific templates
+                if (
+                    meme.templates &&
+                    meme.templates[i] &&
+                    meme.templates[i] !== ""
+                ) {
+                    text = meme.templates[i].replace(/X/g, text);
+                }
 
-            if(meme.templates && meme.templates[i] && meme.templates[i] !== "")
-            {
-                text = meme.templates[i].replace(/X/, text);
-            }
-            text = text.replace(/_/g, "__");
-            text = text.replace(/-/g, "--");
-            text = text.replace(/ /g, "_");
-            text = text.replace(/\?/g, "~q");
-            text = text.replace(/#/g, "~h");
-            text = text.replace(/&/g, "~a");
-            text = text.replace(/%/g, "~p");
-            return text;
-        }));
+                // Replace special characters with api replacements
+                text = text.replace(/_/g, "__");
+                text = text.replace(/-/g, "--");
+                text = text.replace(/ /g, "_");
+                text = text.replace(/\?/g, "~q");
+                text = text.replace(/#/g, "~h");
+                text = text.replace(/&/g, "~a");
+                text = text.replace(/%/g, "~p");
+                
+                return text;
+            })
+        );
 
+        // Early method of only putting text on bottom.
+        // Can cause problems/confusion with templates and should be refactored
         if (texts.length == 1 && meme.lines == 2) {
             texts = ["_", texts[0]];
         }
 
+        // Specific feature for gru meme
         if (meme.repeatLast) {
             texts = texts.concat(texts[texts.length - 1]);
         }
@@ -51,9 +67,9 @@ router.get("/", async function (req, res, next) {
             urlSuffix = `.png?${meme.urlSuffix}`;
         }
 
-        let memePath = texts.reduce((acc, next) => acc + "/" + next, "");
+        const memePath = texts.reduce((acc, next) => acc + "/" + next, "");
 
-        let url = `${apiBase}/${meme.urlPrefix}${memePath}${urlSuffix}`;
+        const url = `${apiBase}/${meme.urlPrefix}${memePath}${urlSuffix}`;
 
         res.json({ url });
     } catch (err) {
