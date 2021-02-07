@@ -17,24 +17,25 @@ router.get("/", async function (req, res, next) {
         ]);
 
         texts = await Promise.all(
-            texts.map(async (textResult, i) => {
+            texts.map(async (textResult, i, arr) => {
                 let text = textResult.text;
-                
+
                 // Fill in wildcards.
                 while (text.includes("*")) {
                     const innerText = await bhothmText.aggregate([
                         { $sample: { size: 1 } },
                     ]);
-                    
+
                     text = text.replace(/\*/g, innerText[0].text);
                 }
-                
+
                 // Place bhothmtext within meme-specific templates
                 if (
                     meme.templates &&
                     meme.templates[i] &&
                     meme.templates[i] !== ""
                 ) {
+                    text = meme.templates[i].replace(/X-1/g, arr[i - 1].text);
                     text = meme.templates[i].replace(/X/g, text);
                 }
 
@@ -51,7 +52,7 @@ router.get("/", async function (req, res, next) {
                 text = text.replace(/\//g, "~s");
                 text = text.replace(/\\/g, "~b");
                 text = text.replace(/"/g, "''");
-                
+
                 return text;
             })
         );
@@ -60,11 +61,6 @@ router.get("/", async function (req, res, next) {
         // Can cause problems/confusion with templates and should be refactored
         if (texts.length == 1 && meme.lines == 2) {
             texts = ["_", texts[0]];
-        }
-
-        // Specific feature for gru meme
-        if (meme.repeatLast) {
-            texts = texts.concat(texts[texts.length - 1]);
         }
 
         let urlSuffix = ".png";
