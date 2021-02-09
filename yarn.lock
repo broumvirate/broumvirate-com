@@ -7244,6 +7244,11 @@ random-bytes@~1.0.0:
   resolved "https://registry.yarnpkg.com/random-bytes/-/random-bytes-1.0.0.tgz#4f68a1dc0ae58bd3fb95848c30324db75d64360b"
   integrity sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=
 
+random-meme-generator@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/random-meme-generator/-/random-meme-generator-0.0.1.tgz#4f89abc76bf105aae3d5c10edd18bf337082ba90"
+  integrity sha512-8g8Bw+924zwW83EDLLcJ8A9fve2q9HBfUP+lbFmluEH7quUYGgMm/UKN/MA9k6bPHCRHrMLhkv8KWzyREbBw2A==
+
 randombytes@^2.0.0, randombytes@^2.0.1, randombytes@^2.0.5:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/randombytes/-/randombytes-2.1.0.tgz#df6f84372f0270dc65cdf6291349ab7a473d4f2a"
