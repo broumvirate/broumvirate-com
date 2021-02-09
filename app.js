@@ -11,8 +11,7 @@ const express = require("express"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     rateLimit = require("express-rate-limit"),
-    RandomMemeGenerator = require("../Coding_local/random-meme-generator")
-        .default;
+    RandomMemeGenerator = require("random-meme-generator").default;
     dotEnv = require("dotenv");
 
 dotEnv.config();
