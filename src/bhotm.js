@@ -9,6 +9,7 @@ import BhotmIndexTempTemp from "./bhotm/bhotmIndexTempTemp";
 import BhotmAdminPage from "./bhotm/bhotmAdminPage";
 import BhothmGeneratorPage from "./bhothmGenerator/bhothmGeneratorPage";
 import AddBhothmText from "./bhothmGenerator/bhothmText";
+import RequireLogin from "./utils/requireLogin";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -20,10 +21,14 @@ const BHotM = () => (
             <Switch>
                 <Route exact path={PREFIX} component={BhotmIndexTempTemp} />
                 <Route path={PREFIX + "bhothm-generator/add"}>
-                    <AddBhothmText />
+                    <RequireLogin>
+                        <AddBhothmText />
+                    </RequireLogin>
                 </Route>
                 <Route path={PREFIX + "bhothm-generator"}>
-                    <BhothmGeneratorPage />
+                    <RequireLogin>
+                        <BhothmGeneratorPage />
+                    </RequireLogin>
                 </Route>
                 <Route path={PREFIX + "entry"}>
                     <BhotmEntryRouter />
