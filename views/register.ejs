@@ -16,6 +16,7 @@
 					</select>
 					<small id="memberHelp" class="form-text text-muted">Must be remaining member slots to join.</small>
 				</div>
+				<div class="h-captcha" data-sitekey="78210afc-f6ed-4b1a-99d4-c0a9f4acf1ac"></div>
 				<button class="btn btn-primary mt-3">Submit</button>
 			</form>
 		</div>
@@ -23,6 +24,7 @@
 	<%} else{%>
 		<h1 class="mt-4">Unable to register at this time, no Broumvirate slots left.</h1>
 	<%}%>
+	<script src="https://hcaptcha.com/1/api.js" async defer></script>
 </div>
 
 <%- include ("partials/footer") %>

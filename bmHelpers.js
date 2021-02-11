@@ -1,5 +1,6 @@
 const dayjs = require("dayjs");
 const sanitize = require("mongo-sanitize");
+const axios = require("axios");
 
 module.exports = {
     isLoggedIn: function (req, res, next) {
@@ -34,6 +35,20 @@ module.exports = {
     cleanParams: function (req, res, next) {
         req.params = sanitize(req.params);
         next();
+    },
+
+    verifyCaptcha: function (captchaResponse) {
+        const secret = process.env.HCAPTCHASECRET;
+        const VERIFY_URL = "https://hcaptcha.com/siteverify";
+        const postData = { secret: secret, response: captchaResponse };
+        return axios
+            .post(VERIFY_URL, postData)
+            .then((res) => {
+                return res.data;
+            })
+            .catch((err) => {
+                return { success: false };
+            });
     },
 
     bhotm: {

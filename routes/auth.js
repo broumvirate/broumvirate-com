@@ -1,10 +1,13 @@
-var express = require("express");
-var router = express.Router();
-var passport = require("passport");
-var bmHelpers = require("../bmHelpers");
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const bmHelpers = require("../bmHelpers");
+const util = require("util");
 
-var Boy = require("../models/boy"),
+const Boy = require("../models/boy"),
     User = require("../models/user");
+
+const RegisterUser = util.promisify(User.register);
 
 // REGISTER INDEX
 router.get("/register", function (req, res) {
@@ -22,30 +25,46 @@ router.get("/register", function (req, res) {
 });
 
 // REGISTER POST
-router.post("/register", bmHelpers.cleanBody, function (req, res) {
-    Boy.findByIdAndUpdate(req.body.boy, {
-        "flags.registered": true,
-        email: req.body.username,
-    })
-        .then((result) => {
-            User.register(
-                new User({ username: req.body.username, boy: result }),
-                req.body.password,
-                function (err, user) {
-                    if (err) {
+router.post("/register", bmHelpers.cleanBody, async function (req, res) {
+
+    const captcha = req.body["h-captcha-response"];
+    const captchaResponse = await bmHelpers.verifyCaptcha(captcha);
+    if(captchaResponse.success)
+    {
+        try{
+            const boyRes = await Boy.findById(req.body.boy);
+            if(!boyRes.flags.isUser || boyRes.flags.registered) throw new Error("Cannot register account.");
+
+            const user = User.register(
+                new User({username: req.body.username, boy:boyRes}),
+                req.body.password, 
+                (err, user) => {
+                    if(err) {
                         console.log(err);
-                        return res.redirect("/register");
+                        res.redirect("/register");
                     }
-                    passport.authenticate("local")(req, res, function () {
-                        res.redirect("/");
-                    });
-                }
-            );
-        })
-        .catch((err) => {
-            console.log(err);
-            res.redirect("/register");
-        });
+                    else{
+
+                        boyRes.flags.registered = true;
+                        boyRes.email = req.body.username;
+                        boyRes.user = user._id;
+                        boyRes.save();
+            
+                        passport.authenticate("local")(req, res, function () {
+                            res.redirect("/");
+                        });
+                    }
+                });
+        }
+        catch(err) {
+                console.log(err);
+                res.redirect("/register");
+        }
+    }
+    else{
+        console.log("Could not verify captcha");
+        res.redirect("/register");
+    }
 });
 
 // LOGIN INDEX
