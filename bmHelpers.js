@@ -40,9 +40,16 @@ module.exports = {
     verifyCaptcha: function (captchaResponse) {
         const secret = process.env.HCAPTCHASECRET;
         const VERIFY_URL = "https://hcaptcha.com/siteverify";
-        const postData = { secret: secret, response: captchaResponse };
+        const postData = new URLSearchParams();
+        const config = {
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+        };
+        postData.append("secret", secret);
+        postData.append("response", captchaResponse);
         return axios
-            .post(VERIFY_URL, postData)
+            .post(VERIFY_URL, postData, config)
             .then((res) => {
                 return res.data;
             })
