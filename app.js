@@ -11,36 +11,21 @@ const express = require("express"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     rateLimit = require("express-rate-limit"),
-    RandomMemeGenerator = require("random-meme-generator").default;
     dotEnv = require("dotenv");
 
 dotEnv.config();
+let DATABASEURL, RandomMemeGenerator;
 
-const DATABASEURL = process.env.DATABASEURL;
-
-/////////////////
-// ROUTES SETUP
-/////////////////
-
-const indexRouter = require("./routes/index"),
-    authRouter = require("./routes/auth"),
-    rateRouter = require("./routes/rate"),
-    bhotmRouter = require("./routes/bhotm"),
-    bhotmMonthsRouter = require("./routes/bhotmMonths"),
-    bhotmEntriesRouter = require("./routes/bhotmEntries"),
-    adminRouter = require("./routes/admin"),
-    gameRouter = require("./routes/games");
-
-/////////////////
-// SCHEMA SETUP
-/////////////////
-
-const Boy = require("./models/boy"),
-    User = require("./models/user"),
-    Rating = require("./models/rating"),
-    RateCategory = require("./models/category"),
-    { bhotm } = require("./models/bhotm"),
-    Nick = require("./models/nick");
+if (process.env.NODE_ENV !== "production") {
+    // Development/staging
+    RandomMemeGenerator = require("../Coding_local/random-meme-generator")
+        .default;
+    DATABASEURL = process.env.DATABASEPRODURL;
+} else {
+    // Production
+    RandomMemeGenerator = require("random-meme-generator").default;
+    DATABASEURL = process.env.DATABASEURL;
+}
 
 /////////////////
 // INIT APP
@@ -60,17 +45,6 @@ mongoose.connect(DATABASEURL, {
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true,
-});
-
-const randomMemes = new RandomMemeGenerator(mongoose.connection, {
-    textCollectionName: "bhothmText",
-    textWildcardsAllowed: true,
-    storeMemesInDB: true,
-    templateCollectionName: "memeTemplate",
-    templateWildcard: "*",
-    textAlternateWildcard: "+",
-    textWildcard: "*",
-    apiUrl: "https://api.memegen.link",
 });
 
 /////////////////
@@ -101,8 +75,10 @@ const limiter = rateLimit({
 app.use(limiter);
 
 ////////////////
-// RES LOCALS
+// AUTH & LOCALS
 ////////////////
+
+const User = require("./models/user");
 
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
@@ -128,6 +104,30 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+/////////////////
+// ROUTES SETUP
+/////////////////
+
+const indexRouter = require("./routes/index"),
+    authRouter = require("./routes/auth"),
+    rateRouter = require("./routes/rate"),
+    bhotmRouter = require("./routes/bhotm"),
+    bhotmMonthsRouter = require("./routes/bhotmMonths"),
+    bhotmEntriesRouter = require("./routes/bhotmEntries"),
+    adminRouter = require("./routes/admin"),
+    gameRouter = require("./routes/games");
+
+const bhothmGenerator = new RandomMemeGenerator(mongoose.connection, {
+    textCollectionName: "bhothmText",
+    textWildcardsAllowed: true,
+    storeMemesInDB: true,
+    templateCollectionName: "memeTemplate",
+    templateWildcard: "*",
+    textAlternateWildcard: "+",
+    textWildcard: "*",
+    apiUrl: "https://api.memegen.link",
+});
+
 //////////////////
 // ROUTES
 //////////////////
@@ -137,7 +137,7 @@ app.use(rateRouter);
 app.use(bhotmRouter);
 app.use("/api/bhotm/month/", bhotmMonthsRouter);
 app.use("/api/bhotm/entry/", bhotmEntriesRouter);
-app.use("/api/bhothm", randomMemes.express());
+app.use("/api/bhothm", bhothmGenerator.express());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(gameRouter);
