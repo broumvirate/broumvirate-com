@@ -18,7 +18,7 @@ const BhothmGeneratorPage = (props) => {
                     <button
                         className="btn btn-success"
                         onClick={() => {
-                            setMeme({    url: ""    });
+                            setMeme({ url: "" });
                             getMeme().then(setMeme);
                         }}
                     >
@@ -33,10 +33,15 @@ const BhothmGeneratorPage = (props) => {
                     >
                         <h6>Submit To BHotM</h6>
                     </Link>
-                    <Link to="/bhotm/bhothm-generator/add" className="btn btn-secondary"><h6>Add BHOTHMtext</h6></Link>
+                    <Link
+                        to="/bhotm/bhothm-generator/add"
+                        className="btn btn-secondary"
+                    >
+                        <h6>Add BHOTHMtext</h6>
+                    </Link>
                 </div>
                 {meme.url !== "" ? (
-                    <img src={meme.url}></img>
+                    <img src={meme.url} style={{ maxHeight: "75vh" }}></img>
                 ) : (
                     <div className="my-5">
                         <Loader
