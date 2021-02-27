@@ -17,62 +17,17 @@
     <div class="container">
         <div class="carousel-inner m-0">
             <div class="carousel-item active my-2">
-                <h4>"Epic song! Bravo!!!"</h4>
-                <p class="bm-carousel-q">- Matt Farley, (603) 644-0048</p>
+                <h4>"<%=quotes[0].quote%>"</h4>
+                <p class="bm-carousel-q">- <%=quotes[0].by%></p>
                 <p></p>
             </div>
-
-            <div class="carousel-item my-2">
-                <h4>"Nothing was happening but you were all laughing."</h4>
-                <p class="bm-carousel-q">- Anna F.</p>
-                <p></p>
-            </div>
-
-            <div class="carousel-item my-2">
-                <h4>"Will you guys take a picture with my daughter?"</h4>
-                <p class="bm-carousel-q">- Some Rando</p>
-            </div>
-            <div class="carousel-item my-2">
-                <h4>
-                    "I was with you guys for 30 seconds and I already wanted to
-                    cry."
-                </h4>
-                <p class="bm-carousel-q">- Anna F.</p>
-            </div>
-            <div class="carousel-item my-2">
-                <h4>"Elton John would be better if his name was Alden."</h4>
-                <p class="bm-carousel-q">- Alden</p>
-            </div>
-            <div class="carousel-item my-2">
-                <h4>
-                    "Ah yes, my least favourite friend group: Ben's friends."
-                </h4>
-                <p class="bm-carousel-q">- Dream Megan</p>
-            </div>
-            <div class="carousel-item my-2">
-                <h4>
-                    "THIS IS INCREDIBLE! This is exactly the kind of content I
-                    hope for on the internet."
-                </h4>
-                <p class="bm-carousel-q">- Siobhan Flanagan</p>
-            </div>
-
-            <div class="carousel-item my-2">
-                <h4>
-                    "eee ooo aaa"
-                </h4>
-                <p class="bm-carousel-q">- Anna F.</p>
-            </div>
-
-            <div class="carousel-item my-2">
-                <h4>
-                    "the way they're in some sort of??? unfinished cabin??? but
-                    it looks like they've been living there gaming alone for
-                    months with no supervision????? every single part of this
-                    video is such an enigma"
-                </h4>
-                <p class="bm-carousel-q">- Anonymous Artemis Fowl Fan</p>
-            </div>
+            <%for(let i = 1; i < quotes.length; i++){%>
+                <div class="carousel-item my-2">
+                    <h4>"<%=quotes[i].quote%>"</h4>
+                    <p class="bm-carousel-q">- <%=quotes[i].by%></p>
+                    <p></p>
+                </div>
+            <%}%>
         </div>
     </div>
     <a

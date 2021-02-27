@@ -5,9 +5,11 @@ var bmHelpers = require("../bmHelpers");
 const Boy = require("../models/boy"),
     Nick = require("../models/nick");
 
+const quotes = require("./quotes");
+
 // INDEX - Homepage
 router.get("/", function (req, res) {
-    res.render("home", { pageName: "Home" });
+    res.render("home", { pageName: "Home", quotes });
 });
 
 // Contact page
