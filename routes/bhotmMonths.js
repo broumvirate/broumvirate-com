@@ -78,8 +78,17 @@ router.get("/:id", function (req, res, next) {
         .findById(req.params.id)
         .populate("submissions")
         .sort({ "submissions.place": 1 })
-        //.populate({ path: "month", select: "submissions" })
-        .then((data) => res.json(data))
+        .then((data) => {
+            if (req.isUnauthenticated()) {
+                const thingo = data.submissions.map((el) => {
+                    if (el.requiresLogin) {
+                        return bmHelpers.bhotm.setAsRestricted(el);
+                    } else return el;
+                });
+                data.submissions = thingo;
+            }
+            return res.json(data);
+        })
         .catch((err) =>
             next([{ code: 400, title: "Unable to get month", details: err }])
         );
@@ -166,7 +175,7 @@ async function generateBhotmMonth(type) {
     switch (type) {
         case "bhoty":
             filter = { place: 1 };
-            limit = 13;
+            limit = 12;
             month.month = `BHotY ${now.format("YYYY")}`;
             month.isBhoty = true;
             break;

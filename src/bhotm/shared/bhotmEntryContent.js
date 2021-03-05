@@ -42,6 +42,19 @@ function BhotmEntryContent(props) {
                 <p>This entry has been deleted by the admins. :bencry:</p>
             );
             break;
+        case "restricted":
+            content = (
+                <BhotmEntryImage
+                    link="https://broumvirate.s3.us-east-2.amazonaws.com/img/RestrictedBhotm.jpg"
+                    fullLink="/login"
+                />
+            );
+            fullLink = (
+                <h2 className="text-center">
+                    <a href="/login">Login to view entry</a>
+                </h2>
+            );
+            break;
         case "audio":
             content = (
                 <audio controls style={{ width: "100%" }}>

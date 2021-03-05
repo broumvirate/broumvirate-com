@@ -31,7 +31,13 @@ router.get("/:id", function (req, res, next) {
     bhotmEntry
         .findById(req.params.id)
         .populate("month")
-        .then((data) => res.json(data))
+        .then((data) => {
+            if (req.isAuthenticated() || !data.requiresLogin) {
+                return res.json(data);
+            } else {
+                return next([{ code: 401, title: "Unauthorized" }]);
+            }
+        })
         .catch((e) =>
             next([{ code: 400, title: "Unable to get entry", details: e.path }])
         );

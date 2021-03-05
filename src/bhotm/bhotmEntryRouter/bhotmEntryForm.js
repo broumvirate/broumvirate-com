@@ -82,6 +82,18 @@ export default function EntryForm(props) {
                                 helper="The full link to the entry. Use the normal link for a preview image"
                             />
 
+                            <div className="form-check form-check-inline">
+                            <Field
+                                type="checkbox"
+                                name="requiresLogin"
+                                className="form-check-input"
+                            ></Field>
+                            <label className="form-check-label">
+                                NSFW Submission (Requires Login)
+                            </label>
+                            </div>
+
+
                             <div className="my-3">
                                 <p>
                                     <strong>Attached Users:</strong>

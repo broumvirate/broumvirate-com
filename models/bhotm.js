@@ -50,6 +50,7 @@ let entrySchema = new mongoose.Schema({
     edited: { type: Boolean, default: false },
     lastEditedDate: Date,
     isDeleted: { type: Boolean, default: false },
+    requiresLogin: { type: Boolean, default: false },
 });
 
 const bhotmEntry = mongoose.model("bhotmEntry", entrySchema, "bhotmentries");

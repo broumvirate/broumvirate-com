@@ -21,6 +21,7 @@ const EntryValidator = object().shape({
     entryMethod: string().default("form"),
     edited: boolean().default(false),
     lastEditedDate: date(),
+    requiresLogin: boolean().default(false),
 });
 
 const MonthValidator = object().shape({

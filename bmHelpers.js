@@ -143,6 +143,14 @@ module.exports = {
             return month;
         },
 
+        setAsRestricted: function (entry) {
+            entry.format = "restricted";
+            entry.link = "";
+            entry.clickLink = "";
+
+            return entry;
+        },
+
         dueMoment: function (incJ) {
             //Returns next due date moment
             //Params: incJ:boolean. include judging period. If true, due date doesn't roll over until the 8th. if false or empty, rolls over on 5th.
