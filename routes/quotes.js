@@ -1,5 +1,6 @@
 module.exports = [
     { quote: "Epic song! Bravo!!!", by: "Matt Farley, (603) 644-0048" },
+    { quote: "The funniest guys on Youtube.", by: "JasonBall34" },
     {
         quote: "Nothing was happening but you were all laughing.",
         by: "Anna F.",
