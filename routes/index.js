@@ -6,6 +6,7 @@ const Boy = require("../models/boy"),
     Nick = require("../models/nick");
 
 const quotes = require("./quotes");
+const music = require("./music")
 
 // INDEX - Homepage
 router.get("/", function (req, res) {
@@ -19,7 +20,7 @@ router.get("/contact", function (req, res) {
 
 // Music page
 router.get("/music", function (req, res) {
-    res.render("music", { pageName: "Music" });
+    res.render("music", { pageName: "Music", music });
 });
 
 // Nickname page
