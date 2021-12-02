@@ -46,8 +46,9 @@ export default function MonthForm(props) {
                                                 key={el.submission._id}
                                             >
                                                 <p>
-                                                    {el.submission.entryName} -{" "}
-                                                    {el.submission.name}
+                                                    {(el.submission.entryName == "" ?
+                                                    el.submission.name :
+                                                    `${el.submission.entryName} - ${el.submission.name}`)}
                                                 </p>
                                                 <input
                                                     type="number"

@@ -103,7 +103,7 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
         const month = { ...req.body.month };
         month.submissions = sortedPlaces.map((el) => el.submission._id);
         if (req.body.judged) {
-            month.winner = req.body.month.submissions[0].name;
+            month.winner = sortedPlaces[0].submission.name;
             month.winnerRef = month.submissions[0];
             month.hasBeenJudged = true;
         }
@@ -116,11 +116,8 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
                     // console.log("Order changed");
                     return Promise.all(
                         month.submissions.map((el, i) => {
-                            let update = month.isBhoty
-                                ? {
-                                      bhotyPlace: sortedPlaces[i].place,
-                                  }
-                                : { place: i + 1 };
+                            let update = month.isBhoty ? 
+                            { bhotyPlace: sortedPlaces[i].place } : { place: i + 1 };
                             update.isWinner = i === 0;
                             if (req.body.judged) {
                                 update.hasBeenJudged = true;
@@ -171,6 +168,7 @@ async function generateBhotmMonth(type) {
     let limit = 1000;
     let month = MonthValidator.cast({});
     const now = dayjs();
+    
 
     switch (type) {
         case "bhoty":
@@ -191,7 +189,7 @@ async function generateBhotmMonth(type) {
     }
     return bhotmEntry
         .find(filter)
-        .sort({ date: -1 })
+        .sort({ entryDate: -1 })
         .limit(limit)
         .then((results) => {
             month.submissions = results;

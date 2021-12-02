@@ -18,8 +18,8 @@ let DATABASEURL, RandomMemeGenerator;
 
 if (process.env.NODE_ENV !== "production") {
     // Development/staging
-    RandomMemeGenerator = require("../Coding_local/random-meme-generator")
-        .default;
+    RandomMemeGenerator = require("../Coding/random-meme-generator").default;
+    //RandomMemeGenerator = require("random-meme-generator").default;
     DATABASEURL = process.env.DATABASEPRODURL;
 } else {
     // Production
@@ -123,7 +123,6 @@ const bhothmGenerator = new RandomMemeGenerator(mongoose.connection, {
     storeMemesInDB: true,
     templateCollectionName: "memeTemplate",
     templateWildcard: "*",
-    textAlternateWildcard: "+",
     textWildcard: "*",
     apiUrl: "https://api.memegen.link",
 });
