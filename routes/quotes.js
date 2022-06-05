@@ -34,4 +34,8 @@ module.exports = [
             "the way they're in some sort of??? unfinished cabin??? but it looks like they've been living there gaming alone for months with no supervision????? every single part of this video is such an enigma",
         by: "Anonymous Artemis Fowl Fan",
     },
+    {
+        quote: "You're a creative guy.",
+        by: "An FBI Agent"
+    }
 ];

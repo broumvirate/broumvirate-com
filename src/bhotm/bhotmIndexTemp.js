@@ -68,10 +68,6 @@ class BhotmIndexTemp extends React.Component {
             <div className="container">
                 <div>
                     <h1 className="display-4 my-3">Ben Hagle of the Month</h1>
-                    <h4 className="my-3">
-                        This is the WIP new BHotM page. It is not done. You can
-                        get to the old one <a href="/bhotmold">here.</a>
-                    </h4>
                     <h4 className="">Try our new online submission form:</h4>
                     <Link to="/bhotm/entry/new" className="btn btn-primary">
                         Submit to BHotM
@@ -86,7 +82,7 @@ class BhotmIndexTemp extends React.Component {
                             hen.bagle@gmail.com
                         </a>
                         , and are due on the 4th of each month, at midnight in
-                        your local timezone.
+                        Broumvirate Standard Time (US East Coast time).
                     </p>
                     <BhotmCountdown />
                     <h2 className="display-5 my-4">Previous submissions</h2>
