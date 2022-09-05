@@ -22,6 +22,16 @@ const newEntry = (data) => {
     }).then(handleFetchErrors);
 };
 
+const newMasonEntry = () => {
+    return fetch("/api/bhotm/entry/", {
+        method: "POST",
+        headers: new Headers({
+            "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({entry: {name: "Mason", link: "", format: "mason"}}),
+    }).then(handleFetchErrors);
+}
+
 const updateEntry = (data, id) => {
     return fetch(`/api/bhotm/entry/${id}`, {
         method: "PUT",
@@ -32,4 +42,4 @@ const updateEntry = (data, id) => {
     }).then(handleFetchErrors);
 };
 
-export { getEntry, getEntries, newEntry, updateEntry };
+export { getEntry, getEntries, newEntry, newMasonEntry, updateEntry };

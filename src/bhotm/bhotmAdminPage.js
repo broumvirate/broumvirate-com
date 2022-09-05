@@ -1,7 +1,7 @@
 import React from "react";
 import { showPageError } from "../utils/helpers";
 import { Link, Redirect } from "react-router-dom";
-import { getEntries } from "./api/bhotmEntryApi";
+import { getEntries, newMasonEntry } from "./api/bhotmEntryApi";
 import { getMonths, newMonthType } from "./api/bhotmMonthApi";
 import { checkAdmin } from "./api/userApi";
 
@@ -41,6 +41,15 @@ class BhotmAdminPage extends React.Component {
             .catch((error) => showPageError(error, this.props.history));
     }
 
+    newMasonEntry(){
+        newMasonEntry()
+            .then(() => getEntries({ unjudged: true }))
+            .then((res) => {
+                this.setState({entries: res});
+            })
+            .catch((error) => showPageError(error, this.props.history));
+    }
+
     render() {
         if (this.state.contentLoaded) {
             const months = this.state.months.map((el) => (
@@ -68,25 +77,31 @@ class BhotmAdminPage extends React.Component {
                     <h2 className="text-center my-3">BHotM Admin</h2>
                     <div className="m-3">
                         <Link
-                            className="btn btn-danger mx-2"
+                            className="btn btn-danger m-2"
                             to="/bhotm/entry/new"
                         >
                             New Entry
                         </Link>
                         <button
-                            className="btn btn-primary mx-2"
+                            className="btn btn-danger m-2"
+                            onClick={() => this.newMasonEntry()}
+                        >
+                            New Mason
+                        </button>
+                        <button
+                            className="btn btn-primary m-2"
                             onClick={() => this.newBhotm("month")}
                         >
                             Generate BHotM
                         </button>
                         <button
-                            className="btn btn-secondary mx-2"
+                            className="btn btn-secondary m-2"
                             onClick={() => this.newBhotm("bhoty")}
                         >
                             Generate BHotY
                         </button>
                         <button
-                            className="btn btn-secondary mx-2"
+                            className="btn btn-secondary m-2"
                             onClick={() => this.newBhotm("blank")}
                         >
                             Generate Blank BHotM

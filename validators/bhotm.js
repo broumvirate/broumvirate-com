@@ -11,8 +11,12 @@ const EntryValidator = object().shape({
     boy: array().default([]),
     user: string(),
     month: string(),
-    link: string().min(1).required(),
     format: string(),
+    link: string().when("format", {
+        is: "mason",
+        then: (schema) => schema,
+        otherwise: (schema) => schema.min(1).required()
+    }),
     clickLink: string().url(),
     place: number().default(-1),
     bhotyPlace: number().default(-1),
