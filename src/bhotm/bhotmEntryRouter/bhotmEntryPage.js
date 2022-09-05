@@ -26,6 +26,7 @@ const EntryPage = () => {
                     entry={entry}
                     unjudged={!entry.hasBeenJudged}
                     linkToMonth={entry.month !== undefined}
+                    linkToUser
                 />
                 <EditDeleteButtons
                     context="Entry"

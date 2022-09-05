@@ -31,6 +31,7 @@ router.get("/:id", function (req, res, next) {
     bhotmEntry
         .findById(req.params.id)
         .populate("month")
+        .populate("boy")
         .then((data) => {
             if (req.isAuthenticated() || !data.requiresLogin) {
                 return res.json(data);

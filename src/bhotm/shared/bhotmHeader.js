@@ -58,6 +58,20 @@ function BhotmHeader(props) {
             </Link>
         ) : null;
 
+    let userLink =
+        props.linkToUser && props.entry.hasBeenJudged ? (
+            <div>
+            {props.entry.boy.map((b) => (
+                <Link 
+                    id={b._id} 
+                    to={`/bhotm/boy/${b._id}`}>
+                    <h5 className="px-2">{`${b.name}'s Submissions`}</h5>
+                </Link>
+            ))}
+            </div>
+        ) : null;
+
+
     let description = (
         <h6 className="text-muted mt-0">{props.entry.entryDescription}</h6>
     );
@@ -69,6 +83,7 @@ function BhotmHeader(props) {
                     {heading}
                     {description}
                     {month}
+                    {userLink}
                 </div>
                 {place}
             </div>
