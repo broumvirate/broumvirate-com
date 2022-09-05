@@ -35,6 +35,8 @@ const BhotmMonthPageContent = ({ month }) => {
             {month.notes ? (
                 <p className="text-center mt-2">{month.notes}</p>
             ) : null}
+            
+            <BhotmNextPrevMonth month={month}/>
 
             {entries}
 
@@ -47,5 +49,20 @@ const BhotmMonthPageContent = ({ month }) => {
         </div>
     );
 };
+
+const BhotmNextPrevMonth = ({month}) => (
+    month.nextMonth || month.previousMonth ? (
+    <div className="d-flex">
+        {month.previousMonth ?
+        <p className="text-muted">
+            <Link to={`/bhotm/month/${month.previousMonth}`} className="text-reset">{"⬅️ Previous Month"}</Link>
+        </p> : null }
+        {month.nextMonth ?
+        <p className="ml-auto text-muted">
+            <Link to={`/bhotm/month/${month.nextMonth}`} className="text-reset">{"Next Month ➡️"}</Link>
+        </p> : null}
+    </div>
+)
+: null)
 
 export default BhotmMonthPageContent;

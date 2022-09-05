@@ -87,7 +87,33 @@ router.get("/:id", function (req, res, next) {
                 });
                 data.submissions = thingo;
             }
-            return res.json(data);
+
+            if(!data.hasBeenJudged)
+            {
+                return res.json(data);
+            }
+
+            // Find previous and next month
+            bhotm
+                .find({ hasBeenJudged: true })
+                .sort({date: -1})
+                .then((months) => {
+                    for(var i = 0; months[i]._id.toString() !== data._id.toString(); i++);
+                    let addlData = {}
+                    if((i - 1) >= 0)
+                    {
+                        addlData.nextMonth = months[i-1]._id.toString();
+                    }
+
+                    if((i + 1) < months.length)
+                    {
+                        addlData.previousMonth = months[i+1]._id.toString();
+                    }
+                    return res.json({...data.toObject(), ...addlData});
+                })
+                .catch((err) => {
+                    return res.json(data);
+                })
         })
         .catch((err) =>
             next([{ code: 400, title: "Unable to get month", details: err }])

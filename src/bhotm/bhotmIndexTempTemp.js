@@ -33,10 +33,6 @@ const BhotmIndexTempTemp = () => {
         <div className="container">
             <div>
                 <h1 className="display-4 my-3">Ben Hagle of the Month</h1>
-                <h4 className="my-3">
-                    This is a new temporary BHotM page. It is not done. You can
-                    get to the old, old one <a href="/bhotmold">here.</a>
-                </h4>
                 <h4 className="">Try our new online submission form:</h4>
                 <Link to="/bhotm/entry/new" className="btn btn-primary">
                     Submit to BHotM
