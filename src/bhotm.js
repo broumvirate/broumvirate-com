@@ -10,6 +10,7 @@ import BhotmAdminPage from "./bhotm/bhotmAdminPage";
 import BhothmGeneratorPage from "./bhothmGenerator/bhothmGeneratorPage";
 import AddBhothmText from "./bhothmGenerator/bhothmText";
 import RequireLogin from "./utils/requireLogin";
+import BoyPage from "./bhotm/bhotmBoyPage";
 
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
@@ -36,6 +37,7 @@ const BHotM = () => (
                 <Route path={PREFIX + "month"}>
                     <BhotmMonthRouter />
                 </Route>
+                <Route path={PREFIX + "boy/:boyId"} component={BoyPage}/>
                 <Route
                     path={PREFIX + "admin"}
                     component={BhotmAdminPage}

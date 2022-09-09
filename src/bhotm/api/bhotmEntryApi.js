@@ -42,4 +42,8 @@ const updateEntry = (data, id) => {
     }).then(handleFetchErrors);
 };
 
-export { getEntry, getEntries, newEntry, newMasonEntry, updateEntry };
+const getBoyEntries = (id) => {
+    return fetch("/api/bhotm/boy/" + id).then(handleFetchErrors);
+}
+
+export { getEntry, getEntries, newEntry, newMasonEntry, updateEntry, getBoyEntries };

@@ -18,8 +18,8 @@ let DATABASEURL, RandomMemeGenerator;
 
 if (process.env.NODE_ENV !== "production") {
     // Development/staging
-    RandomMemeGenerator = require("../Coding/random-meme-generator").default;
-    //RandomMemeGenerator = require("random-meme-generator").default;
+    //RandomMemeGenerator = require("../Coding/random-meme-generator").default;
+    RandomMemeGenerator = require("random-meme-generator").default;
     DATABASEURL = process.env.DATABASEPRODURL;
 } else {
     // Production
@@ -114,6 +114,7 @@ const indexRouter = require("./routes/index"),
     bhotmRouter = require("./routes/bhotm"),
     bhotmMonthsRouter = require("./routes/bhotmMonths"),
     bhotmEntriesRouter = require("./routes/bhotmEntries"),
+    bhotmBoysRouter = require("./routes/bhotmBoys");
     adminRouter = require("./routes/admin"),
     gameRouter = require("./routes/games");
 
@@ -136,6 +137,7 @@ app.use(rateRouter);
 app.use(bhotmRouter);
 app.use("/api/bhotm/month/", bhotmMonthsRouter);
 app.use("/api/bhotm/entry/", bhotmEntriesRouter);
+app.use("/api/bhotm/boy/", bhotmBoysRouter);
 app.use("/api/bhothm", bhothmGenerator.express());
 app.use(authRouter);
 app.use(adminRouter);

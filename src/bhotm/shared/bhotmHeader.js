@@ -59,13 +59,13 @@ function BhotmHeader(props) {
         ) : null;
 
     let userLink =
-        props.linkToUser && props.entry.hasBeenJudged ? (
-            <div>
+        props.linkToUser && props.entry.hasBeenJudged && props.entry.boy.length > 0 ? (
+            <div className="d-flex flex-row">
             {props.entry.boy.map((b) => (
                 <Link 
                     id={b._id} 
                     to={`/bhotm/boy/${b._id}`}>
-                    <h5 className="px-2">{`${b.name}'s Submissions`}</h5>
+                    <h5 className="pr-2">{`${b.name}'s Submissions`}</h5>
                 </Link>
             ))}
             </div>
