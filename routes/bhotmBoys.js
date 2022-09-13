@@ -7,16 +7,17 @@ const Boy = require("../models/boy"),
 const boy = require("../models/boy");
 
 router.get("/:id", function (req, res, next) {
-    let find = {
+    const find = {
         isDeleted: false,
         hasBeenJudged: true,
         boy: req.params.id,
         format: {$ne: "mason"}
     };
 
+
     bhotmEntry.find(find)
-        .populate("month")
-        .sort({date: -1})
+        .populate({path: 'month', options: {sort: [{'date': 'asc'}]}})
+        //.sort({'month.date': 1})
         .then((data) => {
             if (req.isUnauthenticated()) {
                 data = data.map((el) => {
