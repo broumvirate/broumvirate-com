@@ -1205,6 +1205,15 @@
     "@parcel/utils" "2.14.4"
     react-refresh ">=0.9 <=0.16"
 
+"@parcel/transformer-sass@2.14.4":
+  version "2.14.4"
+  resolved "https://registry.yarnpkg.com/@parcel/transformer-sass/-/transformer-sass-2.14.4.tgz#716446f0b4a90c84fa515292bb5a9f103b2b8af0"
+  integrity sha512-GspG5jYpr4XmO5xa5UFBmf78og9Gx1DLbZo/KKD7hYd9DnuqtwFhvcoWsOB/TPNd4wzMjvg0yP34Kij9Bcs2vQ==
+  dependencies:
+    "@parcel/plugin" "2.14.4"
+    "@parcel/source-map" "^2.1.1"
+    sass "^1.38.0"
+
 "@parcel/transformer-svg@2.14.4":
   version "2.14.4"
   resolved "https://registry.yarnpkg.com/@parcel/transformer-svg/-/transformer-svg-2.14.4.tgz#1eecc93058a9e2d780835b81a39adae17fb7b99c"
@@ -5072,7 +5081,7 @@ saslprep@^1.0.0:
   dependencies:
     sparse-bitfield "^3.0.3"
 
-sass@^1.26.11:
+sass@^1.26.11, sass@^1.38.0:
   version "1.86.0"
   resolved "https://registry.yarnpkg.com/sass/-/sass-1.86.0.tgz#f49464fb6237a903a93f4e8760ef6e37a5030114"
   integrity sha512-zV8vGUld/+mP4KbMLJMX7TyGCuUp7hnkOScgCMsWuHtns8CWBoz+vmEhoGMXsaJrbUP8gj+F1dLvVe79sK8UdA==
