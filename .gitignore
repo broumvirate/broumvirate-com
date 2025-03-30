@@ -1,8 +1,66 @@
+# Dependencies
 node_modules/
 migration/
-.env
-broumvirate-com.code-workspace
-.vscode/
-public/dist/
-.parcel-cache/
+.yarn/
+.yarnrc
+.yarn-integrity
 yarn-error.log
+yarn-debug.log*
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor settings
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+Thumbs.db
+
+# Build outputs
+public/dist/
+dist/
+build/
+.parcel-cache/
+.cache/
+.output/
+
+# TypeScript
+*.tsbuildinfo
+.tscache/
+*.js.map
+*.d.ts.map
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
+
+# Testing
+coverage/
+.nyc_output/
+junit.xml
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
