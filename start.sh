@@ -2,6 +2,6 @@
 
 cd /home/ben/broumvirate-com
 pm2 stop broumvirate-com
-yarn install
-yarn build
+npm install
+npm run build
 pm2 start broumvirate-com

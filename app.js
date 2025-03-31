@@ -40,11 +40,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
+mongoose.set('strictQuery', false); // Or true, depending on your preference
 mongoose.connect(DATABASEURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
 });
 
 /////////////////

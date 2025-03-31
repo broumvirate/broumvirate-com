@@ -1,6 +1,5 @@
 const dayjs = require("dayjs");
 const sanitize = require("mongo-sanitize");
-const axios = require("axios");
 
 module.exports = {
     isLoggedIn: function (req, res, next) {
@@ -41,19 +40,25 @@ module.exports = {
         const secret = process.env.HCAPTCHASECRET;
         const VERIFY_URL = "https://hcaptcha.com/siteverify";
         const postData = new URLSearchParams();
-        const config = {
+        postData.append("secret", secret);
+        postData.append("response", captchaResponse);
+        return fetch(VERIFY_URL, {
+            method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded",
             },
-        };
-        postData.append("secret", secret);
-        postData.append("response", captchaResponse);
-        return axios
-            .post(VERIFY_URL, postData, config)
-            .then((res) => {
-                return res.data;
+            body: postData})
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((data) => {
+                return data;
             })
             .catch((err) => {
+                console.error("Error verifying captcha:", err);
                 return { success: false };
             });
     },
