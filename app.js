@@ -4,10 +4,9 @@
 
 const express = require("express"),
     session = require("express-session"),
-    MongoStore = require("connect-mongo")(session),
+    MongoDBStore = require("connect-mongodb-session")(session),
     passport = require("passport"),
     LocalStrategy = require("passport-local"),
-    bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     rateLimit = require("express-rate-limit"),
@@ -35,27 +34,44 @@ const app = express();
 
 app.use(express.static("public"));
 // app.use("/src", express.static("src"));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
-mongoose.set('strictQuery', false); // Or true, depending on your preference
-mongoose.connect(DATABASEURL, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+// Define connection options that work with current MongoDB driver
+const mongoConnectionOptions = {
+    autoSelectFamily: false
+};
+
+// Connect mongoose with options
+mongoose.set('strictQuery', false);
+mongoose.connect(DATABASEURL, mongoConnectionOptions)
+  .then(() => console.log('MongoDB connected successfully'))
+  .catch(err => console.error('MongoDB connection error:', err));
 
 /////////////////
 // AUTH SETUP
 /////////////////
+
+const store = new MongoDBStore({
+    uri: DATABASEURL,
+    databaseName: "broumvirate-com",
+    collection: "sessions",
+    connectionOptions: mongoConnectionOptions
+});
+
+// Handle errors from the session store
+store.on("error", function (error) {
+    console.error("Session store error:", error);
+});
 
 app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
         saveUninitialized: false,
-        store: new MongoStore({ mongooseConnection: mongoose.connection }),
+        store: store
     })
 );
 
@@ -84,15 +100,16 @@ app.use(function (req, res, next) {
     res.locals.pageName = "";
     res.locals.version = process.env.VERSION;
     if (req.user) {
+        // Update to use promises instead of callback
         User.findById(req.user.id)
             .populate("boy")
-            .exec(function (error, result) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    res.locals.currentUser = result;
-                    next();
-                }
+            .then(result => {
+                res.locals.currentUser = result;
+                next();
+            })
+            .catch(error => {
+                console.log(error);
+                next();
             });
     } else {
         next();

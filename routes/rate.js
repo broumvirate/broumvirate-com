@@ -37,11 +37,9 @@ router.post("/rate", bmHelpers.isLoggedIn, function (req, res) {
 router.get("/rate/new", bmHelpers.isLoggedIn, function (req, res) {
     Boy.find({ "flags.canRate": true })
         .sort("bid")
-        .exec()
         .then((boys) => {
             return RateCategory.find()
                 .sort("category")
-                .exec()
                 .then((categories) => {
                     res.render("rate/new", {
                         boys: boys,
@@ -71,7 +69,6 @@ router.post("/rate/category", bmHelpers.isLoggedIn, function (req, res) {
 router.get("/rate/:id", bmHelpers.isLoggedIn, function (req, res) {
     Rating.findById(req.params.id)
         .populate("rates.boy")
-        .exec()
         .then((rating) => {
             return Rating.find()
                 .sort("category")
@@ -91,7 +88,6 @@ router.get("/rate/:id", bmHelpers.isLoggedIn, function (req, res) {
 router.get("/rate/:id/edit", bmHelpers.isLoggedIn, function (req, res) {
     Rating.findById(req.params.id)
         .populate("rates.boy")
-        .exec()
         .then((rating) => {
             return RateCategory.find()
                 .sort("category")
@@ -128,22 +124,20 @@ module.exports = router;
 
 function processRating(rating, rates1) {
     rating.rates = [];
-    const ratingValues = Object.values(rates1); //parses the rating values as individiual arrays [[boyName, rating], ...]
+    const ratingValues = Object.values(rates1); // Parses the rating values as individual arrays [[boyName, rating], ...]
     const ratingBoys = Object.keys(rates1);
-    let p = new Promise((resolve, reject) => {
-        Boy.find()
-            .where("_id")
-            .in(ratingBoys)
-            .exec((err, boys) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    rating.rates = boys.map((b, i) => {
-                        return { boy: b, value1: Number(ratingValues[i]) };
-                    });
-                    resolve(rating);
-                }
+
+    return Boy.find()
+        .where("_id")
+        .in(ratingBoys)
+        .then((boys) => {
+            // Map the results to create the `rates` array
+            rating.rates = boys.map((b, i) => {
+                return { boy: b, value1: Number(ratingValues[i]) };
             });
-    });
-    return p;
+            return rating; // Resolve the promise by returning the rating
+        })
+        .catch((err) => {
+            throw err; // Reject the promise by throwing the error
+        });
 }

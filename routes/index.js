@@ -2,8 +2,7 @@ var express = require("express");
 var router = express.Router();
 var bmHelpers = require("../bmHelpers");
 
-const Boy = require("../models/boy"),
-    Nick = require("../models/nick");
+const Nick = require("../models/nick");
 
 const quotes = require("./quotes");
 const music = require("./music")
@@ -24,16 +23,16 @@ router.get("/music", function (req, res) {
 });
 
 // Nickname page
-router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res) {
+router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res, next) {
     Nick.find()
         .sort({ date: 1 })
         .populate("nicknames.boy")
-        .exec((err, nicks) => {
-            if (err) {
-                next();
-            } else {
-                res.render("nick", { pageName: "Nicknames", nicknames: nicks });
-            }
+        .then((nicks) => {
+            res.render("nick", { pageName: "Nicknames", nicknames: nicks });
+        })
+        .catch((err) => {
+            console.error(err);
+            next(); // Pass the error to the next middleware
         });
 });
 

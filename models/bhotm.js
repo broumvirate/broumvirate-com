@@ -19,16 +19,19 @@ let bhotmSchema = new mongoose.Schema({
     //         format: String,
     //     },
     // ],
-    submissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "bhotmEntry" }],
+    submissions: [{ type: mongoose.Schema.Types.ObjectId, ref: "BhotmEntry" }],
     notes: String,
     winner: String,
-    winnerRef: { type: mongoose.Schema.Types.ObjectId, ref: "bhotmEntry" },
+    winnerRef: { type: mongoose.Schema.Types.ObjectId, ref: "BhotmEntry" },
     judge: String,
     hasBeenJudged: { type: Boolean, default: false },
     isBhoty: { type: Boolean, default: false },
+}, { 
+    toJSON: { virtuals: true }, 
+    toObject: { virtuals: true } 
 });
 
-const bhotm = mongoose.model("bhotm", bhotmSchema, "bhotms");
+const bhotm = mongoose.model("Bhotm", bhotmSchema, "bhotms");
 
 let entrySchema = new mongoose.Schema({
     entryDate: Date,
@@ -36,9 +39,9 @@ let entrySchema = new mongoose.Schema({
     email: String,
     entryName: String,
     entryDescription: String,
-    boy: [{ type: mongoose.Schema.Types.ObjectId, ref: "boy" }],
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    month: { type: mongoose.Schema.Types.ObjectId, ref: "bhotm" },
+    boy: [{ type: mongoose.Schema.Types.ObjectId, ref: "Boy" }],
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    month: { type: mongoose.Schema.Types.ObjectId, ref: "Bhotm" },
     link: String,
     clickLink: String,
     format: String,
@@ -51,9 +54,12 @@ let entrySchema = new mongoose.Schema({
     lastEditedDate: Date,
     isDeleted: { type: Boolean, default: false },
     requiresLogin: { type: Boolean, default: false },
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-const bhotmEntry = mongoose.model("bhotmEntry", entrySchema, "bhotmentries");
+const bhotmEntry = mongoose.model("BhotmEntry", entrySchema, "bhotmentries");
 
 module.exports = {
     bhotm: bhotm,

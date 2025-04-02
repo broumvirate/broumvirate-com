@@ -16,15 +16,15 @@ router.get("/bhotmold", function (req, res) {
         .find({ hasBeenJudged: true })
         .sort({ date: -1, "entries.place": 1 })
         .populate("submissions")
-        .exec(function (err, bhotm) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.render("bhotm/index", {
-                    pageName: "Ben Hagle of the Month",
-                    bhotm: bhotm,
-                });
-            }
+        .then(bhotmData => {
+            res.render("bhotm/index", {
+                pageName: "Ben Hagle of the Month",
+                bhotm: bhotmData,
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/");
         });
 });
 
@@ -34,31 +34,32 @@ router.get("/bhotmold/admin", bmHelpers.isAdmin, function (req, res) {
         .find({})
         .sort("-date")
         .populate("entries.boy")
-        .exec(function (err, bhotm) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.render("bhotm/admin", {
-                    pageName: "BHotM Admin",
-                    bhotm: bhotm,
-                });
-            }
+        .then(bhotmData => {
+            res.render("bhotm/admin", {
+                pageName: "BHotM Admin",
+                bhotm: bhotmData,
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/");
         });
 });
 
 // NEW
 router.get("/bhotmold/new", bmHelpers.isAdmin, function (req, res) {
-    Boy.find({}, function (err, boys) {
-        if (err) {
-            console.log(err);
-        } else {
+    Boy.find({})
+        .then(boys => {
             res.render("bhotm/new", {
                 pageName: "New BHotM",
                 entries: req.query.entries,
                 boys: boys,
             });
-        }
-    });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/bhotm/admin");
+        });
 });
 
 // CREATE -- Add new BHotM from creation page
@@ -67,14 +68,14 @@ router.post("/bhotmold", bmHelpers.isAdmin, function (req, res) {
     var d = new Date();
     thisMonth.date = d.getTime();
 
-    bhotm.create(thisMonth, function (err, newMonth) {
-        //Add new month to database
-        if (err) {
-            console.log(err);
-        } else {
+    bhotm.create(thisMonth)
+        .then(() => {
             res.redirect("/bhotm/admin");
-        }
-    });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/bhotm/admin");
+        });
 });
 
 // Trying to get a specific month by ID redirects you back to main BHotM page
@@ -88,18 +89,19 @@ router.get("/bhotmold/:id/edit", bmHelpers.isAdmin, function (req, res) {
     bhotm
         .findById(req.params.id)
         .populate("entries.boy")
-        .exec(function (err, bhotmold) {
-            if (err) {
-                console.log(err);
-            } else {
-                Boy.find({}, function (err, boys) {
+        .then(bhotmold => {
+            return Boy.find({})
+                .then(boys => {
                     res.render("bhotm/edit", {
                         pageName: "Edit BHotM",
                         bhotmold: bhotmold,
                         boys: boys,
                     });
                 });
-            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/bhotm/admin");
         });
 });
 
@@ -107,29 +109,26 @@ router.get("/bhotmold/:id/edit", bmHelpers.isAdmin, function (req, res) {
 router.put("/bhotmold/:id", bmHelpers.isAdmin, function (req, res) {
     var thisMonth = bmHelpers.bhotm.processMonth(req.body.bhotm);
 
-    bhotm.findByIdAndUpdate(
-        req.params.id,
-        thisMonth,
-        function (err, updateMonth) {
-            //Update month in database
-            if (err) {
-                console.log(err);
-            } else {
-                res.redirect("/bhotm/admin");
-            }
-        }
-    );
+    bhotm.findByIdAndUpdate(req.params.id, thisMonth)
+        .then(() => {
+            res.redirect("/bhotm/admin");
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/bhotm/admin");
+        });
 });
 
 // DELETE - Deletes specified BHoTM
 router.delete("/bhotmold/:id", bmHelpers.isAdmin, function (req, res) {
-    bhotm.deleteOne({ _id: req.params.id }, function (err) {
-        if (err) {
-            console.log(err);
-        } else {
+    bhotm.deleteOne({ _id: req.params.id })
+        .then(() => {
             res.redirect("/bhotm/admin");
-        }
-    });
+        })
+        .catch(err => {
+            console.log(err);
+            res.redirect("/bhotm/admin");
+        });
 });
 
 router.get("/bhotm*", function (req, res) {
@@ -140,19 +139,18 @@ router.get("/bhotm*", function (req, res) {
 });
 
 // BHotM Index
-router.get("/api/bhotm/", function (req, res) {
+router.get("/api/bhotm/", function (req, res, next) {
     bhotm
         .find({ hasBeenJudged: true })
         .populate("submissions")
         .sort({ date: -1, "submissions.place": 1 })
-        .exec(function (err, months) {
-            if (err) {
-                next([
-                    { code: 500, title: "Unable to get BHotMs", details: err },
-                ]);
-            } else {
-                res.json(months);
-            }
+        .then(months => {
+            res.json(months);
+        })
+        .catch(err => {
+            next([
+                { code: 500, title: "Unable to get BHotMs", details: err },
+            ]);
         });
 });
 

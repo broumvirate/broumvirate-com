@@ -7,9 +7,9 @@ let nickSchema = new mongoose.Schema({
     notes:String,
     nicknames:[{
         nickname:String,
-        boy:{type: mongoose.Schema.Types.ObjectId, ref: "boy"}
+        boy:{type: mongoose.Schema.Types.ObjectId, ref: "Boy"} // Update if you change Boy model name capitalization
     }]
 
 })
 
-module.exports = mongoose.model("nick", nickSchema)
+module.exports = mongoose.model("Nick", nickSchema) // Consider capitalizing model name for consistency

@@ -5,9 +5,7 @@ let boySchema = new mongoose.Schema({
     lastName: String,
     email: String,
     bid: Number,
-    user: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
-    active: Boolean, //DELETE ME
-    registered: Boolean, //DELETE ME
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     nickOrder: Number, //order in which you're shown on nickname page
     discordTag: String,
     flags: {
@@ -21,4 +19,4 @@ let boySchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model("boy", boySchema);
+module.exports = mongoose.model("Boy", boySchema); // Consider capitalizing model name for consistency

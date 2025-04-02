@@ -135,7 +135,7 @@ router.put("/:id", bmHelpers.isAdmin, function (req, res, next) {
         }
         MonthValidator.validate(month)
             .then(() => {
-                return bhotm.findByIdAndUpdate(month._id, month);
+                return bhotm.findByIdAndUpdate(month._id, month, { new: true }); //TODO: {new: true} added by claude, check here if it breaks anything!
             })
             .then((oldMonth) => {
                 if (req.body.changedOrder) {

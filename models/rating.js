@@ -8,10 +8,10 @@ let ratingSchema = new mongoose.Schema({
 	rates: [
 		{
 			boy:{type: mongoose.Schema.Types.ObjectId,
-				ref: "boy"},
+				ref: "Boy"},
 			value1: Number
 		}
 	]
 })
 
-module.exports = mongoose.model("rating", ratingSchema);
+module.exports = mongoose.model("Rating", ratingSchema);

@@ -7,14 +7,13 @@ let userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    boy: { type: mongoose.Schema.Types.ObjectId, ref: "boy" },
+    boy: { type: mongoose.Schema.Types.ObjectId, ref: "Boy" },
     fname: String,
     isAdmin: Boolean,
 });
 
 userSchema.plugin(passportLocalMongoose, {
     populateFields: "boy",
-    usernameUnique: false,
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model("User", userSchema);

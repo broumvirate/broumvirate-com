@@ -54,10 +54,15 @@ router.post("/", async function (req, res, next) {
         newEntry.link = link;
         newEntry.format = format;
         if (req.isAuthenticated()) {
-            newEntry.user = req.user._id; //Put in the user
+            newEntry.user = req.user._id; // Put in the user
         }
-        bhotmEntry.create(newEntry, function (err, data) {
-            if (err) {
+
+        bhotmEntry
+            .create(newEntry)
+            .then((data) => {
+                res.json(data); // Send the created entry as a JSON response
+            })
+            .catch((err) => {
                 next([
                     {
                         code: 500,
@@ -65,10 +70,7 @@ router.post("/", async function (req, res, next) {
                         details: err,
                     },
                 ]);
-            } else {
-                res.json(data);
-            }
-        });
+            });
     } catch (e) {
         next([
             {
