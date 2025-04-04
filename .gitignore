@@ -14,6 +14,8 @@ npm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env.development
+.env.production
 
 # Editor settings
 .vscode/

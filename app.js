@@ -10,25 +10,9 @@ const express = require("express"),
     mongoose = require("mongoose"),
     methodOverride = require("method-override"),
     rateLimit = require("express-rate-limit"),
-    dotEnv = require("dotenv");
+    dotEnvFlow = require("dotenv-flow");
 
-dotEnv.config();
-let DATABASEURL, RandomMemeGenerator;
-
-if (process.env.NODE_ENV !== "production") {
-    // Development/staging
-    //RandomMemeGenerator = require("../Coding/random-meme-generator").default;
-    RandomMemeGenerator = require("random-meme-generator").default;
-    DATABASEURL = process.env.DATABASEPRODURL;
-} else {
-    // Production
-    RandomMemeGenerator = require("random-meme-generator").default;
-    DATABASEURL = process.env.DATABASEURL;
-}
-
-/////////////////
-// INIT APP
-/////////////////
+dotEnvFlow.config();
 
 const app = express();
 
@@ -39,6 +23,13 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000, // 5 minutes
+    max: 250,
+});
+
+app.use(limiter);
+
 // Define connection options that work with current MongoDB driver
 const mongoConnectionOptions = {
     autoSelectFamily: false
@@ -46,16 +37,12 @@ const mongoConnectionOptions = {
 
 // Connect mongoose with options
 mongoose.set('strictQuery', false);
-mongoose.connect(DATABASEURL, mongoConnectionOptions)
+mongoose.connect(process.env.DATABASEURL, mongoConnectionOptions)
   .then(() => console.log('MongoDB connected successfully'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-/////////////////
-// AUTH SETUP
-/////////////////
-
 const store = new MongoDBStore({
-    uri: DATABASEURL,
+    uri: process.env.DATABASEURL,
     databaseName: "broumvirate-com",
     collection: "sessions",
     connectionOptions: mongoConnectionOptions
@@ -78,24 +65,26 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-//////////////////
-// RATE LIMITING
-//////////////////
-
-const limiter = rateLimit({
-    windowMs: 5 * 60 * 1000, // 5 minutes
-    max: 250,
-});
-
-app.use(limiter);
-
-////////////////
-// AUTH & LOCALS
-////////////////
-
 const User = require("./models/user");
 
-app.use(function (req, res, next) {
+app.use(populateLocals);
+
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+const setupRoutes = require("./routes.js")
+setupRoutes(app, mongoose);
+
+app.use(apiErrorHandler);
+
+const port = process.env.PORT || 3000;
+app.listen(port, function () {
+    console.log(`Broumvirate server running on port ${port}!`);
+});
+
+
+function populateLocals(req, res, next) {
     res.locals.currentUser = req.user;
     res.locals.pageName = "";
     res.locals.version = process.env.VERSION;
@@ -114,55 +103,9 @@ app.use(function (req, res, next) {
     } else {
         next();
     }
-});
+}
 
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
-
-/////////////////
-// ROUTES SETUP
-/////////////////
-
-const indexRouter = require("./routes/index"),
-    authRouter = require("./routes/auth"),
-    rateRouter = require("./routes/rate"),
-    bhotmRouter = require("./routes/bhotm"),
-    bhotmMonthsRouter = require("./routes/bhotmMonths"),
-    bhotmEntriesRouter = require("./routes/bhotmEntries"),
-    bhotmBoysRouter = require("./routes/bhotmBoys");
-    adminRouter = require("./routes/admin"),
-    gameRouter = require("./routes/games");
-
-const bhothmGenerator = new RandomMemeGenerator(mongoose.connection, {
-    textCollectionName: "bhothmText",
-    textWildcardsAllowed: true,
-    storeMemesInDB: true,
-    templateCollectionName: "memeTemplate",
-    templateWildcard: "*",
-    textWildcard: "*",
-    apiUrl: "https://api.memegen.link",
-});
-
-//////////////////
-// ROUTES
-//////////////////
-
-app.use(indexRouter);
-app.use(rateRouter);
-app.use(bhotmRouter);
-app.use("/api/bhotm/month/", bhotmMonthsRouter);
-app.use("/api/bhotm/entry/", bhotmEntriesRouter);
-app.use("/api/bhotm/boy/", bhotmBoysRouter);
-app.use("/api/bhothm", bhothmGenerator.express());
-app.use(authRouter);
-app.use(adminRouter);
-app.use(gameRouter);
-
-////////////////
-// API ERROR HANDLING
-////////////////
-app.use(function (err, req, res, next) {
+function apiErrorHandler(err, req, res, next) {
     if (res.headersSent) {
         return next(err);
     }
@@ -176,12 +119,4 @@ app.use(function (err, req, res, next) {
     } else {
         return next(err);
     }
-});
-
-////////////////
-// INIT
-////////////////
-
-app.listen(3000, function () {
-    console.log("Broumvirate server running on port 3000!");
-});
+};
