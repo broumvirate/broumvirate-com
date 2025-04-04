@@ -23,12 +23,10 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
 
-const limiter = rateLimit({
+app.use(rateLimit({
     windowMs: 5 * 60 * 1000, // 5 minutes
     max: 250,
-});
-
-app.use(limiter);
+}));
 
 // Define connection options that work with current MongoDB driver
 const mongoConnectionOptions = {
