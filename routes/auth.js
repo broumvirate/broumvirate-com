@@ -2,18 +2,14 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const bmHelpers = require("../bmHelpers");
-const util = require("util");
 
 const Boy = require("../models/boy"),
     User = require("../models/user");
-
-const RegisterUser = util.promisify(User.register);
 
 // REGISTER INDEX
 router.get("/register", function (req, res) {
     Boy.find({ "flags.registered": false, "flags.isUser": true })
         .sort("bid")
-        .exec()
         .then((boys) => {
             res.render("register", {
                 boys: boys,
@@ -26,39 +22,37 @@ router.get("/register", function (req, res) {
 
 // REGISTER POST
 router.post("/register", bmHelpers.cleanBody, async function (req, res) {
-
     const captcha = req.body["h-captcha-response"];
     const captchaResponse = await bmHelpers.verifyCaptcha(captcha);
-    if(captchaResponse.success)
-    {
+    if(captchaResponse.success) {
         try{
             const boyRes = await Boy.findById(req.body.boy);
             if(!boyRes.flags.isUser || boyRes.flags.registered) throw new Error("Cannot register account.");
-
-            const user = User.register(
-                new User({username: req.body.username, boy:boyRes}),
-                req.body.password, 
-                (err, user) => {
-                    if(err) {
-                        console.log(err);
-                        res.redirect("/register");
-                    }
-                    else{
-
-                        boyRes.flags.registered = true;
-                        boyRes.email = req.body.username;
-                        boyRes.user = user._id;
-                        boyRes.save();
             
-                        passport.authenticate("local")(req, res, function () {
-                            res.redirect("/");
-                        });
-                    }
+            const user = await User.register(
+                new User({username: req.body.username, boy: boyRes}),
+                req.body.password
+            );
+            
+            // Update boy record
+            boyRes.flags.registered = true;
+            boyRes.email = req.body.username;
+            boyRes.user = user._id;
+            await boyRes.save();
+            
+            // Use req.login (promisified) to log the user in
+            await new Promise((resolve, reject) => {
+                req.login(user, (err) => {
+                    if (err) reject(err);
+                    else resolve();
                 });
+            });
+            
+            res.redirect("/");
         }
         catch(err) {
-                console.log(err);
-                res.redirect("/register");
+            console.log(err);
+            res.redirect("/register");
         }
     }
     else{
@@ -85,7 +79,7 @@ router.post(
 );
 
 // LOGOUT
-router.get("/logout", function (req, res) {
+router.get("/logout", function (req, res, next) {
     req.logout((err) => {
         if (err) { return next(err); }
         res.redirect('/');
