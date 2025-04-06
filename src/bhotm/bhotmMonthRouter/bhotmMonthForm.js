@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Field, Form, useField, FieldArray } from "formik";
-import Validators from "../../../validators/bhotm";
+import { MonthValidator } from "../../../validators/bhotm";
 import bhotmEntry from "../shared/bhotmEntry";
 import { BootstrapTextField } from "../shared/formikBootstrap";
 
@@ -10,7 +10,7 @@ export default function MonthForm(props) {
             initialValues={props.initialValues}
             onSubmit={props.onSubmit}
             validateOnChange={true}
-            validationSchema={Validators.MonthValidator}
+            validationSchema={MonthValidator}
         >
             {({ values, isSubmitting, errors }) => (
                 <Form>

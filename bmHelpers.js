@@ -1,7 +1,7 @@
-const dayjs = require("dayjs");
-const sanitize = require("mongo-sanitize");
+import dayjs from "dayjs";
+import sanitize from "mongo-sanitize";
 
-module.exports = {
+const helpers = {
     isLoggedIn: function (req, res, next) {
         if (req.isAuthenticated()) {
             return next();
@@ -124,7 +124,7 @@ module.exports = {
 
         processMonth: function (month) {
             //Process a bhotm month from a form, sort the entries, set winner flags and entry formats
-            for (i = 0; i < month.entries.length; i++) {
+            for (let i = 0; i < month.entries.length; i++) {
                 //If no linked boy, replace the "" with undefined
                 if (month.entries[i].boy == "") {
                     month.entries[i].boy = undefined;
@@ -160,7 +160,7 @@ module.exports = {
             //Returns next due date moment
             //Params: incJ:boolean. include judging period. If true, due date doesn't roll over until the 8th. if false or empty, rolls over on 5th.
             let day = 4;
-            dueDate = dayjs();
+            let dueDate = dayjs();
 
             if (incJ) {
                 day = 7;
@@ -191,3 +191,5 @@ module.exports = {
         },
     },
 };
+
+export default helpers;

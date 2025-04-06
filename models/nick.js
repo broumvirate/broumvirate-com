@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose"
 
 let nickSchema = new mongoose.Schema({
     date:Date,
@@ -7,9 +7,9 @@ let nickSchema = new mongoose.Schema({
     notes:String,
     nicknames:[{
         nickname:String,
-        boy:{type: mongoose.Schema.Types.ObjectId, ref: "Boy"} // Update if you change Boy model name capitalization
+        boy:{type: mongoose.Schema.Types.ObjectId, ref: "Boy"}
     }]
 
 })
 
-module.exports = mongoose.model("Nick", nickSchema) // Consider capitalizing model name for consistency
+export default mongoose.model("Nick", nickSchema)

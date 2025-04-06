@@ -1,6 +1,6 @@
 import React from "react";
 import { Formik, Field, Form } from "formik";
-import Validators from "../../../validators/bhotm";
+import { EntryValidator } from "../../../validators/bhotm";
 import { getBhotmLinkType } from "../../utils/helpers";
 import { BootstrapTextField } from "../shared/formikBootstrap";
 
@@ -39,7 +39,7 @@ export default function EntryForm(props) {
             initialValues={props.initialValues}
             onSubmit={props.onSubmit}
             validateOnChange={true}
-            validationSchema={Validators.EntryValidator}
+            validationSchema={EntryValidator}
         >
             {({ values, isSubmitting, errors }) => (
                 <Form>

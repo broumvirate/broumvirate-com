@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const dayjs = require("dayjs");
+import mongoose from "mongoose";
 
-let bhotmSchema = new mongoose.Schema({
+const bhotmSchema = new mongoose.Schema({
     month: String,
     date: Date,
     // entries: [
@@ -33,7 +32,7 @@ let bhotmSchema = new mongoose.Schema({
 
 const bhotm = mongoose.model("Bhotm", bhotmSchema, "bhotms");
 
-let entrySchema = new mongoose.Schema({
+const entrySchema = new mongoose.Schema({
     entryDate: Date,
     name: String,
     email: String,
@@ -61,7 +60,4 @@ let entrySchema = new mongoose.Schema({
 
 const bhotmEntry = mongoose.model("BhotmEntry", entrySchema, "bhotmentries");
 
-module.exports = {
-    bhotm: bhotm,
-    bhotmEntry: bhotmEntry,
-};
+export { bhotm, bhotmEntry };

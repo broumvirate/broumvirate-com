@@ -1,4 +1,4 @@
-const { object, date, string, array, number, boolean } = require("yup");
+import { object, date, string, array, number, boolean } from "yup";
 
 const EntryValidator = object().shape({
     entryDate: date().default(() => {
@@ -43,4 +43,4 @@ const MonthValidator = object().shape({
     isBhoty: boolean().default(false),
 });
 
-module.exports = { EntryValidator, MonthValidator };
+export { EntryValidator, MonthValidator };

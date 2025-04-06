@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     { quote: "Epic song! Bravo!!!", by: "Matt Farley, (603) 644-0048" },
     { quote: "The funniest guys on Youtube.", by: "JasonBall34" },
     {

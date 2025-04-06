@@ -1,11 +1,9 @@
-var express = require("express");
-var router = express.Router();
-var bmHelpers = require("../bmHelpers");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import Boy from "../models/boy.js";
+import { bhotm } from "../models/bhotm.js";
 
-const Boy = require("../models/boy"),
-    User = require("../models/user"),
-    { bhotm } = require("../models/bhotm"),
-    { bhotmEntry } = require("../models/bhotm");
+const router = express.Router();
 
 // ON PROMISES:
 // This module has not been promisifed, as it is in the midst of being re-written in the bhotmAPI branch
@@ -154,4 +152,4 @@ router.get("/api/bhotm/", function (req, res, next) {
         });
 });
 
-module.exports = router;
+export default router;

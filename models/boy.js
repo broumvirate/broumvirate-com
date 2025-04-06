@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
-let boySchema = new mongoose.Schema({
+const boySchema = new mongoose.Schema({
     name: String,
     lastName: String,
     email: String,
@@ -19,4 +19,4 @@ let boySchema = new mongoose.Schema({
     },
 });
 
-module.exports = mongoose.model("Boy", boySchema); // Consider capitalizing model name for consistency
+export default mongoose.model("Boy", boySchema);

@@ -1,9 +1,9 @@
-var express = require("express");
-var router = express.Router();
-var bmHelpers = require("../bmHelpers");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import Boy from "../models/boy.js";
+import User from "../models/user.js";
 
-const Boy = require("../models/boy"),
-    User = require("../models/user");
+const router = express.Router();
 
 // ADMIN INDEX
 router.get("/admin", bmHelpers.isAdmin, function (req, res) {
@@ -73,4 +73,4 @@ router.delete("/admin/user/:id", bmHelpers.isAdmin, function (req, res) {
         });
 });
 
-module.exports = router;
+export default router;

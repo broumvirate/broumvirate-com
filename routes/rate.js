@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
-var bmHelpers = require("../bmHelpers");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import Boy from "../models/boy.js";
+import Rating from "../models/rating.js";
+import RateCategory from "../models/category.js";
 
-const Boy = require("../models/boy"),
-    Rating = require("../models/rating"),
-    RateCategory = require("../models/category");
+const router = express.Router();
 
 //INDEX - List of all ratings
 router.get("/rate", bmHelpers.isLoggedIn, function (req, res) {
@@ -120,7 +120,7 @@ router.delete("/rate/:id", bmHelpers.isLoggedIn, function (req, res) {
         .catch((err) => console.log(err));
 });
 
-module.exports = router;
+export default router;
 
 function processRating(rating, rates1) {
     rating.rates = [];

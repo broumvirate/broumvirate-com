@@ -2,15 +2,20 @@
 // MODULE SETUP
 //////////////////
 
-const express = require("express"),
-    session = require("express-session"),
-    MongoDBStore = require("connect-mongodb-session")(session),
-    passport = require("passport"),
-    LocalStrategy = require("passport-local"),
-    mongoose = require("mongoose"),
-    methodOverride = require("method-override"),
-    rateLimit = require("express-rate-limit"),
-    dotEnvFlow = require("dotenv-flow");
+import express from "express";
+import session from "express-session";
+import MongoDBSessionStore from "connect-mongodb-session";
+import passport from "passport";
+import { Strategy as LocalStrategy } from "passport-local";
+import mongoose from "mongoose";
+import methodOverride from "method-override";
+import rateLimit from "express-rate-limit";
+import dotEnvFlow from "dotenv-flow";
+import User from "./models/user.js";
+import setupRoutes from "./routes.js";
+
+// Initialize MongoDBStore with session
+const MongoDBStore = MongoDBSessionStore(session);
 
 dotEnvFlow.config();
 
@@ -63,15 +68,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-const User = require("./models/user");
-
 app.use(populateLocals);
 
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-const setupRoutes = require("./routes.js")
 setupRoutes(app, mongoose);
 
 app.use(apiErrorHandler);
@@ -117,4 +119,4 @@ function apiErrorHandler(err, req, res, next) {
     } else {
         return next(err);
     }
-};
+}

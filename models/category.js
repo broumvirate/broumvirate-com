@@ -1,9 +1,9 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
 
-let categorySchema = new mongoose.Schema({
-	name: String,
-	category: String,
-	tokens: String
+const categorySchema = new mongoose.Schema({
+    name: String,
+    category: String,
+    tokens: String
 });
 
-module.exports = mongoose.model("Category", categorySchema);
+export default mongoose.model("Category", categorySchema);

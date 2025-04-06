@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const passportLocalMongoose = require("passport-local-mongoose");
+import mongoose from "mongoose";
+import passportLocalMongoose from "passport-local-mongoose";
 
-let userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -16,4 +16,4 @@ userSchema.plugin(passportLocalMongoose, {
     populateFields: "boy",
 });
 
-module.exports = mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema);

@@ -1,10 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const bmHelpers = require("../bmHelpers");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import Boy from "../models/boy.js";
+import { bhotmEntry } from "../models/bhotm.js";
 
-const Boy = require("../models/boy"),
-    { bhotmEntry } = require("../models/bhotm");
-const boy = require("../models/boy");
+const router = express.Router();
 
 router.get("/:id", function (req, res, next) {
     const find = {
@@ -44,4 +43,4 @@ router.get("/:id", function (req, res, next) {
         })
 });
 
-module.exports = router;
+export default router;

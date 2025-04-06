@@ -1,4 +1,4 @@
-const mongoose = require("mongoose")
+import mongoose from "mongoose";
 
 let ratingSchema = new mongoose.Schema({
 	name: String,
@@ -14,4 +14,4 @@ let ratingSchema = new mongoose.Schema({
 	]
 })
 
-module.exports = mongoose.model("Rating", ratingSchema);
+export default mongoose.model("Rating", ratingSchema);

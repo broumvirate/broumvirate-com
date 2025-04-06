@@ -1,11 +1,10 @@
-var express = require("express");
-var router = express.Router();
-var bmHelpers = require("../bmHelpers");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import Nick from "../models/nick.js";
+import quotes from "./quotes.js";
+import music from "./music.js";
 
-const Nick = require("../models/nick");
-
-const quotes = require("./quotes");
-const music = require("./music")
+const router = express.Router();
 
 // INDEX - Homepage
 router.get("/", function (req, res) {
@@ -36,4 +35,4 @@ router.get("/nicknames", bmHelpers.isLoggedIn, function (req, res, next) {
         });
 });
 
-module.exports = router;
+export default router;

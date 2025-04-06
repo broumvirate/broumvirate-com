@@ -1,13 +1,9 @@
-const express = require("express");
-const router = express.Router();
-const bmHelpers = require("../bmHelpers");
-const dayjs = require("dayjs");
-const { EntryValidator } = require("../validators/bhotm.js");
+import express from "express";
+import bmHelpers from "../bmHelpers.js";
+import { EntryValidator } from "../validators/bhotm.js";
+import { bhotm, bhotmEntry } from "../models/bhotm.js";
 
-const Boy = require("../models/boy"),
-    User = require("../models/user"),
-    { bhotm } = require("../models/bhotm"),
-    { bhotmEntry } = require("../models/bhotm");
+const router = express.Router();
 
 // Entry list
 router.get("/", bmHelpers.isAdmin, function (req, res, next) {
@@ -148,4 +144,4 @@ router.delete("/:id", bmHelpers.isAdmin, function (req, res, next) {
         );
 });
 
-module.exports = router;
+export default router;

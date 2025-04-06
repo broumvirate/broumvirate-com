@@ -1,14 +1,10 @@
-const express = require("express");
+import express from "express";
+import dayjs from "dayjs";
+import bmHelpers from "../bmHelpers.js";
+import { bhotm, bhotmEntry } from "../models/bhotm.js";
+import { MonthValidator } from "../validators/bhotm.js";
+
 const router = express.Router();
-const bmHelpers = require("../bmHelpers");
-const dayjs = require("dayjs");
-
-const Boy = require("../models/boy"),
-    User = require("../models/user"),
-    { bhotm } = require("../models/bhotm"),
-    { bhotmEntry } = require("../models/bhotm");
-
-const { MonthValidator } = require("../validators/bhotm.js");
 
 // GET /api/bhotm/month
 // Every month without populated entries
@@ -112,6 +108,7 @@ router.get("/:id", function (req, res, next) {
                     return res.json({...data.toObject(), ...addlData});
                 })
                 .catch((err) => {
+                    console.log(err);
                     return res.json(data);
                 })
         })
@@ -226,4 +223,4 @@ async function generateBhotmMonth(type) {
         });
 }
 
-module.exports = router;
+export default router;

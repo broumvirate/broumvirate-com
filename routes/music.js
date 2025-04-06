@@ -1,4 +1,4 @@
-module.exports = [
+export default [
     {
         title: "Broumvirate: Worst Of",
         description: "Assorted Soundtracks",

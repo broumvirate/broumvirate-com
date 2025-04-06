@@ -1,10 +1,10 @@
-const express = require("express");
-const router = express.Router();
-const passport = require("passport");
-const bmHelpers = require("../bmHelpers");
+import express from "express";
+import passport from "passport";
+import bmHelpers from "../bmHelpers.js";
+import Boy from "../models/boy.js";
+import User from "../models/user.js";
 
-const Boy = require("../models/boy"),
-    User = require("../models/user");
+const router = express.Router();
 
 // REGISTER INDEX
 router.get("/register", function (req, res) {
@@ -104,7 +104,7 @@ router.get("/api/user/authenticated", function (req, res) {
 });
 
 // API BOYS
-router.get("/api/boys", function (req, res) {
+router.get("/api/boys", function (req, res, next) {
     Boy.find()
         .then((data) => res.json(data))
         .catch((err) =>
@@ -116,4 +116,4 @@ router.get("/api/alden", function (req, res) {
     res.json({ alden: "Alden!" });
 });
 
-module.exports = router;
+export default router;
