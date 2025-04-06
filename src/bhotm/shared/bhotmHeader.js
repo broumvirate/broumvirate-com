@@ -63,6 +63,7 @@ function BhotmHeader(props) {
             <div className="d-flex flex-row">
             {props.entry.boy.map((b) => (
                 <Link 
+                    key={b._id}
                     id={b._id} 
                     to={`/bhotm/boy/${b._id}`}>
                     <h5 className="pr-2">{`${b.name}'s Submissions`}</h5>

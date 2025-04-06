@@ -18,7 +18,7 @@ function DetectLink(props) {
 }
 
 function BoyCheckboxes(boys) {
-    return boys.boys.map((el, i) => (
+    return boys.boys.map((el) => (
         <div className="form-check form-check-inline" key={el._id}>
             <Field
                 type="checkbox"
@@ -41,7 +41,7 @@ export default function EntryForm(props) {
             validateOnChange={true}
             validationSchema={EntryValidator}
         >
-            {({ values, isSubmitting, errors }) => (
+            {({ values, isSubmitting }) => (
                 <Form>
                     <BootstrapTextField
                         label="Your Name"

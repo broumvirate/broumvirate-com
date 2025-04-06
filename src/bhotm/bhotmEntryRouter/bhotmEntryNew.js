@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import EntryForm from "./bhotmEntryForm";
 import { Redirect, useHistory, useLocation } from "react-router-dom";
-import { showPageError, showAlert } from "../../utils/helpers";
+import { showAlert } from "../../utils/helpers";
 import { newEntry } from "../api/bhotmEntryApi";
 import { getBoys, checkAuth } from "../api/userApi";
 

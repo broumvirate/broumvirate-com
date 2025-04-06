@@ -1,18 +1,17 @@
 import React from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import BhotmEntry from "./shared/bhotmEntry";
 import { handleFetchErrors, showPageError } from "../utils/helpers";
 import BhotmCountdown from "./shared/bhotmCountdown";
 
 function MonthTemp(props) {
-    const history = useHistory();
     const entries = props.month.submissions
         .sort((a, b) =>
             props.month.isBhoty
                 ? b.bhotyPlace - a.bhotyPlace
                 : a.place - b.place
         )
-        .map((el, i) => (
+        .map((el) => (
             <div className="mb-3 bhotm-entry-temp" key={el._id}>
                 <BhotmEntry
                     entry={el}

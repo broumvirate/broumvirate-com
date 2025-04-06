@@ -4,7 +4,7 @@ import { useRouteMatch, useHistory, Link } from "react-router-dom";
 import { getBoyEntries } from "./api/bhotmEntryApi";
 import BhotmEntry from "./shared/bhotmEntry";
 
-const BoyPage = (props) => {
+const BoyPage = () => {
     const match = useRouteMatch();
     const history = useHistory();
     const [data, setData] = useState(null);
@@ -32,7 +32,7 @@ const BoyPage = (props) => {
 
 const BoyPageContent = ({boy, submissions}) => {
     // Generate entries
-    const entries = submissions.map((el, i) => (
+    const entries = submissions.map((el) => (
         <div className="mt-5" key={el._id}>
             <BhotmEntry
                 entry={el}
@@ -52,7 +52,7 @@ const BoyPageContent = ({boy, submissions}) => {
                 </Link>
             </p>
             {/* Header */}
-            <h1 className="text-center display-3">{boy.name}'s Submissions</h1>
+            <h1 className="text-center display-3">{boy.name}&apos;s Submissions</h1>
             <h4 className="text-center">
                 Ben Hagle of the Month
             </h4>

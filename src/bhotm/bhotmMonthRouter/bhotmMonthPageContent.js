@@ -5,7 +5,7 @@ import React from "react";
 
 const BhotmMonthPageContent = ({ month }) => {
     // Generate entries
-    const entries = month.submissions.map((el, i) => (
+    const entries = month.submissions.map((el) => (
         <div className="mt-5" key={el._id}>
             <BhotmEntry
                 entry={el}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { checkAuth, checkAdmin } from "../bhotm/api/userApi";
+import { checkAuth } from "../bhotm/api/userApi";
 import { showPageError } from "./helpers";
 
 export default function RequireLogin(props) {

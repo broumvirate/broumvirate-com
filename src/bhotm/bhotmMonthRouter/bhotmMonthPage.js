@@ -6,7 +6,7 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 
 // Fully rendered page displaying a whole month of BHotM
 
-const MonthPage = (props) => {
+const MonthPage = () => {
     const match = useRouteMatch();
     const history = useHistory();
     const [month, setMonth] = useState(null);

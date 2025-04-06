@@ -1,4 +1,4 @@
-import { handleFetchErrors, showPageError } from "../../utils/helpers";
+import { handleFetchErrors } from "../../utils/helpers";
 
 const checkAuth = () => {
     const url = "/api/user/authenticated";
@@ -29,7 +29,8 @@ const checkAdmin = () => {
             throw { code: 403, errorMessage: "Forbidden" };
         }
 
-        throw { code: 400, errorMessage: "Unable to check auth" };
+    }).catch(() => {
+        throw { code: 400, errorMessage: "Unable to check auth" }
     });
 };
 

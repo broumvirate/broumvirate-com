@@ -13,9 +13,9 @@ function setupDate() {
     return countDownDate;
 }
 
-const BhotmCountdown = (props) => {
+const BhotmCountdown = () => {
     const [cdString, setCdString] = useState("");
-    const [dueDate, setDueDate] = useState(setupDate());
+    const [dueDate] = useState(setupDate());
 
     useEffect(() => {
         const cd = setInterval(() => {

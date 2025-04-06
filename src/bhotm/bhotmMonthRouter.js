@@ -7,7 +7,7 @@ export default function BhotmEntryRouter() {
     let { path } = useRouteMatch();
     return (
         <Switch>
-            <Route path={`${path}/new`}>We don't have this</Route>
+            <Route path={`${path}/new`}>We don&apos;t have this</Route>
             <Route
                 path={`${path}/:monthId/edit`}
                 component={MonthEditPage}

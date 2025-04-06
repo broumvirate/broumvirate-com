@@ -20,7 +20,7 @@ memberTick.addEventListener("change", (event) => {
 })
 
 function changeCols(cols, process){ //Changes columns of the nick table to shown or hidden, true is shown.
-    for(i=0;i<cols.length;i++){
+    for(let i=0;i<cols.length;i++){
         var toChange = document.getElementsByClassName("bm-nick"+cols[i]);
         if(!process){
             document.getElementById("bm-nickheader").children[cols[i]].classList.add("bm-hidden")
@@ -28,7 +28,7 @@ function changeCols(cols, process){ //Changes columns of the nick table to shown
         else{
             document.getElementById("bm-nickheader").children[cols[i]].classList.remove("bm-hidden")
         }
-        for (j=0;j<toChange.length;j++){
+        for (let j=0;j<toChange.length;j++){
             if(!process){
                 toChange[j].classList.add("bm-hidden")
             }

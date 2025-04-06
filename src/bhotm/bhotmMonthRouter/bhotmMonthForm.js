@@ -1,7 +1,6 @@
 import React from "react";
-import { Formik, Field, Form, useField, FieldArray } from "formik";
+import { Formik, Form, FieldArray } from "formik";
 import { MonthValidator } from "../../../validators/bhotm";
-import bhotmEntry from "../shared/bhotmEntry";
 import { BootstrapTextField } from "../shared/formikBootstrap";
 
 export default function MonthForm(props) {
@@ -12,7 +11,7 @@ export default function MonthForm(props) {
             validateOnChange={true}
             validationSchema={MonthValidator}
         >
-            {({ values, isSubmitting, errors }) => (
+            {({ values, isSubmitting }) => (
                 <Form>
                     {props.showAdminFields ? (
                         <div>

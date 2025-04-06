@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { handleFetchErrors } from "../utils/helpers";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 
-const BhothmGeneratorPage = (props) => {
+const BhothmGeneratorPage = () => {
     const [meme, setMeme] = useState({url: ""});
 
     useEffect(() => {

@@ -53,16 +53,16 @@ class BhotmAdminPage extends React.Component {
     render() {
         if (this.state.contentLoaded) {
             const months = this.state.months.map((el) => (
-                <li>
-                    <Link key={el._id} to={`/bhotm/month/${el._id}`}>
+                <li key={el._id}>
+                    <Link to={`/bhotm/month/${el._id}`}>
                         {el.month} {el.winner ? " - " + el.winner : null}
                     </Link>
                 </li>
             ));
 
             const entries = this.state.entries.map((el) => (
-                <li>
-                    <Link key={el._id} to={`/bhotm/entry/${el._id}`}>
+                <li key={el._id}>
+                    <Link to={`/bhotm/entry/${el._id}`}>
                         {el.entryName
                             ? `${el.entryName} - ${el.name}`
                             : el.name}

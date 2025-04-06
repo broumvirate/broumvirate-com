@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { handleFetchErrors, showPageError, showAlert } from "../utils/helpers";
+import { handleFetchErrors, showPageError } from "../utils/helpers";
 import BhotmCountdown from "./shared/bhotmCountdown";
 
 const BhotmIndexTempTemp = () => {
@@ -18,7 +18,7 @@ const BhotmIndexTempTemp = () => {
 
     const months =
         data !== null
-            ? data.map((el, i) => (
+            ? data.map((el) => (
                   <h5
                       className="list-group-item list-group-item-action"
                       style={{ marginBottom: "0" }}
@@ -42,7 +42,7 @@ const BhotmIndexTempTemp = () => {
                     to="/bhotm/bhothm-generator"
                     className="btn btn-success mx-2"
                 >
-                    I'm Feeling BHOTHM
+                    I&apos;m Feeling BHOTHM
                 </Link>
                 <p className="lead my-3">
                     Ben Hagle of the Month is a monthly competetion to determine

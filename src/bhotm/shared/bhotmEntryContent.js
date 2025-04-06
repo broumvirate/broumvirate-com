@@ -74,7 +74,7 @@ function BhotmEntryContent(props) {
         default:
             content = (
                 <p>
-                    Ben didn't code the {props.entry.format} format because he
+                    Ben didn&apos;t code the {props.entry.format} format because he
                     sucks. Eat him.
                 </p>
             );

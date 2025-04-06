@@ -15,7 +15,7 @@ const AddBhothmText = () => {
                     onSubmit={(data, { setSubmitting, resetForm }) => {
                         setSubmitting(true);
                         addText(data.text)
-                            .then((res) => {
+                            .then(() => {
                                 setSubmitting(false);
                                 resetForm();
                                 showAlert(
@@ -32,7 +32,7 @@ const AddBhothmText = () => {
                             });
                     }}
                 >
-                    {({ values, isSubmitting, errors }) => (
+                    {({ isSubmitting }) => (
                         <Form>
                             <BootstrapTextField
                                 label="BHOTHMtext"
